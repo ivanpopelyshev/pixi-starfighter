@@ -17,11 +17,11 @@ app.loader.add('ship_straight', 'ship_straight.png')
 
 function init() {
     let ship = createSpriteShip();
-    ship.position.set(160, 1050);
+    ship.position.set(160, 1100);
     ship.tint = 0xffff66;
 
     animatedShip = createAnimatedShip();
-    animatedShip.position.set(360, 1050);
+    animatedShip.position.set(360, 1100);
     animatedShip.tint = 0xff66ff;
 
     inputShip = createAnimatedShip();
@@ -71,7 +71,7 @@ function createAnimatedShip() {
 let bg1, bg2;
 
 function createBg(tex) {
-    let tiling = new PIXI.TilingSprite(tex, 720, 1280);
+    let tiling = new PIXI.TilingSprite(tex, 720, 1000);
     app.stage.addChildAt(tiling, 0);
     return tiling;
 }
