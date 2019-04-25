@@ -11,6 +11,8 @@ app.ticker.add(update);
 app.loader.baseUrl = '../assets';
 app.loader.add('ship_straight', 'ship_straight.png')
     .add('ship_turn', 'ship_turn.png')
+    .add('bg_tiled_layer1', 'bg_tiled_layer1.png')
+    .add('bg_tiled_layer2', 'bg_tiled_layer2_stars.png')
     .load(init);
 
 function init() {
@@ -30,6 +32,10 @@ function init() {
     inputShip.on('pointermove', (event) => {
         inputPos.copyFrom(event.data.global);
     });
+
+    bg2 = createBg(app.loader.resources['bg_tiled_layer2'].texture);
+    bg1 = createBg(app.loader.resources['bg_tiled_layer1'].texture);
+    backgroundY = 0;
 
     app.ticker.start();
 }
@@ -62,35 +68,52 @@ function createAnimatedShip() {
     return ship;
 }
 
+let bg1, bg2;
+
+function createBg(tex) {
+    let tiling = new PIXI.TilingSprite(tex, 720, 1280);
+    app.stage.addChildAt(tiling, 0);
+    return tiling;
+}
+
 let animatedShip;
+
 let inputShip;
 let inputPos;
-const speedPerTick = 10;
+const shipSpeed = 10;
+
+let backgroundY;
+const bgSpeed = 1;
 
 function update(delta) {
-    // if autoUpdate is false
+    // animated ship, if autoUpdate is false
 
     if (animatedShip.playing) {
         animatedShip.update(delta);
     }
 
+    // ship input
+
     let dx = inputPos.x - inputShip.position.x;
     if (dx > 0) {
-        if (dx < speedPerTick * delta) {
+        if (dx < shipSpeed * delta) {
             inputShip.position.x = inputPos.x;
         } else {
-            inputShip.position.x += speedPerTick * delta;
+            inputShip.position.x += shipSpeed * delta;
         }
         inputShip.gotoAndStop(3);
     } else if (dx < 0) {
-        if (dx > - speedPerTick * delta) {
+        if (dx > - shipSpeed * delta) {
             inputShip.position.x = inputPos.x;
         } else {
-            inputShip.position.x -= speedPerTick * delta;
+            inputShip.position.x -= shipSpeed * delta;
         }
         inputShip.gotoAndStop(1);
     } else {
         inputShip.gotoAndStop(2);
     }
 
+    backgroundY = (backgroundY + delta * bgSpeed) % 2048;
+    bg1.tilePosition.y = backgroundY / 2;
+    bg2.tilePosition.y = backgroundY;
 }
