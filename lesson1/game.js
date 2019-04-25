@@ -30,19 +30,13 @@ function init() {
     inputPos = new PIXI.Point();
     inputPos.copyFrom(inputShip.position);
     inputShip.interactive = true;
-    inputShip.on('pointermove', (event) => {
-        inputPos.copyFrom(event.data.global);
-        if (inputPos.x < 50) {
-            inputPos.x = 50;
-        }
-        if (inputPos.x > 700) {
-            inputPos.x = 700;
-        }
-    });
-
+    
     // interaction plugin, stage, or background is fine
+    app.renderer.plugins.interaction.on('pointermove', shipMove, this);
+
     app.renderer.plugins.interaction.on('pointerdown', (event) => {
         inputFire = true;
+        shipMove(event);
     });
     app.renderer.plugins.interaction.on('pointerup', (event) => {
         inputFire = false;
@@ -53,6 +47,16 @@ function init() {
     backgroundY = 0;
 
     app.ticker.start();
+}
+
+function shipMove(event) {
+    inputPos.copyFrom(event.data.global);
+    if (inputPos.x < 64) {
+        inputPos.x = 64;
+    }
+    if (inputPos.x > 720 - 64) {
+        inputPos.x = 720 - 64;
+    }
 }
 
 function createSpriteShip() {
@@ -113,7 +117,7 @@ let reload = 0.0;
 
 let shots = [];
 let inputFire = false;
-let cannons = [new PIXI.Point(-20, -20), new PIXI.Point(20, -20)];
+let cannons = [new PIXI.Point(-24, -20), new PIXI.Point(24, -20)];
 
 function update(delta) {
     // animated ship, if autoUpdate is false
