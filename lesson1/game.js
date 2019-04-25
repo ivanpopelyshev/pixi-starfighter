@@ -14,9 +14,13 @@ app.loader.add('ship_straight', 'ship_straight.png')
     .add('bg_tiled_layer1', 'bg_tiled_layer1.png')
     .add('bg_tiled_layer2', 'bg_tiled_layer2_stars.png')
     .add('projectile_yellow', 'projectile_yellow.png')
+    .add('enemy', '48_enemie_temp.png')
     .load(init);
 
 function init() {
+    let enemy = createEnemy();
+    enemy.position.set(100, 100);
+
     let ship = createSpriteShip();
     ship.position.set(160, 1100);
     ship.tint = 0xffff66;
@@ -49,14 +53,12 @@ function init() {
     app.ticker.start();
 }
 
-function shipMove(event) {
-    inputPos.copyFrom(event.data.global);
-    if (inputPos.x < 64) {
-        inputPos.x = 64;
-    }
-    if (inputPos.x > 720 - 64) {
-        inputPos.x = 720 - 64;
-    }
+function createEnemy() {
+    let ship = new PIXI.Sprite(app.loader.resources['enemy'].texture);
+    ship.anchor.set(0.5);
+    ship.scale.set(2);
+    app.stage.addChild(ship);
+    return ship;
 }
 
 function createSpriteShip() {
@@ -88,7 +90,8 @@ function createAnimatedShip() {
 }
 
 function createBg(tex) {
-    let tiling = new PIXI.TilingSprite(tex, 720, 1000);
+    let tiling = new PIXI.TilingSprite(tex, 600, 800);
+    tiling.position.set(60, 200);
     app.stage.addChildAt(tiling, 0);
     return tiling;
 }
@@ -107,6 +110,16 @@ let animatedShip;
 let inputShip;
 let inputPos;
 const shipSpeed = 10;
+
+function shipMove(event) {
+    inputPos.copyFrom(event.data.global);
+    if (inputPos.x < 64) {
+        inputPos.x = 64;
+    }
+    if (inputPos.x > 720 - 64) {
+        inputPos.x = 720 - 64;
+    }
+}
 
 let bg1, bg2;
 let backgroundY;
