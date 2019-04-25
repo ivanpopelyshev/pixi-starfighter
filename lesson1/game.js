@@ -15,10 +15,17 @@ app.loader.add('ship_straight', 'ship_straight.png')
 
 function init() {
     let ship = createSpriteShip();
-    ship.position.set(160, 900);
+    ship.position.set(160, 1050);
+    ship.tint = 0xffff66;
 
     animatedShip = createAnimatedShip();
-    animatedShip.position.set(360, 900);
+    animatedShip.position.set(360, 1050);
+    animatedShip.tint = 0xff66ff;
+
+    inputShip = createAnimatedShip();
+    inputShip.position.set(560, 900);
+    inputPos = new PIXI.Point();
+    inputPos.copyFrom(inputShip.position);
 
     app.ticker.start();
 }
@@ -38,7 +45,7 @@ function createAnimatedShip() {
     let texForward = resources['ship_straight'].texture;
     let texRight = new PIXI.Texture(texLeft.baseTexture, texLeft.frame);
     texRight.rotate = 12;
-    let textures = [texLeft, texForward, texRight, texForward];
+    let textures = [texForward, texLeft, texForward, texRight];
 
     let ship = new PIXI.AnimatedSprite(textures, false);
     ship.play();
@@ -52,6 +59,9 @@ function createAnimatedShip() {
 }
 
 let animatedShip;
+let inputShip;
+let inputPos;
+const speedPerTick = 10;
 
 function update(delta) {
     // if autoUpdate is false
@@ -59,4 +69,29 @@ function update(delta) {
     if (animatedShip.playing) {
         animatedShip.update(delta);
     }
+
+    let mousePos = app.renderer.plugins.interaction.mouse.global;
+    if (mousePos.x >= 0) {
+        inputPos.copyFrom(mousePos);
+    }
+
+    let dx = mousePos.x - inputShip.position.x;
+    if (dx > 0) {
+        if (dx < speedPerTick * delta) {
+            inputShip.position.x = mousePos.x;
+        } else {
+            inputShip.position.x += speedPerTick * delta;
+        }
+        inputShip.gotoAndStop(3);
+    } else if (dx < 0) {
+        if (dx > - speedPerTick * delta) {
+            inputShip.position.x = mousePos.x;
+        } else {
+            inputShip.position.x -= speedPerTick * delta;
+        }
+        inputShip.gotoAndStop(1);
+    } else {
+        inputShip.gotoAndStop(2);
+    }
+
 }
