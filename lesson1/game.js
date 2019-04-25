@@ -14,16 +14,24 @@ app.loader.add('ship_straight', 'ship_straight.png')
     .load(init);
 
 function init() {
-    let ship = createShip();
-    ship.position.set(720 / 2, 1000);
+    let ship = createSpriteShip();
+    ship.position.set(160, 900);
 
-    let ship2 = createShip();
-    ship2.position.set(720 / 2 - 200, 800);
+    animatedShip = createAnimatedShip();
+    animatedShip.position.set(360, 900);
 
     app.ticker.start();
 }
 
-function createShip() {
+function createSpriteShip() {
+    let ship = new PIXI.Sprite(app.loader.resources['ship_straight'].texture);
+    ship.anchor.set(0.5);
+    ship.scale.set(2);
+    app.stage.addChild(ship);
+    return ship;
+}
+
+function createAnimatedShip() {
     let resources = app.loader.resources;
 
     let texLeft = resources['ship_turn'].texture;
@@ -32,7 +40,7 @@ function createShip() {
     texRight.rotate = 12;
     let textures = [texLeft, texForward, texRight, texForward];
 
-    ship = new PIXI.AnimatedSprite(textures);
+    let ship = new PIXI.AnimatedSprite(textures, false);
     ship.play();
     ship.animationSpeed = 0.05;
     app.stage.addChild(ship);
@@ -43,10 +51,12 @@ function createShip() {
     return ship;
 }
 
+let animatedShip;
+
 function update(delta) {
     // if autoUpdate is false
 
-    // if (ship.playing) {
-    //     ship.update(delta);
-    // }
+    if (animatedShip.playing) {
+        animatedShip.update(delta);
+    }
 }
