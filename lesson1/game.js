@@ -1,6 +1,6 @@
 const app = new PIXI.Application({
-	width: 720,
-	height: 1280,
+    width: 720,
+    height: 1280,
     autoStart: false
 });
 
@@ -13,6 +13,7 @@ app.loader.add('ship_straight', 'ship_straight.png')
     .add('ship_turn', 'ship_turn.png')
     .add('bg_tiled_layer1', 'bg_tiled_layer1.png')
     .add('bg_tiled_layer2', 'bg_tiled_layer2_stars.png')
+    .add('projectile_yellow', 'projectile_yellow.png')
     .load(init);
 
 function init() {
@@ -31,6 +32,20 @@ function init() {
     inputShip.interactive = true;
     inputShip.on('pointermove', (event) => {
         inputPos.copyFrom(event.data.global);
+        if (inputPos.x < 50) {
+            inputPos.x = 50;
+        }
+        if (inputPos.x > 700) {
+            inputPos.x = 700;
+        }
+    });
+
+    // interaction plugin, stage, or background is fine
+    app.renderer.plugins.interaction.on('pointerdown', (event) => {
+        inputFire = true;
+    });
+    app.renderer.plugins.interaction.on('pointerup', (event) => {
+        inputFire = false;
     });
 
     bg2 = createBg(app.loader.resources['bg_tiled_layer2'].texture);
@@ -68,12 +83,19 @@ function createAnimatedShip() {
     return ship;
 }
 
-let bg1, bg2;
-
 function createBg(tex) {
     let tiling = new PIXI.TilingSprite(tex, 720, 1000);
     app.stage.addChildAt(tiling, 0);
     return tiling;
+}
+
+function createShot() {
+    let sprite = new PIXI.Sprite(app.loader.resources['projectile_yellow'].texture);
+    sprite.anchor.set(0.5);
+    sprite.velocityY = -10.0;
+    shots.push(sprite);
+    app.stage.addChild(sprite);
+    return sprite;
 }
 
 let animatedShip;
@@ -82,8 +104,16 @@ let inputShip;
 let inputPos;
 const shipSpeed = 10;
 
+let bg1, bg2;
 let backgroundY;
 const bgSpeed = 1;
+
+const reloadSpeed = 0.2;
+let reload = 0.0;
+
+let shots = [];
+let inputFire = false;
+let cannons = [new PIXI.Point(-20, -20), new PIXI.Point(20, -20)];
 
 function update(delta) {
     // animated ship, if autoUpdate is false
@@ -103,7 +133,7 @@ function update(delta) {
         }
         inputShip.gotoAndStop(3);
     } else if (dx < 0) {
-        if (dx > - shipSpeed * delta) {
+        if (dx > -shipSpeed * delta) {
             inputShip.position.x = inputPos.x;
         } else {
             inputShip.position.x -= shipSpeed * delta;
@@ -116,4 +146,33 @@ function update(delta) {
     backgroundY = (backgroundY + delta * bgSpeed) % 2048;
     bg1.tilePosition.y = backgroundY / 2;
     bg2.tilePosition.y = backgroundY;
+
+    if (reload > 0) {
+        reload -= reloadSpeed * delta;
+    }
+    if (inputFire && reload <= 0.0) {
+        reload = 1.0;
+        let leftShot = createShot();
+        inputShip.toGlobal(cannons[0], leftShot.position);
+        let rightShot = createShot();
+        inputShip.toGlobal(cannons[1], rightShot.position);
+    }
+
+    // velocity update
+    for (let i = 0; i < shots.length; i++) {
+        shots[i].position.y += shots[i].velocityY * delta;
+        if (shots[i].position.y < 200) {
+            shots[i].dead = true;
+        }
+    }
+    // despawning
+    let j = 0;
+    for (let i = 0; i < shots.length; i++) {
+        if (shots[i].dead) {
+            app.stage.removeChild(shots[i]);
+        } else {
+            shots[j++] = shots[i];
+        }
+    }
+    shots.length = j;
 }
