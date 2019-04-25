@@ -15,6 +15,10 @@ app.loader.add('ship_straight', 'ship_straight.png')
     .add('bg_tiled_layer2', 'bg_tiled_layer2_stars.png')
     .add('projectile_yellow', 'projectile_yellow.png')
     .add('enemy', '48_enemie_temp.png')
+    .add('1x1_terrain', '1x1_terrain.png')
+    .add('1x3_terrain', '1x3_terrain.png')
+    .add('3x1_terrain', '3x1_terrain.png')
+    .add('3x3_terrain', '3x3_terrain.png')
     .load(init);
 
 function init() {
@@ -34,7 +38,7 @@ function init() {
     inputPos = new PIXI.Point();
     inputPos.copyFrom(inputShip.position);
     inputShip.interactive = true;
-    
+
     // interaction plugin, stage, or background is fine
     app.renderer.plugins.interaction.on('pointermove', shipMove, this);
 
@@ -49,6 +53,8 @@ function init() {
     bg2 = createBg(app.loader.resources['bg_tiled_layer2'].texture);
     bg1 = createBg(app.loader.resources['bg_tiled_layer1'].texture);
     backgroundY = 0;
+
+    createTilemap();
 
     app.ticker.start();
 }
@@ -106,6 +112,12 @@ function createShot() {
     return sprite;
 }
 
+function createTilemap() {
+    tilemap = new Tilemap(app.loader.resources, 300, 300);
+    tilemap.position.set(350, 150);
+    app.stage.addChildAt(tilemap, 2);
+}
+
 let enemy;
 
 let animatedShip;
@@ -135,10 +147,15 @@ let shots = [];
 let inputFire = false;
 let cannons = [new PIXI.Point(-24, -20), new PIXI.Point(24, -20)];
 
+const tileSpeedX = 1;
+const tileSpeedY = 2;
+let tilemap;
+
+
 function update(delta) {
     enemy.phase += delta * 0.1;
-    enemy.position.x = 160 + 100* Math.cos(enemy.phase);
-    enemy.position.y = 100 + 50* Math.sin(enemy.phase);
+    enemy.position.x = 160 + 100 * Math.cos(enemy.phase);
+    enemy.position.y = 100 + 50 * Math.sin(enemy.phase);
 
     // animated ship, if autoUpdate is false
 
@@ -199,4 +216,134 @@ function update(delta) {
         }
     }
     shots.length = j;
+
+    tilemap.offset.x += tileSpeedX * delta;
+    tilemap.offset.y += tileSpeedY * delta;
+    tilemap.updateView();
+}
+
+class Tilemap extends PIXI.Container {
+    constructor(resources, width, height) {
+        super();
+        this.initTiles(resources);
+        this.inner = new PIXI.Graphics();
+        this.debugGraphics = new PIXI.Graphics();
+        this.viewRect = new PIXI.Rectangle(0, 0, width, height);
+        this.filledRect = new PIXI.Rectangle();
+        this.padding = 50;
+        this.offset = new PIXI.Point();
+        this.addChild(this.inner);
+        this.addChild(this.debugGraphics);
+
+        this.field = [
+            [0, 1, 1, 0, 0],
+            [0, 1, 0, 1, 1],
+            [0, 1, 1, 1, 1],
+            [0, 0, 0, 1, 0],
+            [0, 0, 1, 1, 0],
+            [1, 0, 1, 1, 0],
+            [1, 0, 1, 0, 0],
+            [1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1],
+            [0, 0, 1, 1, 0],
+            [0, 1, 1, 1, 0],
+        ];
+    }
+
+    initTiles(resources) {
+        const _31 = resources['3x1_terrain'].texture.baseTexture;
+        const _13 = resources['1x3_terrain'].texture.baseTexture;
+        const _33 = resources['3x3_terrain'].texture.baseTexture;
+
+        const w = 64;
+        this.tileTextures = [
+            /* 3 2 1 0 BIT ORDER */
+            /* U L D R DIRECTION */
+            /* 0 0 0 0 */ resources['1x1_terrain'].texture,
+            /* 0 0 0 1 */ new PIXI.Texture(_31, new PIXI.Rectangle(0, 0, w, w)),
+            /* 0 0 1 0 */ new PIXI.Texture(_13, new PIXI.Rectangle(0, 0, w, w)),
+            /* 0 0 1 1 */ new PIXI.Texture(_33, new PIXI.Rectangle(0, 0, w, w)),
+            /* 0 1 0 0 */ new PIXI.Texture(_31, new PIXI.Rectangle(w * 2, 0, w, w)),
+            /* 0 1 0 1 */ new PIXI.Texture(_31, new PIXI.Rectangle(w, 0, w, w)),
+            /* 0 1 1 0 */ new PIXI.Texture(_33, new PIXI.Rectangle(w * 2, 0, w, w)),
+            /* 0 1 1 1 */ new PIXI.Texture(_33, new PIXI.Rectangle(w, 0, w, w)),
+            /* 1 0 0 0 */ new PIXI.Texture(_13, new PIXI.Rectangle(0, w * 2, w, w)),
+            /* 1 0 0 1 */ new PIXI.Texture(_33, new PIXI.Rectangle(0, w * 2, w, w)),
+            /* 1 0 1 0 */ new PIXI.Texture(_13, new PIXI.Rectangle(0, w, w, w)),
+            /* 1 0 1 1 */ new PIXI.Texture(_33, new PIXI.Rectangle(0, w, w, w)),
+            /* 1 1 0 0 */ new PIXI.Texture(_33, new PIXI.Rectangle(w * 2, w * 2, w, w)),
+            /* 1 1 0 1 */ new PIXI.Texture(_33, new PIXI.Rectangle(w, w * 2, w, w)),
+            /* 1 1 1 0 */ new PIXI.Texture(_33, new PIXI.Rectangle(w * 2, w, w, w)),
+            /* 1 1 1 1 */ new PIXI.Texture(_33, new PIXI.Rectangle(w, w, w, w)),
+        ];
+    }
+
+    fill() {
+        const tileSize = 64;
+        const viewRect = this.viewRect;
+        const offset = this.offset;
+        const inner = this.inner;
+        const padding = this.padding;
+
+        let i1 = Math.floor((offset.x + viewRect.x - padding) / tileSize);
+        let j1 = Math.floor((offset.y + viewRect.y - padding) / tileSize);
+        let i2 = Math.ceil((offset.x + viewRect.x + viewRect.width + padding) / tileSize);
+        let j2 = Math.ceil((offset.y + viewRect.y + viewRect.height + padding) / tileSize);
+
+        inner.position.set(i1 * tileSize, j1 * tileSize);
+        inner.roundPixels = true;
+        inner.clear();
+
+        const field = this.field;
+
+        const rows = field.length, cols = field[0].length;
+
+        for (let i = i1; i <= i2; i++) {
+            for (let j = j1; j <= j2; j++) {
+                let xx = (i - i1) * tileSize, yy = (j - j1) * tileSize;
+
+                let tileX = i - Math.floor(i / cols) * cols;
+                let tileY = j - Math.floor(j / rows) * rows;
+                let tile = field[tileY][tileX];
+                if (tile) {
+                    let right = field[tileY][(tileX + 1) % cols];
+                    let down = field[(tileY + 1) % rows][tileX];
+                    let left = field[tileY][(tileX + cols - 1) % cols];
+                    let up = field[(tileY + rows - 1) % rows][tileX];
+
+                    let mask = right | (down << 1) | (left << 2) | (up << 3);
+                    inner.beginTextureFill(this.tileTextures[mask]);
+                    inner.drawRect(xx, yy, tileSize, tileSize);
+                    inner.endFill();
+                }
+            }
+        }
+
+        this.filledRect.x = i1 * tileSize;
+        this.filledRect.y = j1 * tileSize;
+        this.filledRect.width = (i2 - i1) * tileSize;
+        this.filledRect.height = (j2 - j1) * tileSize;
+    }
+
+    updateView() {
+        if (!isInside(this.viewRect, this.filledRect, this.offset)) {
+            this.fill();
+        }
+        this.inner.pivot.copyFrom(this.offset);
+        this.debugGraphics.clear();
+        this.debugGraphics.lineStyle(2.0, 0x00ff00);
+        this.debugGraphics.drawRect(0, 0, this.viewRect.width, this.viewRect.height);
+        this.debugGraphics.closePath();
+    }
+}
+
+let tempRect = new PIXI.Rectangle();
+
+function isInside(rect1, rect2, offset) {
+    tempRect.copyFrom(rect1);
+    tempRect.x += offset.x;
+    tempRect.y += offset.y;
+    tempRect.enlarge(rect2);
+    return tempRect.width === rect2.width
+        && tempRect.height === rect2.height;
 }
