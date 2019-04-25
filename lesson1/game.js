@@ -18,8 +18,8 @@ app.loader.add('ship_straight', 'ship_straight.png')
     .load(init);
 
 function init() {
-    let enemy = createEnemy();
-    enemy.position.set(100, 100);
+    enemy = createEnemy();
+    enemy.position.set(160, 100);
 
     let ship = createSpriteShip();
     ship.position.set(160, 1100);
@@ -58,6 +58,7 @@ function createEnemy() {
     ship.anchor.set(0.5);
     ship.scale.set(2);
     app.stage.addChild(ship);
+    ship.phase = 0;
     return ship;
 }
 
@@ -105,6 +106,8 @@ function createShot() {
     return sprite;
 }
 
+let enemy;
+
 let animatedShip;
 
 let inputShip;
@@ -133,6 +136,10 @@ let inputFire = false;
 let cannons = [new PIXI.Point(-24, -20), new PIXI.Point(24, -20)];
 
 function update(delta) {
+    enemy.phase += delta * 0.1;
+    enemy.position.x = 160 + 100* Math.cos(enemy.phase);
+    enemy.position.y = 100 + 50* Math.sin(enemy.phase);
+
     // animated ship, if autoUpdate is false
 
     if (animatedShip.playing) {
@@ -178,7 +185,7 @@ function update(delta) {
     // velocity update
     for (let i = 0; i < shots.length; i++) {
         shots[i].position.y += shots[i].velocityY * delta;
-        if (shots[i].position.y < 200) {
+        if (shots[i].position.y < 150) {
             shots[i].dead = true;
         }
     }
