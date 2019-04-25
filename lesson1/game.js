@@ -26,6 +26,10 @@ function init() {
     inputShip.position.set(560, 900);
     inputPos = new PIXI.Point();
     inputPos.copyFrom(inputShip.position);
+    inputShip.interactive = true;
+    inputShip.on('pointermove', (event) => {
+        inputPos.copyFrom(event.data.global);
+    });
 
     app.ticker.start();
 }
@@ -70,22 +74,17 @@ function update(delta) {
         animatedShip.update(delta);
     }
 
-    let mousePos = app.renderer.plugins.interaction.mouse.global;
-    if (mousePos.x >= 0) {
-        inputPos.copyFrom(mousePos);
-    }
-
-    let dx = mousePos.x - inputShip.position.x;
+    let dx = inputPos.x - inputShip.position.x;
     if (dx > 0) {
         if (dx < speedPerTick * delta) {
-            inputShip.position.x = mousePos.x;
+            inputShip.position.x = inputPos.x;
         } else {
             inputShip.position.x += speedPerTick * delta;
         }
         inputShip.gotoAndStop(3);
     } else if (dx < 0) {
         if (dx > - speedPerTick * delta) {
-            inputShip.position.x = mousePos.x;
+            inputShip.position.x = inputPos.x;
         } else {
             inputShip.position.x -= speedPerTick * delta;
         }
