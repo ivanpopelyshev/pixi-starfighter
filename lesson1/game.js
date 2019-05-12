@@ -18,6 +18,7 @@ app.loader.add('ship_straight', 'ship_straight.png')
     .add('1x3_terrain', '1x3_terrain.png')
     .add('3x1_terrain', '3x1_terrain.png')
     .add('3x3_terrain', '3x3_terrain.png')
+    .add('snake', 'snake.png')
     .load(initLevel);
 
 function createEnemy() {
@@ -74,10 +75,32 @@ function createShot() {
 }
 
 function createTilemap() {
-    obj = new Tilemap(app.loader.resources, 300, 300);
+    let obj = new Tilemap(app.loader.resources, 300, 300);
     obj.position.set(350, 150);
     app.stage.addChildAt(obj, 2);
     return obj;
+}
+
+function createSnake() {
+    let tex = app.loader.resources['snake'].texture;
+    let points = [];
+    let segmentCount = 20;
+    let segmentLength = tex.width / segmentCount;
+    for (let i = 0; i < 20; i++) {
+        points.push(new PIXI.Point(i * segmentLength, 0));
+    }
+    let snake = new PIXI.SimpleRope(app.loader.resources['snake'].texture, points);
+    let phase = 0.0;
+    snake.update = function(delta) {
+        phase += 0.1 * delta;
+        for (let i = 0; i < points.length; i++) {
+            points[i].y = Math.sin((i * 0.5) + phase) * segmentCount;
+        }
+    };
+    snake.rotation = Math.PI/2;
+    app.stage.addChild(snake);
+
+    return snake;
 }
 
 function initLevel() {
@@ -144,6 +167,9 @@ function initLevel() {
     bg2 = createBg(app.loader.resources['bg_tiled_layer2'].texture);
     bg1 = createBg(app.loader.resources['bg_tiled_layer1'].texture);
     backgroundY = 0;
+
+    let snake = createSnake();
+    snake.position.set(100, 200);
 
     tilemap = createTilemap();
 
@@ -217,6 +243,8 @@ function initLevel() {
         tilemap.offset.x += tileSpeedX * delta;
         tilemap.offset.y += tileSpeedY * delta;
         tilemap.updateView();
+
+        snake.update(delta);
     }
 }
 
@@ -319,8 +347,8 @@ class Tilemap extends PIXI.Container {
 
         this.filledRect.x = i1 * tileSize;
         this.filledRect.y = j1 * tileSize;
-        this.filledRect.width = (i2 - i1) * tileSize;
-        this.filledRect.height = (j2 - j1) * tileSize;
+        this.filledRect.width = (i2 - i1 + 1) * tileSize;
+        this.filledRect.height = (j2 - j1 + 1) * tileSize;
     }
 
     updateView() {
@@ -331,6 +359,8 @@ class Tilemap extends PIXI.Container {
         this.debugGraphics.clear();
         this.debugGraphics.lineStyle(2.0, 0x00ff00);
         this.debugGraphics.drawRect(0, 0, this.viewRect.width, this.viewRect.height);
+        this.debugGraphics.lineStyle(2.0, 0x00000ff);
+        this.debugGraphics.drawRect(this.filledRect.x - this.offset.x, this.filledRect.y - this.offset.y, this.filledRect.width, this.filledRect.height);
         this.debugGraphics.closePath();
     }
 }
