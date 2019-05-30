@@ -1,6 +1,6 @@
 /*!
- * pixi.js - v5.0.0-rc.3
- * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+ * pixi.js - v5.0.3
+ * Compiled Sun, 19 May 2019 19:07:10 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8,14 +8,14 @@
 var PIXI = (function (exports) {
 	'use strict';
 
-	var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 	function commonjsRequire () {
 		throw new Error('Dynamic requires are not currently supported by rollup-plugin-commonjs');
 	}
 
 	function unwrapExports (x) {
-		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
+		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 	}
 
 	function createCommonjsModule(fn, module) {
@@ -23,7 +23,7 @@ var PIXI = (function (exports) {
 	}
 
 	function getCjsExportFromNamespace (n) {
-		return n && n.default || n;
+		return n && n['default'] || n;
 	}
 
 	var promise = createCommonjsModule(function (module, exports) {
@@ -471,8 +471,8 @@ var PIXI = (function (exports) {
 	};
 
 	/*!
-	 * @pixi/polyfill - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/polyfill - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/polyfill is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -491,7 +491,7 @@ var PIXI = (function (exports) {
 	    Object.assign = objectAssign;
 	}
 
-	var commonjsGlobal$1 = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+	var commonjsGlobal$1 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 	// References:
 	// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -634,8 +634,8 @@ var PIXI = (function (exports) {
 	});
 
 	/*!
-	 * @pixi/settings - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/settings - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/settings is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -797,7 +797,7 @@ var PIXI = (function (exports) {
 	     * @property {number} resolution=1
 	     * @property {boolean} antialias=false
 	     * @property {boolean} forceFXAA=false
-	     * @property {boolean} autoResize=false
+	     * @property {boolean} autoDensity=false
 	     * @property {boolean} transparent=false
 	     * @property {number} backgroundColor=0x000000
 	     * @property {boolean} clearBeforeRender=true
@@ -810,7 +810,7 @@ var PIXI = (function (exports) {
 	        view: null,
 	        antialias: false,
 	        forceFXAA: false,
-	        autoResize: false,
+	        autoDensity: false,
 	        transparent: false,
 	        backgroundColor: 0x000000,
 	        clearBeforeRender: true,
@@ -888,6 +888,7 @@ var PIXI = (function (exports) {
 
 	    /**
 	     * Default specify float precision in fragment shader.
+	     * iOS is best set at highp due to https://github.com/pixijs/pixi.js/issues/3742
 	     *
 	     * @static
 	     * @name PRECISION_FRAGMENT
@@ -908,15 +909,15 @@ var PIXI = (function (exports) {
 	    CAN_UPLOAD_SAME_BUFFER: canUploadSameBuffer(),
 
 	    /**
-	     * Enables bitmap creation before image load
+	     * Enables bitmap creation before image load. This feature is experimental.
 	     *
 	     * @static
 	     * @name CREATE_IMAGE_BITMAP
 	     * @memberof PIXI.settings
 	     * @type {boolean}
-	     * @default true
+	     * @default false
 	     */
-	    CREATE_IMAGE_BITMAP: true,
+	    CREATE_IMAGE_BITMAP: false,
 
 	    /**
 	     * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
@@ -3377,8 +3378,8 @@ var PIXI = (function (exports) {
 	};
 
 	/*!
-	 * @pixi/constants - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/constants - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/constants is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -3708,8 +3709,8 @@ var PIXI = (function (exports) {
 	};
 
 	/*!
-	 * @pixi/utils - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/utils - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/utils is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -3728,7 +3729,7 @@ var PIXI = (function (exports) {
 	settings.RETINA_PREFIX = /@([0-9\.]+)x/;
 
 	var saidHello = false;
-	var VERSION = '5.0.0-rc.3';
+	var VERSION = '5.0.3';
 
 	/**
 	 * Skips the hello message of renderers that are created after this is run.
@@ -3782,6 +3783,8 @@ var PIXI = (function (exports) {
 	    saidHello = true;
 	}
 
+	var supported;
+
 	/**
 	 * Helper for checking for WebGL support.
 	 *
@@ -3791,38 +3794,47 @@ var PIXI = (function (exports) {
 	 */
 	function isWebGLSupported()
 	{
-	    var contextOptions = { stencil: true, failIfMajorPerformanceCaveat: true };
-
-	    try
+	    if (typeof supported === 'undefined')
 	    {
-	        if (!window.WebGLRenderingContext)
+	        supported = (function supported()
 	        {
-	            return false;
-	        }
+	            var contextOptions = { stencil: true, failIfMajorPerformanceCaveat: true };
 
-	        var canvas = document.createElement('canvas');
-	        var gl = canvas.getContext('webgl', contextOptions) || canvas.getContext('experimental-webgl', contextOptions);
-
-	        var success = !!(gl && gl.getContextAttributes().stencil);
-
-	        if (gl)
-	        {
-	            var loseContext = gl.getExtension('WEBGL_lose_context');
-
-	            if (loseContext)
+	            try
 	            {
-	                loseContext.loseContext();
+	                if (!window.WebGLRenderingContext)
+	                {
+	                    return false;
+	                }
+
+	                var canvas = document.createElement('canvas');
+	                var gl = canvas.getContext('webgl', contextOptions)
+	                    || canvas.getContext('experimental-webgl', contextOptions);
+
+	                var success = !!(gl && gl.getContextAttributes().stencil);
+
+	                if (gl)
+	                {
+	                    var loseContext = gl.getExtension('WEBGL_lose_context');
+
+	                    if (loseContext)
+	                    {
+	                        loseContext.loseContext();
+	                    }
+	                }
+
+	                gl = null;
+
+	                return success;
 	            }
-	        }
-
-	        gl = null;
-
-	        return success;
+	            catch (e)
+	            {
+	                return false;
+	            }
+	        })();
 	    }
-	    catch (e)
-	    {
-	        return false;
-	    }
+
+	    return supported;
 	}
 
 	/**
@@ -4083,7 +4095,7 @@ var PIXI = (function (exports) {
 	 *
 	 * @function removeItems
 	 * @memberof PIXI.utils
-	 * @param {Array} arr Array to remove elements from
+	 * @param {Array<any>} arr Array to remove elements from
 	 * @param {number} startIdx starting index
 	 * @param {number} removeCount how many to remove
 	 */
@@ -4667,8 +4679,8 @@ var PIXI = (function (exports) {
 	});
 
 	/*!
-	 * @pixi/math - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/math - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/math is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -6481,8 +6493,8 @@ var PIXI = (function (exports) {
 	};
 
 	/*!
-	 * @pixi/display - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/display - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/display is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -7921,7 +7933,7 @@ var PIXI = (function (exports) {
 	     *
 	     * @param {number} [beginIndex=0] - The beginning position.
 	     * @param {number} [endIndex=this.children.length] - The ending position. Default value is size of the container.
-	     * @returns {DisplayObject[]} List of removed children
+	     * @returns {PIXI.DisplayObject[]} List of removed children
 	     */
 	    Container.prototype.removeChildren = function removeChildren (beginIndex, endIndex)
 	    {
@@ -8269,8 +8281,8 @@ var PIXI = (function (exports) {
 	Container.prototype.containerUpdateTransform = Container.prototype.updateTransform;
 
 	/*!
-	 * @pixi/accessibility - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/accessibility - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/accessibility is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -8693,7 +8705,7 @@ var PIXI = (function (exports) {
 	/**
 	 * Adjust the hit area based on the bounds of a display object
 	 *
-	 * @param {Rectangle} hitArea - Bounds of the child
+	 * @param {PIXI.Rectangle} hitArea - Bounds of the child
 	 */
 	AccessibilityManager.prototype.capHitArea = function capHitArea (hitArea)
 	{
@@ -8724,7 +8736,7 @@ var PIXI = (function (exports) {
 	 * Adds a DisplayObject to the accessibility manager
 	 *
 	 * @private
-	 * @param {DisplayObject} displayObject - The child to make accessible.
+	 * @param {PIXI.DisplayObject} displayObject - The child to make accessible.
 	 */
 	AccessibilityManager.prototype.addChild = function addChild (displayObject)
 	{
@@ -8904,8 +8916,8 @@ var PIXI = (function (exports) {
 	});
 
 	/*!
-	 * @pixi/runner - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/runner - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/runner is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -9096,8 +9108,8 @@ var PIXI = (function (exports) {
 	Runner.prototype.run = Runner.prototype.emit;
 
 	/*!
-	 * @pixi/ticker - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/ticker - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/ticker is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -9811,7 +9823,7 @@ var PIXI = (function (exports) {
 	/**
 	 * Manages the minimum amount of milliseconds allowed to
 	 * elapse between invoking {@link PIXI.Ticker#update}.
-	 * This will effect the measured value of {@link PIXI.ticker.Ticker#FPS}.
+	 * This will effect the measured value of {@link PIXI.Ticker#FPS}.
 	 * When setting this property it is clamped to a value between
 	 * `1` and `TARGET_FPMS * 1000`.
 	 *
@@ -10035,8 +10047,8 @@ var PIXI = (function (exports) {
 	};
 
 	/*!
-	 * @pixi/core - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/core - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/core is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -10267,7 +10279,10 @@ var PIXI = (function (exports) {
 	var BaseImageResource = /*@__PURE__*/(function (Resource) {
 	    function BaseImageResource(source)
 	    {
-	        Resource.call(this, source.width, source.height);
+	        var width = source.naturalWidth || source.videoWidth || source.width;
+	        var height = source.naturalHeight || source.videoHeight || source.height;
+
+	        Resource.call(this, width, height);
 
 	        /**
 	         * The source element
@@ -10334,6 +10349,25 @@ var PIXI = (function (exports) {
 	    };
 
 	    /**
+	     * Checks if source width/height was changed, resize can cause extra baseTexture update.
+	     * Triggers one update in any case.
+	     */
+	    BaseImageResource.prototype.update = function update ()
+	    {
+	        if (this.destroyed)
+	        {
+	            return;
+	        }
+
+	        var width = this.source.naturalWidth || this.source.videoWidth || this.source.width;
+	        var height = this.source.naturalHeight || this.source.videoHeight || this.source.height;
+
+	        this.resize(width, height);
+
+	        Resource.prototype.update.call(this);
+	    };
+
+	    /**
 	     * Destroy this BaseImageResource
 	     * @override
 	     * @param {PIXI.BaseTexture} [fromTexture] Optional base texture
@@ -10395,7 +10429,8 @@ var PIXI = (function (exports) {
 	         * @member {boolean}
 	         * @default PIXI.settings.CREATE_IMAGE_BITMAP
 	         */
-	        this.createBitmap = options.createBitmap !== false && settings.CREATE_IMAGE_BITMAP && !!window.createImageBitmap;
+	        this.createBitmap = (options.createBitmap !== undefined
+	            ? options.createBitmap : settings.CREATE_IMAGE_BITMAP) && !!window.createImageBitmap;
 
 	        /**
 	         * Controls texture premultiplyAlpha field
@@ -10657,7 +10692,7 @@ var PIXI = (function (exports) {
 	 * @param {number} [options.height] - BufferResource's height
 	 * @param {boolean} [options.autoLoad=true] - Image, SVG and Video flag to start loading
 	 * @param {number} [options.scale=1] - SVG source scale
-	 * @param {boolean} [options.createBitmap=true] - Image option to create Bitmap object
+	 * @param {boolean} [options.createBitmap=PIXI.settings.CREATE_IMAGE_BITMAP] - Image option to create Bitmap object
 	 * @param {boolean} [options.crossorigin=true] - Image and Video option to set crossOrigin
 	 * @param {boolean} [options.autoPlay=true] - Video option to start playing video immediately
 	 * @param {number} [options.updateFPS=0] - Video option to update how many times a second the
@@ -10967,7 +11002,7 @@ var PIXI = (function (exports) {
 	        this.uid = uid();
 
 	        /**
-	         * TODO: fill in description
+	         * Used by automatic texture Garbage Collection, stores last GC tick when it was bound
 	         *
 	         * @member {number}
 	         * @protected
@@ -11049,6 +11084,13 @@ var PIXI = (function (exports) {
 	         * @readonly
 	         */
 	        this.resource = null;
+
+	        /**
+	         * Number of the texture batch, used by multi-texture renderers
+	         *
+	         * @member {number}
+	         */
+	        this._batchEnabled = 0;
 
 	        /**
 	         * Fired when a not-immediately-available source finishes loading.
@@ -11135,7 +11177,7 @@ var PIXI = (function (exports) {
 	     *
 	     * @param {PIXI.SCALE_MODES} [scaleMode] - Pixi scalemode
 	     * @param {PIXI.MIPMAP_MODES} [mipmap] - enable mipmaps
-	     * @returns {BaseTexture} this
+	     * @returns {PIXI.BaseTexture} this
 	     */
 	    BaseTexture.prototype.setStyle = function setStyle (scaleMode, mipmap)
 	    {
@@ -11167,7 +11209,7 @@ var PIXI = (function (exports) {
 	     * @param {number} width Visual width
 	     * @param {number} height Visual height
 	     * @param {number} [resolution] Optionally set resolution
-	     * @returns {BaseTexture} this
+	     * @returns {PIXI.BaseTexture} this
 	     */
 	    BaseTexture.prototype.setSize = function setSize (width, height, resolution)
 	    {
@@ -11186,7 +11228,7 @@ var PIXI = (function (exports) {
 	     * @param {number} realWidth Full rendered width
 	     * @param {number} realHeight Full rendered height
 	     * @param {number} [resolution] Optionally set resolution
-	     * @returns {BaseTexture} this
+	     * @returns {PIXI.BaseTexture} this
 	     */
 	    BaseTexture.prototype.setRealSize = function setRealSize (realWidth, realHeight, resolution)
 	    {
@@ -11213,7 +11255,7 @@ var PIXI = (function (exports) {
 	     * Changes resolution
 	     *
 	     * @param {number} [resolution] res
-	     * @returns {BaseTexture} this
+	     * @returns {PIXI.BaseTexture} this
 	     */
 	    BaseTexture.prototype.setResolution = function setResolution (resolution)
 	    {
@@ -11230,7 +11272,7 @@ var PIXI = (function (exports) {
 	        {
 	            this.width = this.width * oldResolution / resolution;
 	            this.height = this.height * oldResolution / resolution;
-	            this.emit('update');
+	            this.emit('update', this);
 	        }
 
 	        this._refreshPOT();
@@ -11242,7 +11284,7 @@ var PIXI = (function (exports) {
 	     * Sets the resource if it wasn't set. Throws error if resource already present
 	     *
 	     * @param {PIXI.resources.Resource} resource - that is managing this BaseTexture
-	     * @returns {BaseTexture} this
+	     * @returns {PIXI.BaseTexture} this
 	     */
 	    BaseTexture.prototype.setResource = function setResource (resource)
 	    {
@@ -11468,6 +11510,14 @@ var PIXI = (function (exports) {
 
 	    return BaseTexture;
 	}(eventemitter3));
+
+	/**
+	 * Global number of the texture batch, used by multi-texture renderers
+	 *
+	 * @static
+	 * @member {number}
+	 */
+	BaseTexture._globalBatch = 0;
 
 	/**
 	 * A resource that contains a number of sources.
@@ -12001,41 +12051,46 @@ var PIXI = (function (exports) {
 	     */
 	    SVGResource.prototype._loadString = function _loadString (svgString)
 	    {
+	        var this$1 = this;
+
 	        var svgSize = SVGResource.getSize(svgString);
 
-	        // TODO do we need to wait for this to load?
-	        // seems instant!
-	        //
 	        var tempImage = new Image();
 
 	        tempImage.src = "data:image/svg+xml," + svgString;
 
-	        var svgWidth = svgSize.width;
-	        var svgHeight = svgSize.height;
+	        tempImage.onerror = function () {
+	            throw new Error(("Unable to load image from: " + (tempImage.src)));
+	        };
 
-	        if (!svgWidth || !svgHeight)
-	        {
-	            throw new Error('The SVG image must have width and height defined (in pixels), canvas API needs them.');
-	        }
+	        tempImage.onload = function () {
+	            var svgWidth = svgSize.width;
+	            var svgHeight = svgSize.height;
 
-	        // Scale realWidth and realHeight
-	        this._width = Math.round(svgWidth * this.scale);
-	        this._height = Math.round(svgHeight * this.scale);
+	            if (!svgWidth || !svgHeight)
+	            {
+	                throw new Error('The SVG image must have width and height defined (in pixels), canvas API needs them.');
+	            }
 
-	        // Create a canvas element
-	        var canvas = this.source;
+	            // Scale realWidth and realHeight
+	            var width = Math.round(svgWidth * this$1.scale);
+	            var height = Math.round(svgHeight * this$1.scale);
 
-	        canvas.width = this._width;
-	        canvas.height = this._height;
-	        canvas._pixiId = "canvas_" + (uid());
+	            // Create a canvas element
+	            var canvas = this$1.source;
 
-	        // Draw the Svg to the canvas
-	        canvas
-	            .getContext('2d')
-	            .drawImage(tempImage, 0, 0, svgWidth, svgHeight, 0, 0, this.width, this.height);
+	            canvas.width = width;
+	            canvas.height = height;
+	            canvas._pixiId = "canvas_" + (uid());
 
-	        this._resolve();
-	        this._resolve = null;
+	            // Draw the Svg to the canvas
+	            canvas
+	                .getContext('2d')
+	                .drawImage(tempImage, 0, 0, svgWidth, svgHeight, 0, 0, width, height);
+
+	            this$1._resolve();
+	            this$1._resolve = null;
+	        };
 	    };
 
 	    /**
@@ -12761,9 +12816,9 @@ var PIXI = (function (exports) {
 	 *
 	 * ```js
 	 * let renderer = PIXI.autoDetectRenderer();
-	 * let baseRenderTexture = new PIXI.BaseRenderTexture(800, 600);
+	 * let baseRenderTexture = new PIXI.BaseRenderTexture({ width: 800, height: 600 });
 	 * let renderTexture = new PIXI.RenderTexture(baseRenderTexture);
-	 * let sprite = PIXI.Sprite.fromImage("spinObj_01.png");
+	 * let sprite = PIXI.Sprite.from("spinObj_01.png");
 	 *
 	 * sprite.position.x = 800/2;
 	 * sprite.position.y = 600/2;
@@ -12780,7 +12835,7 @@ var PIXI = (function (exports) {
 	 *
 	 * sprite.setTransform()
 	 *
-	 * let baseRenderTexture = new PIXI.BaseRenderTexture(100, 100);
+	 * let baseRenderTexture = new PIXI.BaseRenderTexture({ width: 100, height: 100 });
 	 * let renderTexture = new PIXI.RenderTexture(baseRenderTexture);
 	 *
 	 * renderer.render(sprite, renderTexture);  // Renders to center of RenderTexture
@@ -13000,6 +13055,9 @@ var PIXI = (function (exports) {
 	 * let sprite2 = new PIXI.Sprite(texture);
 	 * ```
 	 *
+	 * If you didnt pass the texture frame to constructor, it enables `noFrame` mode:
+	 * it subscribes on baseTexture events, it automatically resizes at the same time as baseTexture.
+	 *
 	 * Textures made from SVGs, loaded or not, cannot be used before the file finishes processing.
 	 * You can check for this by checking the sprite's _textureID property.
 	 * ```js
@@ -13020,6 +13078,19 @@ var PIXI = (function (exports) {
 
 	        /**
 	         * Does this Texture have any frame data assigned to it?
+	         *
+	         * This mode is enabled automatically if no frame was passed inside constructor.
+	         *
+	         * In this mode texture is subscribed to baseTexture events, and fires `update` on any change.
+	         *
+	         * Beware, after loading or resize of baseTexture event can fired two times!
+	         * If you want more control, subscribe on baseTexture itself.
+	         *
+	         * ```js
+	         * texture.on('update', () => {});
+	         * ```
+	         *
+	         * Any assignment of `frame` switches off `noFrame` mode.
 	         *
 	         * @member {boolean}
 	         */
@@ -13108,23 +13179,6 @@ var PIXI = (function (exports) {
 	            throw new Error('attempt to use diamond-shaped UVs. If you are sure, set rotation manually');
 	        }
 
-	        if (baseTexture.valid)
-	        {
-	            if (this.noFrame)
-	            {
-	                frame = new Rectangle(0, 0, baseTexture.width, baseTexture.height);
-
-	                // if there is no frame we should monitor for any base texture changes..
-	                baseTexture.on('update', this.onBaseTextureUpdated, this);
-	            }
-
-	            this.frame = frame;
-	        }
-	        else
-	        {
-	            baseTexture.once('loaded', this.onBaseTextureUpdated, this);
-	        }
-
 	        /**
 	         * Anchor point that is used as default if sprite is created with this texture.
 	         * Changing the `defaultAnchor` at a later point of time will not update Sprite's anchor point.
@@ -13151,6 +13205,28 @@ var PIXI = (function (exports) {
 	         * @member {string[]}
 	         */
 	        this.textureCacheIds = [];
+
+	        if (!baseTexture.valid)
+	        {
+	            baseTexture.once('loaded', this.onBaseTextureUpdated, this);
+	        }
+	        else if (this.noFrame)
+	        {
+	            // if there is no frame we should monitor for any base texture changes..
+	            if (baseTexture.valid)
+	            {
+	                this.onBaseTextureUpdated(baseTexture);
+	            }
+	        }
+	        else
+	        {
+	            this.frame = frame;
+	        }
+
+	        if (this.noFrame)
+	        {
+	            baseTexture.on('update', this.onBaseTextureUpdated, this);
+	        }
 	    }
 
 	    if ( EventEmitter ) { Texture.__proto__ = EventEmitter; }
@@ -13162,10 +13238,17 @@ var PIXI = (function (exports) {
 	    /**
 	     * Updates this texture on the gpu.
 	     *
+	     * Calls the TextureResource update.
+	     *
+	     * If you adjusted `frame` manually, please call `updateUvs()` instead.
+	     *
 	     */
 	    Texture.prototype.update = function update ()
 	    {
-	        this.baseTexture.update();
+	        if (this.baseTexture.resource)
+	        {
+	            this.baseTexture.resource.update();
+	        }
 	    };
 
 	    /**
@@ -13176,18 +13259,23 @@ var PIXI = (function (exports) {
 	     */
 	    Texture.prototype.onBaseTextureUpdated = function onBaseTextureUpdated (baseTexture)
 	    {
-	        this._updateID++;
-
-	        // TODO this code looks confusing.. boo to abusing getters and setters!
 	        if (this.noFrame)
 	        {
-	            this.frame = new Rectangle(0, 0, baseTexture.width, baseTexture.height);
+	            if (!this.baseTexture.valid)
+	            {
+	                return;
+	            }
+
+	            this._frame.width = baseTexture.width;
+	            this._frame.height = baseTexture.height;
+	            this.valid = true;
+	            this.updateUvs();
 	        }
 	        else
 	        {
+	            // TODO this code looks confusing.. boo to abusing getters and setters!
+	            // if user gave us frame that has bigger size than resized texture it can be a problem
 	            this.frame = this._frame;
-	            // TODO maybe watch out for the no frame option
-	            // updating the texture will should update the frame if it was set to no frame..
 	        }
 
 	        this.emit('update', this);
@@ -13204,11 +13292,14 @@ var PIXI = (function (exports) {
 	        {
 	            if (destroyBase)
 	            {
+	                var ref = this.baseTexture;
+	                var resource = ref.resource;
+
 	                // delete the texture if it exists in the texture cache..
 	                // this only needs to be removed if the base texture is actually destroyed too..
-	                if (TextureCache[this.baseTexture.imageUrl])
+	                if (resource && TextureCache[resource.url])
 	                {
-	                    Texture.removeFromCache(this.baseTexture.imageUrl);
+	                    Texture.removeFromCache(resource.url);
 	                }
 
 	                this.baseTexture.destroy();
@@ -13351,7 +13442,7 @@ var PIXI = (function (exports) {
 	            name = imageUrl;
 	        }
 
-	        // lets also add the frame to pixi's global cache for fromFrame and fromImage functions
+	        // lets also add the frame to pixi's global cache for 'fromLoader' function
 	        BaseTexture.addToCache(texture.baseTexture, name);
 	        Texture.addToCache(texture, name);
 
@@ -13647,7 +13738,7 @@ var PIXI = (function (exports) {
 	        /**
 	         * The base texture object that this texture uses
 	         *
-	         * @member {BaseTexture}
+	         * @member {PIXI.BaseTexture}
 	         */
 	        Texture.call(this, baseRenderTexture, frame);
 
@@ -13668,10 +13759,10 @@ var PIXI = (function (exports) {
 	        this.filterFrame = null;
 
 	        /**
-	        * The key for pooled texture of FilterSystem
-	        * @protected
-	        * @member {string}
-	        */
+	         * The key for pooled texture of FilterSystem
+	         * @protected
+	         * @member {string}
+	         */
 	        this.filterPoolKey = null;
 
 	        this.updateUvs();
@@ -13707,6 +13798,25 @@ var PIXI = (function (exports) {
 	        }
 
 	        this.updateUvs();
+	    };
+
+	    /**
+	     * Changes the resolution of baseTexture, but does not change framebuffer size.
+	     *
+	     * @param {number} resolution - The new resolution to apply to RenderTexture
+	     */
+	    RenderTexture.prototype.setResolution = function setResolution (resolution)
+	    {
+	        var ref = this;
+	        var baseTexture = ref.baseTexture;
+
+	        if (baseTexture.resolution === resolution)
+	        {
+	            return;
+	        }
+
+	        baseTexture.setResolution(resolution);
+	        this.resize(baseTexture.width, baseTexture.height, false);
 	    };
 
 	    /**
@@ -13785,9 +13895,9 @@ var PIXI = (function (exports) {
 	 *
 	 * @returns {PIXI.Attribute} A new {@link PIXI.Attribute} based on the information provided
 	 */
-	Attribute.from = function from (buffer, size, stride, start, normalized)
+	Attribute.from = function from (buffer, size, normalized, type, stride)
 	{
-	    return new Attribute(buffer, size, stride, start, normalized);
+	    return new Attribute(buffer, size, normalized, type, stride);
 	};
 
 	var UID = 0;
@@ -13833,6 +13943,7 @@ var PIXI = (function (exports) {
 	// TODO could explore flagging only a partial upload?
 	/**
 	 * flags this buffer as requiring an upload to the GPU
+	 * @param {ArrayBuffer|SharedArrayBuffer|ArrayBufferView} [data] the data to update in the buffer.
 	 */
 	Buffer.prototype.update = function update (data)
 	{
@@ -14103,7 +14214,18 @@ var PIXI = (function (exports) {
 	 */
 	Geometry.prototype.getAttribute = function getAttribute (id)
 	{
-	    return this.buffers[this.attributes[id].buffer];
+	    return this.attributes[id];
+	};
+
+	/**
+	 * returns the requested buffer
+	 *
+	 * @param {String} id  the name of the buffer required
+	 * @return {PIXI.Buffer} the buffer requested.
+	 */
+	Geometry.prototype.getBuffer = function getBuffer (id)
+	{
+	    return this.buffers[this.getAttribute(id).buffer];
 	};
 
 	/**
@@ -14503,41 +14625,6 @@ var PIXI = (function (exports) {
 
 	    return QuadUv;
 	}(Geometry));
-
-	/**
-	 * Calculates the mapped matrix
-	 * @param {PIXI.Matrix} outputMatrix matrix that will normalize map filter cords in the filter to screen space
-	 * @param {PIXI.Rectangle} filterArea filter area
-	 * @param {PIXI.Rectangle} textureSize texture size
-	 * @returns {PIXI.Matrix} same as outputMatrix
-	 * @private
-	 */
-	function calculateScreenSpaceMatrix(outputMatrix, filterArea, textureSize)
-	{
-	    // TODO unwrap?
-	    var mappedMatrix = outputMatrix.identity();
-
-	    mappedMatrix.translate(filterArea.x / textureSize.width, filterArea.y / textureSize.height);
-
-	    mappedMatrix.scale(textureSize.width, textureSize.height);
-
-	    return mappedMatrix;
-	}
-
-	// this will map the filter coord so that a texture can be used based on the transform of a sprite
-	function calculateSpriteMatrix(outputMatrix, filterArea, textureSize, sprite)
-	{
-	    var orig = sprite._texture.orig;
-	    var mappedMatrix = outputMatrix.set(textureSize.width, 0, 0, textureSize.height, filterArea.x, filterArea.y);
-	    var worldTransform = sprite.worldTransform.copyTo(Matrix.TEMP_MATRIX);
-
-	    worldTransform.invert();
-	    mappedMatrix.prepend(worldTransform);
-	    mappedMatrix.scale(1.0 / orig.width, 1.0 / orig.height);
-	    mappedMatrix.translate(sprite.anchor.x, sprite.anchor.y);
-
-	    return mappedMatrix;
-	}
 
 	var UID$2 = 0;
 
@@ -14967,42 +15054,31 @@ var PIXI = (function (exports) {
 	    };
 
 	    /**
-	     * Calculates the mapped matrix.
+	     * Multiply _input normalized coordinates_ to this matrix to get _sprite texture normalized coordinates_.
 	     *
-	     * TODO playing around here.. this is temporary - (will end up in the shader)
-	     * this returns a matrix that will normalize map filter cords in the filter to screen space
-	     *
-	     * @param {PIXI.Matrix} outputMatrix - the matrix to output to.
-	     * @return {PIXI.Matrix} The mapped matrix.
-	     */
-	    FilterSystem.prototype.calculateScreenSpaceMatrix = function calculateScreenSpaceMatrix$1 (outputMatrix)
-	    {
-	        var currentState = this.activeState;
-
-	        return calculateScreenSpaceMatrix(
-	            outputMatrix,
-	            currentState.sourceFrame,
-	            currentState.destinationFrame
-	        );
-	    };
-
-	    /**
-	     * This will map the filter coord so that a texture can be used based on the transform of a sprite
+	     * Use `outputMatrix * vTextureCoord` in the shader.
 	     *
 	     * @param {PIXI.Matrix} outputMatrix - The matrix to output to.
 	     * @param {PIXI.Sprite} sprite - The sprite to map to.
 	     * @return {PIXI.Matrix} The mapped matrix.
 	     */
-	    FilterSystem.prototype.calculateSpriteMatrix = function calculateSpriteMatrix$1 (outputMatrix, sprite)
+	    FilterSystem.prototype.calculateSpriteMatrix = function calculateSpriteMatrix (outputMatrix, sprite)
 	    {
-	        var currentState = this.activeState;
+	        var ref = this.activeState;
+	        var sourceFrame = ref.sourceFrame;
+	        var destinationFrame = ref.destinationFrame;
+	        var ref$1 = sprite._texture;
+	        var orig = ref$1.orig;
+	        var mappedMatrix = outputMatrix.set(destinationFrame.width, 0, 0,
+	            destinationFrame.height, sourceFrame.x, sourceFrame.y);
+	        var worldTransform = sprite.worldTransform.copyTo(Matrix.TEMP_MATRIX);
 
-	        return calculateSpriteMatrix(
-	            outputMatrix,
-	            currentState.sourceFrame,
-	            currentState.destinationFrame,
-	            sprite
-	        );
+	        worldTransform.invert();
+	        mappedMatrix.prepend(worldTransform);
+	        mappedMatrix.scale(1.0 / orig.width, 1.0 / orig.height);
+	        mappedMatrix.translate(sprite.anchor.x, sprite.anchor.y);
+
+	        return mappedMatrix;
 	    };
 
 	    /**
@@ -15071,6 +15147,7 @@ var PIXI = (function (exports) {
 	        }
 
 	        renderTexture.filterPoolKey = key;
+	        renderTexture.setResolution(resolution);
 
 	        return renderTexture;
 	    };
@@ -16262,7 +16339,9 @@ var PIXI = (function (exports) {
 	    };
 
 	    /**
-	     * Creates a Vao with the same structure as the geometry and stores it on the geometry.
+	     * Creates or gets Vao with the same structure as the geometry and stores it on the geometry.
+	     * If vao is created, it is bound automatically.
+	     *
 	     * @protected
 	     * @param {PIXI.Geometry} geometry - Instance of geometry to to generate Vao for
 	     * @param {PIXI.Program} program - Instance of program
@@ -16363,7 +16442,7 @@ var PIXI = (function (exports) {
 
 	        this.activateVao(geometry, program);
 
-	        gl.bindVertexArray(this._activeVao);
+	        this._activeVao = vao;
 
 	        // add it to the cache!
 	        vaoObjectHash[program.id] = vao;
@@ -16447,7 +16526,13 @@ var PIXI = (function (exports) {
 	                // delete only signatures, everything else are copies
 	                if (vaoId[0] === 'g')
 	                {
-	                    gl.deleteVertexArray(vaos[vaoId]);
+	                    var vao = vaos[vaoId];
+
+	                    if (this._activeVao === vao)
+	                    {
+	                        this.unbind();
+	                    }
+	                    gl.deleteVertexArray(vao);
 	                }
 	            }
 	        }
@@ -16758,19 +16843,106 @@ var PIXI = (function (exports) {
 	    return array;
 	}
 
+	var context = null;
+
 	/**
-	 * Sets the float precision on the shader. If the precision is already present this function will do nothing
+	 * returns a little WebGL context to use for program inspection.
+	 *
+	 * @static
 	 * @private
-	 * @param {string} src       the shader source
-	 * @param {string} precision The float precision of the shader. Options are 'lowp', 'mediump' or 'highp'.
+	 * @returns {webGL-context} a gl context to test with
+	 */
+	function getTestContext()
+	{
+	    if (!context)
+	    {
+	        var canvas = document.createElement('canvas');
+
+	        var gl;
+
+	        if (settings.PREFER_ENV >= ENV.WEBGL2)
+	        {
+	            gl = canvas.getContext('webgl2', {});
+	        }
+
+	        if (!gl)
+	        {
+	            gl = canvas.getContext('webgl', {})
+	            || canvas.getContext('experimental-webgl', {});
+
+	            if (!gl)
+	            {
+	                // fail, not able to get a context
+	                throw new Error('This browser does not support WebGL. Try using the canvas renderer');
+	            }
+	            else
+	            {
+	                // for shader testing..
+	                gl.getExtension('WEBGL_draw_buffers');
+	            }
+	        }
+
+	        context = gl;
+
+	        return gl;
+	    }
+
+	    return context;
+	}
+
+	var maxFragmentPrecision;
+
+	function getMaxFragmentPrecision()
+	{
+	    if (!maxFragmentPrecision)
+	    {
+	        maxFragmentPrecision = PRECISION.MEDIUM;
+	        var gl = getTestContext();
+
+	        if (gl)
+	        {
+	            if (gl.getShaderPrecisionFormat)
+	            {
+	                var shaderFragment = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
+
+	                maxFragmentPrecision = shaderFragment.precision ? PRECISION.HIGH : PRECISION.MEDIUM;
+	            }
+	        }
+	    }
+
+	    return maxFragmentPrecision;
+	}
+
+	/**
+	 * Sets the float precision on the shader, ensuring the device supports the request precision.
+	 * If the precision is already present, it just ensures that the device is able to handle it.
+	 *
+	 * @private
+	 * @param {string} src - The shader source
+	 * @param {string} requestedPrecision - The request float precision of the shader. Options are 'lowp', 'mediump' or 'highp'.
+	 * @param {string} maxSupportedPrecision - The maximum precision the shader supports.
 	 *
 	 * @return {string} modified shader source
 	 */
-	function setPrecision(src, precision)
+	function setPrecision(src, requestedPrecision, maxSupportedPrecision)
 	{
-	    if (src.substring(0, 9) !== 'precision')// && src.substring(0, 1) !== '#')
+	    if (src.substring(0, 9) !== 'precision')
 	    {
+	        // no precision supplied, so PixiJS will add the requested level.
+	        var precision = requestedPrecision;
+
+	        // If highp is requested but not supported, downgrade precision to a level all devices support.
+	        if (requestedPrecision === PRECISION.HIGH && maxSupportedPrecision !== PRECISION.HIGH)
+	        {
+	            precision = PRECISION.MEDIUM;
+	        }
+
 	        return ("precision " + precision + " float;\n" + src);
+	    }
+	    else if (maxSupportedPrecision !== PRECISION.HIGH && src.substring(0, 15) === 'precision highp')
+	    {
+	        // precision was supplied, but at a level this device does not support, so downgrading to mediump.
+	        return src.replace('precision highp', 'precision mediump');
 	    }
 
 	    return src;
@@ -17001,53 +17173,6 @@ var PIXI = (function (exports) {
 	    return new Function('ud', 'uv', 'renderer', func); // eslint-disable-line no-new-func
 	}
 
-	var context = null;
-
-	/**
-	 * returns a little WebGL context to use for program inspection.
-	 *
-	 * @static
-	 * @private
-	 * @returns {webGL-context} a gl context to test with
-	 */
-	function getTestContext()
-	{
-	    if (!context)
-	    {
-	        var canvas = document.createElement('canvas');
-
-	        var gl;
-
-	        if (settings.PREFER_ENV >= ENV.WEBGL2)
-	        {
-	            gl = canvas.getContext('webgl2', {});
-	        }
-
-	        if (!gl)
-	        {
-	            gl = canvas.getContext('webgl', {})
-	            || canvas.getContext('experimental-webgl', {});
-
-	            if (!gl)
-	            {
-	                // fail, not able to get a context
-	                throw new Error('This browser does not support WebGL. Try using the canvas renderer');
-	            }
-	            else
-	            {
-	                // for shader testing..
-	                gl.getExtension('WEBGL_draw_buffers');
-	            }
-	        }
-
-	        context = gl;
-
-	        return gl;
-	    }
-
-	    return context;
-	}
-
 	var fragTemplate = [
 	    'precision mediump float;',
 	    'void main(void){',
@@ -17195,8 +17320,8 @@ var PIXI = (function (exports) {
 	        this.vertexSrc = "#define SHADER_NAME " + name + "\n" + (this.vertexSrc);
 	        this.fragmentSrc = "#define SHADER_NAME " + name + "\n" + (this.fragmentSrc);
 
-	        this.vertexSrc = setPrecision(this.vertexSrc, settings.PRECISION_VERTEX);
-	        this.fragmentSrc = setPrecision(this.fragmentSrc, settings.PRECISION_FRAGMENT);
+	        this.vertexSrc = setPrecision(this.vertexSrc, settings.PRECISION_VERTEX, PRECISION.HIGH);
+	        this.fragmentSrc = setPrecision(this.fragmentSrc, settings.PRECISION_FRAGMENT, getMaxFragmentPrecision());
 	    }
 
 	    // currently this does not extract structs only default types
@@ -17677,6 +17802,9 @@ var PIXI = (function (exports) {
 	 * Developers can use normal coordinates of v3 and then allow filter to use partial Framebuffers,
 	 * bringing those extra uniforms into account.
 	 *
+	 * Also be aware that we have changed default vertex shader, please consult
+	 * {@link https://github.com/pixijs/pixi.js/wiki/v5-Creating-filters Wiki}.
+	 *
 	 * ### Built-in Uniforms
 	 *
 	 * PixiJS viewport uses screen (CSS) coordinates, `(0, 0, renderer.screen.width, renderer.screen.height)`,
@@ -17688,7 +17816,7 @@ var PIXI = (function (exports) {
 	 * _Important note: as with all Framebuffers in PixiJS, both input and output are
 	 * premultiplied by alpha._
 	 *
-	 * By default, input Framebuffer space coordinates are passed to fragment shader with `vTextureCoord`.
+	 * By default, input normalized coordinates are passed to fragment shader with `vTextureCoord`.
 	 * Use it to sample the input.
 	 *
 	 * ```
@@ -17726,15 +17854,15 @@ var PIXI = (function (exports) {
 	 *
 	 * **inputSize**
 	 *
-	 * Temporary Framebuffer is different, it can be either the size of screen, either power-of-two.
-	 * The `inputSize.xy` are size of temporary Framebuffer that holds input.
+	 * Temporary framebuffer is different, it can be either the size of screen, either power-of-two.
+	 * The `inputSize.xy` are size of temporary framebuffer that holds input.
 	 * The `inputSize.zw` is inverted, it's a shortcut to evade division inside the shader.
 	 *
 	 * Set `inputSize.xy = outputFrame.zw` for a fullscreen filter.
 	 *
-	 * To calculate input texture coordinate in 0-1 space, you have to map it to Framebuffer normalized space.
-	 * Multiply by `outputFrame.zw` to get pixel coordinate in part of Framebuffer.
-	 * Divide by `inputSize.xy` to get Framebuffer normalized space (input sampler space)
+	 * To calculate input normalized coordinate, you have to map it to filter normalized space.
+	 * Multiply by `outputFrame.zw` to get input coordinate.
+	 * Divide by `inputSize.xy` to get input normalized coordinate.
 	 *
 	 * ```
 	 * vec2 filterTextureCoord( void )
@@ -17853,11 +17981,11 @@ var PIXI = (function (exports) {
 	     *        There are some useful properties in the currentState :
 	     *        target, filters, sourceFrame, destinationFrame, renderTarget, resolution
 	     */
-	    Filter.prototype.apply = function apply (filterManager, input, output, clear, currentState, derp) // eslint-disable-line no-unused-vars
+	    Filter.prototype.apply = function apply (filterManager, input, output, clear, currentState)
 	    {
 	        // do as you please!
 
-	        filterManager.applyFilter(this, input, output, clear, currentState, derp);
+	        filterManager.applyFilter(this, input, output, clear, currentState);
 
 	        // or just do a regular render..
 	    };
@@ -18032,7 +18160,7 @@ var PIXI = (function (exports) {
 
 	/**
 	 * updates matrices if texture was changed
-	 * @param {boolean} forceUpdate if true, matrices will be updated any case
+	 * @param {boolean} [forceUpdate=false] if true, matrices will be updated any case
 	 * @returns {boolean} whether or not it was updated
 	 */
 	TextureMatrix.prototype.update = function update (forceUpdate)
@@ -18149,6 +18277,7 @@ var PIXI = (function (exports) {
 
 	        this.uniforms.npmAlpha = tex.baseTexture.premultiplyAlpha ? 0.0 : 1.0;
 	        this.uniforms.mask = tex;
+	        // get _normalized sprite texture coords_ and convert them to _normalized atlas texture coords_ with `prepend`
 	        this.uniforms.otherMatrix = filterManager.calculateSpriteMatrix(this.maskMatrix, maskSprite)
 	            .prepend(tex.transform.mapCoord);
 	        this.uniforms.alpha = maskSprite.worldAlpha;
@@ -18804,6 +18933,11 @@ var PIXI = (function (exports) {
 
 	        this.destinationFrame.width = destinationFrame.width / resolution;
 	        this.destinationFrame.height = destinationFrame.height / resolution;
+
+	        if (sourceFrame === destinationFrame)
+	        {
+	            this.sourceFrame.copyFrom(this.destinationFrame);
+	        }
 	    };
 
 	    /**
@@ -19168,8 +19302,8 @@ var PIXI = (function (exports) {
 
 	    // not-premultiplied blend modes
 	    array[BLEND_MODES.NORMAL_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-	    array[BLEND_MODES.ADD_NPM] = [gl.SRC_ALPHA, gl.DST_ALPHA, gl.ONE, gl.DST_ALPHA];
-	    array[BLEND_MODES.SCREEN_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_COLOR];
+	    array[BLEND_MODES.ADD_NPM] = [gl.SRC_ALPHA, gl.DST_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+	    array[BLEND_MODES.SCREEN_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
 
 	    // composite operations
 	    array[BLEND_MODES.SRC_IN] = [gl.DST_ALPHA, gl.ZERO];
@@ -19973,14 +20107,14 @@ var PIXI = (function (exports) {
 
 	        texture = texture.baseTexture || texture;
 
-	        if (texture._glTextures[this.renderer.CONTEXT_UID])
+	        if (texture._glTextures[this.CONTEXT_UID])
 	        {
 	            this.unbind(texture);
 
-	            gl.deleteTexture(texture._glTextures[this.renderer.CONTEXT_UID].texture);
+	            gl.deleteTexture(texture._glTextures[this.CONTEXT_UID].texture);
 	            texture.off('dispose', this.destroyTexture, this);
 
-	            delete texture._glTextures[this.renderer.CONTEXT_UID];
+	            delete texture._glTextures[this.CONTEXT_UID];
 
 	            if (!skipRemove)
 	            {
@@ -20035,7 +20169,7 @@ var PIXI = (function (exports) {
 	     *
 	     * @private
 	     * @param {PIXI.BaseTexture} texture - Texture to update
-	     * @param {glTexture} glTexture
+	     * @param {PIXI.GLTexture} glTexture
 	     */
 	    TextureSystem.prototype.setStyle = function setStyle (texture, glTexture)
 	    {
@@ -20683,6 +20817,9 @@ var PIXI = (function (exports) {
 	        this.runners.prerender.run();
 	        this.emit('prerender');
 
+	        // apply a transform at a GPU level
+	        this.projection.transform = transform;
+
 	        // no point rendering if our context has been blown up!
 	        if (this.context.isLost)
 	        {
@@ -20724,6 +20861,9 @@ var PIXI = (function (exports) {
 	        }
 
 	        this.runners.postrender.run();
+
+	        // reset transform after render
+	        this.projection.transform = null;
 
 	        this.emit('postrender');
 	    };
@@ -21048,8 +21188,6 @@ var PIXI = (function (exports) {
 	    return src;
 	}
 
-	var TICK = 0;
-
 	/**
 	 * Renderer dedicated to drawing and batching sprites.
 	 *
@@ -21287,7 +21425,7 @@ var PIXI = (function (exports) {
 	        currentGroup.start = 0;
 	        currentGroup.blend = blendMode;
 
-	        TICK++;
+	        var TICK = ++BaseTexture._globalBatch;
 
 	        var i;
 
@@ -21318,7 +21456,7 @@ var PIXI = (function (exports) {
 	            {
 	                currentTexture = nextTexture;
 
-	                if (nextTexture._enabled !== TICK)
+	                if (nextTexture._batchEnabled !== TICK)
 	                {
 	                    if (textureCount === MAX_TEXTURES)
 	                    {
@@ -21335,7 +21473,7 @@ var PIXI = (function (exports) {
 	                    }
 
 	                    nextTexture.touched = touch;
-	                    nextTexture._enabled = TICK;
+	                    nextTexture._batchEnabled = TICK;
 	                    nextTexture._id = textureCount;
 
 	                    currentGroup.textures[currentGroup.textureCount++] = nextTexture;
@@ -21349,6 +21487,8 @@ var PIXI = (function (exports) {
 	            index += (sprite.vertexData.length / 2) * this.vertSize;
 	            indexCount += sprite.indices.length;
 	        }
+
+	        BaseTexture._globalBatch = TICK;
 
 	        currentGroup.size = indexCount - currentGroup.start;
 
@@ -21568,8 +21708,8 @@ var PIXI = (function (exports) {
 	}(ObjectRenderer));
 
 	/*!
-	 * @pixi/extract - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/extract - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/extract is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -21604,13 +21744,15 @@ var PIXI = (function (exports) {
 	 *
 	 * @param {PIXI.DisplayObject|PIXI.RenderTexture} target - A displayObject or renderTexture
 	 *  to convert. If left empty will use the main renderer
+	 * @param {string} [format] - Image format, e.g. "image/jpeg" or "image/webp".
+	 * @param {number} [quality] - JPEG or Webp compression from 0 to 1. Default is 0.92.
 	 * @return {HTMLImageElement} HTML Image of the target
 	 */
-	Extract.prototype.image = function image (target)
+	Extract.prototype.image = function image (target, format, quality)
 	{
 	    var image = new Image();
 
-	    image.src = this.base64(target);
+	    image.src = this.base64(target, format, quality);
 
 	    return image;
 	};
@@ -21621,11 +21763,13 @@ var PIXI = (function (exports) {
 	 *
 	 * @param {PIXI.DisplayObject|PIXI.RenderTexture} target - A displayObject or renderTexture
 	 *  to convert. If left empty will use the main renderer
+	 * @param {string} [format] - Image format, e.g. "image/jpeg" or "image/webp".
+	 * @param {number} [quality] - JPEG or Webp compression from 0 to 1. Default is 0.92.
 	 * @return {string} A base64 encoded string of the texture.
 	 */
-	Extract.prototype.base64 = function base64 (target)
+	Extract.prototype.base64 = function base64 (target, format, quality)
 	{
-	    return this.canvas(target).toDataURL();
+	    return this.canvas(target).toDataURL(format, quality);
 	};
 
 	/**
@@ -21809,8 +21953,8 @@ var PIXI = (function (exports) {
 	});
 
 	/*!
-	 * @pixi/interaction - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/interaction - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/interaction is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -23360,7 +23504,9 @@ var PIXI = (function (exports) {
 	            }
 	            interactiveParent = false;
 	        }
-	        // If there is a mask, no need to test against anything else if the pointer is not within the mask
+	        // If there is a mask, no need to hitTest against anything else if the pointer is not within the mask.
+	        // We still want to hitTestChildren, however, to ensure a mouseout can still be generated.
+	        // https://github.com/pixijs/pixi.js/issues/5135
 	        else if (displayObject._mask)
 	        {
 	            if (hitTest)
@@ -23368,7 +23514,6 @@ var PIXI = (function (exports) {
 	                if (!(displayObject._mask.containsPoint && displayObject._mask.containsPoint(point)))
 	                {
 	                    hitTest = false;
-	                    hitTestChildren = false;
 	                }
 	            }
 	        }
@@ -24174,8 +24319,8 @@ var PIXI = (function (exports) {
 	});
 
 	/*!
-	 * @pixi/graphics - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/graphics - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/graphics is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -24445,8 +24590,8 @@ var PIXI = (function (exports) {
 	        for (var i = 0; i < totalSegs; i++)
 	        {
 	            points.push(
-	                x + (Math.sin(seg * i) * width),
-	                y + (Math.cos(seg * i) * height)
+	                x + (Math.sin(-seg * i) * width),
+	                y + (Math.cos(-seg * i) * height)
 	            );
 	        }
 
@@ -24894,11 +25039,22 @@ var PIXI = (function (exports) {
 
 	        points.length = 0;
 
-	        points.push(x, y + radius);
-	        quadraticBezierCurve(x, y + height - radius, x, y + height, x + radius, y + height, points);
-	        quadraticBezierCurve(x + width - radius, y + height, x + width, y + height, x + width, y + height - radius, points);
-	        quadraticBezierCurve(x + width, y + radius, x + width, y, x + width - radius, y, points);
-	        quadraticBezierCurve(x + radius, y, x, y, x, y + radius + 0.0000000001, points);
+	        quadraticBezierCurve(x, y + radius,
+	            x, y,
+	            x + radius, y,
+	            points);
+	        quadraticBezierCurve(x + width - radius,
+	            y, x + width, y,
+	            x + width, y + radius,
+	            points);
+	        quadraticBezierCurve(x + width, y + height - radius,
+	            x + width, y + height,
+	            x + width - radius, y + height,
+	            points);
+	        quadraticBezierCurve(x + radius, y + height,
+	            x, y + height,
+	            x, y + height - radius,
+	            points);
 
 	        // this tiny number deals with the issue that occurs when points overlap and earcut fails to triangulate the item.
 	        // TODO - fix this properly, this is not very elegant.. but it works for now.
@@ -25005,7 +25161,6 @@ var PIXI = (function (exports) {
 	var BATCH_POOL = [];
 	var DRAW_CALL_POOL = [];
 
-	var TICK$1 = 0;
 	/**
 	 * Map of fill commands for each shape type.
 	 *
@@ -25573,7 +25728,7 @@ var PIXI = (function (exports) {
 	     */
 	    GraphicsGeometry.prototype.buildDrawCalls = function buildDrawCalls ()
 	    {
-	        TICK$1++;
+	        var TICK = ++BaseTexture._globalBatch;
 
 	        for (var i = 0; i < this.drawCalls.length; i++)
 	        {
@@ -25624,18 +25779,18 @@ var PIXI = (function (exports) {
 	                // force the batch to break!
 	                currentTexture = null;
 	                textureCount = MAX_TEXTURES;
-	                TICK$1++;
+	                TICK++;
 	            }
 
 	            if (currentTexture !== nextTexture)
 	            {
 	                currentTexture = nextTexture;
 
-	                if (nextTexture._enabled !== TICK$1)
+	                if (nextTexture._batchEnabled !== TICK)
 	                {
 	                    if (textureCount === MAX_TEXTURES)
 	                    {
-	                        TICK$1++;
+	                        TICK++;
 
 	                        textureCount = 0;
 
@@ -25653,7 +25808,7 @@ var PIXI = (function (exports) {
 
 	                    // TODO add this to the render part..
 	                    nextTexture.touched = 1;// touch;
-	                    nextTexture._enabled = TICK$1;
+	                    nextTexture._batchEnabled = TICK;
 	                    nextTexture._id = textureCount;
 	                    nextTexture.wrapMode = 10497;
 
@@ -25670,6 +25825,8 @@ var PIXI = (function (exports) {
 	            this.addColors(colors, style.color, style.alpha, data.attribSize);
 	            this.addTextureIds(textureIds, textureId, data.attribSize);
 	        }
+
+	        BaseTexture._globalBatch = TICK;
 
 	        // upload..
 	        // merge for now!
@@ -25968,7 +26125,7 @@ var PIXI = (function (exports) {
 	        var scaleX = frame.width / baseTexture.width;
 	        var scaleY = frame.height / baseTexture.height;
 	        var offsetX = frame.x / frame.width;
-	        var offsetY = frame.y / frame.width;
+	        var offsetY = frame.y / frame.height;
 	        var minX = Math.floor(uvs[start] + eps);
 	        var minY = Math.floor(uvs[start + 1] + eps);
 
@@ -26390,6 +26547,11 @@ var PIXI = (function (exports) {
 	 * The Graphics class contains methods used to draw primitive shapes such as lines, circles and
 	 * rectangles to the display, and to color and fill them.
 	 *
+	 * Note that because Graphics can share a GraphicsGeometry with other instances,
+	 * it is necessary to call `destroy()` to properly dereference the underlying
+	 * GraphicsGeometry and avoid a memory leak. Alternatively, keep using the same
+	 * Graphics instance and call `clear()` between redraws.
+	 *
 	 * @class
 	 * @extends PIXI.Container
 	 * @memberof PIXI
@@ -26404,7 +26566,7 @@ var PIXI = (function (exports) {
 	         * Includes vertex positions, face indices, normals, colors, UVs, and
 	         * custom attributes within buffers, reducing the cost of passing all
 	         * this data to the GPU. Can be shared between multiple Mesh or Graphics objects.
-	         * @member {PIXI.Geometry}
+	         * @member {PIXI.GraphicsGeometry}
 	         * @readonly
 	         */
 	        this.geometry = geometry || new GraphicsGeometry();
@@ -27552,8 +27714,8 @@ var PIXI = (function (exports) {
 	Graphics._TEMP_POINT = new Point();
 
 	/*!
-	 * @pixi/sprite - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/sprite - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/sprite is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -27575,10 +27737,10 @@ var PIXI = (function (exports) {
 	 * as swapping base textures when rendering to the screen is inefficient.
 	 *
 	 * ```js
-	 * PIXI.loader.add("assets/spritesheet.json").load(setup);
+	 * PIXI.Loader.shared.add("assets/spritesheet.json").load(setup);
 	 *
 	 * function setup() {
-	 *   let sheet = PIXI.loader.resources["assets/spritesheet.json"].spritesheet;
+	 *   let sheet = PIXI.Loader.shared.resources["assets/spritesheet.json"].spritesheet;
 	 *   let sprite = new PIXI.Sprite(sheet.textures["image.png"]);
 	 *   ...
 	 * }
@@ -27947,7 +28109,7 @@ var PIXI = (function (exports) {
 	    /**
 	     * Gets the local bounds of the sprite object.
 	     *
-	     * @param {PIXI.Rectangle} rect - The output rectangle.
+	     * @param {PIXI.Rectangle} [rect] - The output rectangle.
 	     * @return {PIXI.Rectangle} The bounds.
 	     */
 	    Sprite.prototype.getLocalBounds = function getLocalBounds (rect)
@@ -28203,8 +28365,8 @@ var PIXI = (function (exports) {
 	}(Container));
 
 	/*!
-	 * @pixi/text - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/text - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/text is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -28259,6 +28421,14 @@ var PIXI = (function (exports) {
 	    wordWrapWidth: 100,
 	    leading: 0,
 	};
+
+	var genericFontFamilies = [
+	    'serif',
+	    'sans-serif',
+	    'monospace',
+	    'cursive',
+	    'fantasy',
+	    'system-ui' ];
 
 	/**
 	 * A TextStyle Object contains information to decorate a Text objects.
@@ -28874,7 +29044,7 @@ var PIXI = (function (exports) {
 	        var fontFamily = fontFamilies[i].trim();
 
 	        // Check if font already contains strings
-	        if (!(/([\"\'])[^\'\"]+\1/).test(fontFamily))
+	        if (!(/([\"\'])[^\'\"]+\1/).test(fontFamily) && genericFontFamilies.indexOf(fontFamily) < 0)
 	        {
 	            fontFamily = "\"" + fontFamily + "\"";
 	        }
@@ -28994,14 +29164,67 @@ var PIXI = (function (exports) {
 	 */
 	var TextMetrics = function TextMetrics(text, style, width, height, lines, lineWidths, lineHeight, maxLineWidth, fontProperties)
 	{
+	    /**
+	     * The text that was measured
+	     *
+	     * @member {string}
+	     */
 	    this.text = text;
+
+	    /**
+	     * The style that was measured
+	     *
+	     * @member {PIXI.TextStyle}
+	     */
 	    this.style = style;
+
+	    /**
+	     * The measured width of the text
+	     *
+	     * @member {number}
+	     */
 	    this.width = width;
+
+	    /**
+	     * The measured height of the text
+	     *
+	     * @member {number}
+	     */
 	    this.height = height;
+
+	    /**
+	     * An array of lines of the text broken by new lines and wrapping is specified in style
+	     *
+	     * @member {string[]}
+	     */
 	    this.lines = lines;
+
+	    /**
+	     * An array of the line widths for each line matched to `lines`
+	     *
+	     * @member {number[]}
+	     */
 	    this.lineWidths = lineWidths;
+
+	    /**
+	     * The measured line height for this style
+	     *
+	     * @member {number}
+	     */
 	    this.lineHeight = lineHeight;
+
+	    /**
+	     * The maximum line width for all measured lines
+	     *
+	     * @member {number}
+	     */
 	    this.maxLineWidth = maxLineWidth;
+
+	    /**
+	     * The font properties object from TextMetrics.measureFont
+	     *
+	     * @member {PIXI.IFontMetrics}
+	     */
 	    this.fontProperties = fontProperties;
 	};
 
@@ -29630,6 +29853,7 @@ var PIXI = (function (exports) {
 
 	/**
 	 * Cached canvas element for measuring text
+	 *
 	 * @memberof PIXI.TextMetrics
 	 * @type {HTMLCanvasElement}
 	 * @private
@@ -29638,6 +29862,7 @@ var PIXI = (function (exports) {
 
 	/**
 	 * Cache for context to use.
+	 *
 	 * @memberof PIXI.TextMetrics
 	 * @type {CanvasRenderingContext2D}
 	 * @private
@@ -29646,6 +29871,7 @@ var PIXI = (function (exports) {
 
 	/**
 	 * Cache of {@see PIXI.TextMetrics.FontMetrics} objects.
+	 *
 	 * @memberof PIXI.TextMetrics
 	 * @type {Object}
 	 * @private
@@ -29654,16 +29880,19 @@ var PIXI = (function (exports) {
 
 	/**
 	 * String used for calculate font metrics.
+	 * These characters are all tall to help calculate the height required for text.
+	 *
 	 * @static
 	 * @memberof PIXI.TextMetrics
 	 * @name METRICS_STRING
 	 * @type {string}
-	 * @default |Éq
+	 * @default |ÉqÅ
 	 */
-	TextMetrics.METRICS_STRING = '|Éq';
+	TextMetrics.METRICS_STRING = '|ÉqÅ';
 
 	/**
 	 * Baseline symbol for calculate font metrics.
+	 *
 	 * @static
 	 * @memberof PIXI.TextMetrics
 	 * @name BASELINE_SYMBOL
@@ -29674,6 +29903,7 @@ var PIXI = (function (exports) {
 
 	/**
 	 * Baseline multiplier for calculate font metrics.
+	 *
 	 * @static
 	 * @memberof PIXI.TextMetrics
 	 * @name BASELINE_MULTIPLIER
@@ -29684,6 +29914,7 @@ var PIXI = (function (exports) {
 
 	/**
 	 * Cache of new line chars.
+	 *
 	 * @memberof PIXI.TextMetrics
 	 * @type {number[]}
 	 * @private
@@ -29694,6 +29925,7 @@ var PIXI = (function (exports) {
 
 	/**
 	 * Cache of breaking spaces.
+	 *
 	 * @memberof PIXI.TextMetrics
 	 * @type {number[]}
 	 * @private
@@ -29716,6 +29948,7 @@ var PIXI = (function (exports) {
 
 	/**
 	 * A number, or a string containing a number.
+	 *
 	 * @memberof PIXI
 	 * @typedef IFontMetrics
 	 * @property {number} ascent - Font ascent
@@ -29978,23 +30211,29 @@ var PIXI = (function (exports) {
 	            return;
 	        }
 
-	        var characters = String.prototype.split.call(text, '');
 	        var currentPosition = x;
-	        var index = 0;
-	        var current = '';
 
-	        while (index < text.length)
+	        // Using Array.from correctly splits characters whilst keeping emoji together.
+	        // This is not supported on IE as it requires ES6, so regular text splitting occurs.
+	        // This also doesn't account for emoji that are multiple emoji put together to make something else.
+	        // Handling all of this would require a big library itself.
+	        // https://medium.com/@giltayar/iterating-over-emoji-characters-the-es6-way-f06e4589516
+	        // https://github.com/orling/grapheme-splitter
+	        var stringArray = Array.from ? Array.from(text) : text.split('');
+
+	        for (var i = 0; i < stringArray.length; ++i)
 	        {
-	            current = characters[index++];
+	            var currentChar = stringArray[i];
+
 	            if (isStroke)
 	            {
-	                this.context.strokeText(current, currentPosition, y);
+	                this.context.strokeText(currentChar, currentPosition, y);
 	            }
 	            else
 	            {
-	                this.context.fillText(current, currentPosition, y);
+	                this.context.fillText(currentChar, currentPosition, y);
 	            }
-	            currentPosition += this.context.measureText(current).width + letterSpacing;
+	            currentPosition += this.context.measureText(currentChar).width + letterSpacing;
 	        }
 	    };
 
@@ -30080,8 +30319,8 @@ var PIXI = (function (exports) {
 	    /**
 	     * Gets the local bounds of the text object.
 	     *
-	     * @param {Rectangle} rect - The output rectangle.
-	     * @return {Rectangle} The bounds.
+	     * @param {PIXI.Rectangle} rect - The output rectangle.
+	     * @return {PIXI.Rectangle} The bounds.
 	     */
 	    Text.prototype.getLocalBounds = function getLocalBounds (rect)
 	    {
@@ -30368,8 +30607,8 @@ var PIXI = (function (exports) {
 	}(Sprite));
 
 	/*!
-	 * @pixi/prepare - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/prepare - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/prepare is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -30430,7 +30669,7 @@ var PIXI = (function (exports) {
 	 * The prepare manager provides functionality to upload content to the GPU.
 	 *
 	 * BasePrepare handles basic queuing functionality and is extended by
-	 * {@link PIXI.prepare.WebGLPrepare} and {@link PIXI.prepare.CanvasPrepare}
+	 * {@link PIXI.prepare.Prepare} and {@link PIXI.prepare.CanvasPrepare}
 	 * to provide preparation capabilities specific to their respective renderers.
 	 *
 	 * @example
@@ -30467,7 +30706,7 @@ var PIXI = (function (exports) {
 	    this.renderer = renderer;
 
 	    /**
-	     * The only real difference between CanvasPrepare and WebGLPrepare is what they pass
+	     * The only real difference between CanvasPrepare and Prepare is what they pass
 	     * to upload hooks. That different parameter is stored here.
 	     * @type {PIXI.prepare.CanvasPrepare|PIXI.Renderer}
 	     * @protected
@@ -31059,8 +31298,8 @@ var PIXI = (function (exports) {
 	});
 
 	/*!
-	 * @pixi/app - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/app - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/app is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -31997,7 +32236,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Resource.OnStartSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Resource.OnStartSignal>}
 	         */
 	        this.onStart = new _miniSignals2.default();
 
@@ -32010,7 +32249,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Resource.OnProgressSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Resource.OnProgressSignal>}
 	         */
 	        this.onProgress = new _miniSignals2.default();
 
@@ -32020,7 +32259,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Resource.OnCompleteSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Resource.OnCompleteSignal>}
 	         */
 	        this.onComplete = new _miniSignals2.default();
 
@@ -32029,7 +32268,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Resource.OnCompleteSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Resource.OnCompleteSignal>}
 	         */
 	        this.onAfterMiddleware = new _miniSignals2.default();
 	    }
@@ -33125,7 +33364,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Loader.OnProgressSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Loader.OnProgressSignal>}
 	         */
 	        this.onProgress = new _miniSignals2.default();
 
@@ -33134,7 +33373,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Loader.OnErrorSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Loader.OnErrorSignal>}
 	         */
 	        this.onError = new _miniSignals2.default();
 
@@ -33143,7 +33382,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Loader.OnLoadSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Loader.OnLoadSignal>}
 	         */
 	        this.onLoad = new _miniSignals2.default();
 
@@ -33152,7 +33391,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Loader.OnStartSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Loader.OnStartSignal>}
 	         */
 	        this.onStart = new _miniSignals2.default();
 
@@ -33161,7 +33400,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Loader.OnCompleteSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Loader.OnCompleteSignal>}
 	         */
 	        this.onComplete = new _miniSignals2.default();
 
@@ -33237,11 +33476,12 @@ var PIXI = (function (exports) {
 	     *      be loaded?
 	     * @property {Resource.XHR_RESPONSE_TYPE} [xhrType=Resource.XHR_RESPONSE_TYPE.DEFAULT] - How
 	     *      should the data being loaded be interpreted when using XHR?
-	     * @property {Loader.OnCompleteSignal} [onComplete] - Callback to add an an onComplete signal istener.
-	     * @property {Loader.OnCompleteSignal} [callback] - Alias for `onComplete`.
+	     * @property {Resource.OnCompleteSignal} [onComplete] - Callback to add an an onComplete signal istener.
+	     * @property {Resource.OnCompleteSignal} [callback] - Alias for `onComplete`.
 	     * @property {Resource.IMetadata} [metadata] - Extra configuration for middleware and the Resource object.
 	     */
 
+	    /* eslint-disable require-jsdoc,valid-jsdoc */
 	    /**
 	     * Adds a resource (or multiple resources) to the loader queue.
 	     *
@@ -33286,12 +33526,47 @@ var PIXI = (function (exports) {
 	     *     .add('http://...', { crossOrigin: true }, function () {});
 	     * ```
 	     *
-	     * @param {string|IAddOptions} [name] - The name of the resource to load, if not passed the url is used.
-	     * @param {string} [url] - The url for this resource, relative to the baseUrl of this loader.
-	     * @param {IAddOptions} [options] - The options for the load.
-	     * @param {Loader.OnCompleteSignal} [cb] - Function to call when this specific resource completes loading.
+	     * @function
+	     * @variation 1
+	     * @param {string} name - The name of the resource to load.
+	     * @param {string} url - The url for this resource, relative to the baseUrl of this loader.
+	     * @param {Resource.OnCompleteSignal} [callback] - Function to call when this specific resource completes loading.
 	     * @return {this} Returns itself.
-	     */
+	     */ /**
+	        * @function
+	        * @variation 2
+	        * @param {string} name - The name of the resource to load.
+	        * @param {string} url - The url for this resource, relative to the baseUrl of this loader.
+	        * @param {IAddOptions} [options] - The options for the load.
+	        * @param {Resource.OnCompleteSignal} [callback] - Function to call when this specific resource completes loading.
+	        * @return {this} Returns itself.
+	        */ /**
+	           * @function
+	           * @variation 3
+	           * @param {string} url - The url for this resource, relative to the baseUrl of this loader.
+	           * @param {Resource.OnCompleteSignal} [callback] - Function to call when this specific resource completes loading.
+	           * @return {this} Returns itself.
+	           */ /**
+	              * @function
+	              * @variation 4
+	              * @param {string} url - The url for this resource, relative to the baseUrl of this loader.
+	              * @param {IAddOptions} [options] - The options for the load.
+	              * @param {Resource.OnCompleteSignal} [callback] - Function to call when this specific resource completes loading.
+	              * @return {this} Returns itself.
+	              */ /**
+	                 * @function
+	                 * @variation 5
+	                 * @param {IAddOptions} options - The options for the load. This object must contain a `url` property.
+	                 * @param {Resource.OnCompleteSignal} [callback] - Function to call when this specific resource completes loading.
+	                 * @return {this} Returns itself.
+	                 */ /**
+	                    * @function
+	                    * @variation 6
+	                    * @param {Array<IAddOptions|string>} resources - An array of resources to load, where each is
+	                    *      either an object with the options or a string url. If you pass an object, it must contain a `url` property.
+	                    * @param {Resource.OnCompleteSignal} [callback] - Function to call when this specific resource completes loading.
+	                    * @return {this} Returns itself.
+	                    */
 
 
 	    Loader.prototype.add = function add(name, url, options, cb) {
@@ -33379,6 +33654,7 @@ var PIXI = (function (exports) {
 
 	        return this;
 	    };
+	    /* eslint-enable require-jsdoc,valid-jsdoc */
 
 	    /**
 	     * Sets up a middleware function that will run *before* the
@@ -33841,15 +34117,15 @@ var PIXI = (function (exports) {
 	lib.default = default_1$1;
 
 	/*!
-	 * @pixi/loaders - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/loaders - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/loaders is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
 	 */
 
 	function unwrapExports$1 (x) {
-		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
+		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 	}
 
 	function createCommonjsModule$1(fn, module) {
@@ -34338,7 +34614,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Resource.OnStartSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Resource.OnStartSignal>}
 	         */
 	        this.onStart = new _miniSignals2.default();
 
@@ -34351,7 +34627,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Resource.OnProgressSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Resource.OnProgressSignal>}
 	         */
 	        this.onProgress = new _miniSignals2.default();
 
@@ -34361,7 +34637,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Resource.OnCompleteSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Resource.OnCompleteSignal>}
 	         */
 	        this.onComplete = new _miniSignals2.default();
 
@@ -34370,7 +34646,7 @@ var PIXI = (function (exports) {
 	         *
 	         * The callback looks like {@link Resource.OnCompleteSignal}.
 	         *
-	         * @member {Signal}
+	         * @member {Signal<Resource.OnCompleteSignal>}
 	         */
 	        this.onAfterMiddleware = new _miniSignals2.default();
 	    }
@@ -35689,6 +35965,31 @@ var PIXI = (function (exports) {
 	 */
 
 	/**
+	 * @memberof PIXI.Loader#
+	 * @member {object} onStart
+	 */
+
+	/**
+	 * @memberof PIXI.Loader#
+	 * @member {object} onProgress
+	 */
+
+	/**
+	 * @memberof PIXI.Loader#
+	 * @member {object} onError
+	 */
+
+	/**
+	 * @memberof PIXI.Loader#
+	 * @member {object} onLoad
+	 */
+
+	/**
+	 * @memberof PIXI.Loader#
+	 * @member {object} onComplete
+	 */
+
+	/**
 	 * Application plugin for supporting loader option. Installing the LoaderPlugin
 	 * is not necessary if using **pixi.js** or **pixi.js-legacy**.
 	 * @example
@@ -35738,8 +36039,8 @@ var PIXI = (function (exports) {
 	var LoaderResource = lib_1;
 
 	/*!
-	 * @pixi/particles - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/particles - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/particles is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -35874,7 +36175,7 @@ var PIXI = (function (exports) {
 	         * The texture used to render the children.
 	         *
 	         * @readonly
-	         * @member {BaseTexture}
+	         * @member {PIXI.BaseTexture}
 	         */
 	        this.baseTexture = null;
 
@@ -36715,8 +37016,8 @@ var PIXI = (function (exports) {
 	}(ObjectRenderer));
 
 	/*!
-	 * @pixi/spritesheet - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/spritesheet - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/spritesheet is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -36729,10 +37030,10 @@ var PIXI = (function (exports) {
 	 * To access a sprite sheet from your code pass its JSON data file to Pixi's loader:
 	 *
 	 * ```js
-	 * PIXI.loader.add("images/spritesheet.json").load(setup);
+	 * PIXI.Loader.shared.add("images/spritesheet.json").load(setup);
 	 *
 	 * function setup() {
-	 *   let sheet = PIXI.loader.resources["images/spritesheet.json"].spritesheet;
+	 *   let sheet = PIXI.Loader.shared.resources["images/spritesheet.json"].spritesheet;
 	 *   ...
 	 * }
 	 * ```
@@ -36953,7 +37254,7 @@ var PIXI = (function (exports) {
 	                data.anchor
 	            );
 
-	            // lets also add the frame to pixi's global cache for fromFrame and fromImage functions
+	            // lets also add the frame to pixi's global cache for 'from' and 'fromLoader' functions
 	            Texture.addToCache(this.textures[i], i);
 	        }
 
@@ -37123,8 +37424,8 @@ var PIXI = (function (exports) {
 	};
 
 	/*!
-	 * @pixi/sprite-tiling - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/sprite-tiling - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/sprite-tiling is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -37619,8 +37920,8 @@ var PIXI = (function (exports) {
 	}(ObjectRenderer));
 
 	/*!
-	 * @pixi/text-bitmap - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/text-bitmap - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/text-bitmap is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -38444,8 +38745,8 @@ var PIXI = (function (exports) {
 	};
 
 	/*!
-	 * @pixi/filter-alpha - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/filter-alpha - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/filter-alpha is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -38508,8 +38809,8 @@ var PIXI = (function (exports) {
 	}(Filter));
 
 	/*!
-	 * @pixi/filter-blur - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/filter-blur - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/filter-blur is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -38933,8 +39234,8 @@ var PIXI = (function (exports) {
 	}(Filter));
 
 	/*!
-	 * @pixi/filter-color-matrix - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/filter-color-matrix - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/filter-color-matrix is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -39531,8 +39832,8 @@ var PIXI = (function (exports) {
 	ColorMatrixFilter.prototype.grayscale = ColorMatrixFilter.prototype.greyscale;
 
 	/*!
-	 * @pixi/filter-displacement - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/filter-displacement - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/filter-displacement is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -39601,9 +39902,11 @@ var PIXI = (function (exports) {
 	     * @param {PIXI.systems.FilterSystem} filterManager - The manager.
 	     * @param {PIXI.RenderTexture} input - The input target.
 	     * @param {PIXI.RenderTexture} output - The output target.
+	     * @param {boolean} clear - Should the output be cleared before rendering to it.
 	     */
-	    DisplacementFilter.prototype.apply = function apply (filterManager, input, output)
+	    DisplacementFilter.prototype.apply = function apply (filterManager, input, output, clear)
 	    {
+	        // fill maskMatrix with _normalized sprite texture coords_
 	        this.uniforms.filterMatrix = filterManager.calculateSpriteMatrix(this.maskMatrix, this.maskSprite);
 	        this.uniforms.scale.x = this.scale.x;
 	        this.uniforms.scale.y = this.scale.y;
@@ -39622,7 +39925,7 @@ var PIXI = (function (exports) {
 	        }
 
 	        // draw the filter...
-	        filterManager.applyFilter(this, input, output);
+	        filterManager.applyFilter(this, input, output, clear);
 	    };
 
 	    /**
@@ -39646,8 +39949,8 @@ var PIXI = (function (exports) {
 	}(Filter));
 
 	/*!
-	 * @pixi/filter-fxaa - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/filter-fxaa - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/filter-fxaa is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -39683,8 +39986,8 @@ var PIXI = (function (exports) {
 	}(Filter));
 
 	/*!
-	 * @pixi/filter-noise - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/filter-noise - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/filter-noise is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -39762,8 +40065,8 @@ var PIXI = (function (exports) {
 	}(Filter));
 
 	/*!
-	 * @pixi/mixin-cache-as-bitmap - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/mixin-cache-as-bitmap - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/mixin-cache-as-bitmap is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -40183,8 +40486,8 @@ var PIXI = (function (exports) {
 	};
 
 	/*!
-	 * @pixi/mixin-get-child-by-name - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/mixin-get-child-by-name - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/mixin-get-child-by-name is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -40220,8 +40523,8 @@ var PIXI = (function (exports) {
 	};
 
 	/*!
-	 * @pixi/mixin-get-global-position - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/mixin-get-global-position - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/mixin-get-global-position is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -40232,11 +40535,11 @@ var PIXI = (function (exports) {
 	 *
 	 * @method getGlobalPosition
 	 * @memberof PIXI.DisplayObject#
-	 * @param {Point} point - The point to write the global value to. If null a new point will be returned
-	 * @param {boolean} skipUpdate - Setting to true will stop the transforms of the scene graph from
+	 * @param {PIXI.Point} [point=new PIXI.Point()] - The point to write the global value to.
+	 * @param {boolean} [skipUpdate=false] - Setting to true will stop the transforms of the scene graph from
 	 *  being updated. This means the calculation returned MAY be out of date BUT will give you a
 	 *  nice performance boost.
-	 * @return {Point} The updated point.
+	 * @return {PIXI.Point} The updated point.
 	 */
 	DisplayObject.prototype.getGlobalPosition = function getGlobalPosition(point, skipUpdate)
 	{
@@ -40282,7 +40585,7 @@ var PIXI = (function (exports) {
 	        SVG_SIZE: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.utils.SVG_SIZE has moved to PIXI.SVGResource.SVG_SIZE');
+	                deprecation(v5, 'PIXI.utils.SVG_SIZE property has moved to PIXI.resources.SVGResource.SVG_SIZE');
 
 	                return PIXI.SVGResource.SVG_SIZE;
 	            },
@@ -40296,7 +40599,7 @@ var PIXI = (function (exports) {
 	        TransformStatic: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.TransformStatic has been removed, use PIXI.Transform');
+	                deprecation(v5, 'PIXI.TransformStatic class has been removed, use PIXI.Transform');
 
 	                return PIXI.Transform;
 	            },
@@ -40310,7 +40613,7 @@ var PIXI = (function (exports) {
 	        TransformBase: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.TransformBase has been removed, use PIXI.Transform');
+	                deprecation(v5, 'PIXI.TransformBase class has been removed, use PIXI.Transform');
 
 	                return PIXI.Transform;
 	            },
@@ -40331,7 +40634,7 @@ var PIXI = (function (exports) {
 	        TRANSFORM_MODE: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.TRANSFORM_MODE has been removed');
+	                deprecation(v5, 'PIXI.TRANSFORM_MODE property has been removed');
 
 	                return { STATIC: 0, DYNAMIC: 1 };
 	            },
@@ -40345,7 +40648,7 @@ var PIXI = (function (exports) {
 	        WebGLRenderer: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.WebGLRenderer has moved to PIXI.Renderer');
+	                deprecation(v5, 'PIXI.WebGLRenderer class has moved to PIXI.Renderer');
 
 	                return PIXI.Renderer;
 	            },
@@ -40359,7 +40662,7 @@ var PIXI = (function (exports) {
 	        CanvasRenderTarget: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.CanvasRenderTarget has moved to PIXI.utils.CanvasRenderTarget');
+	                deprecation(v5, 'PIXI.CanvasRenderTarget class has moved to PIXI.utils.CanvasRenderTarget');
 
 	                return PIXI.utils.CanvasRenderTarget;
 	            },
@@ -40375,7 +40678,7 @@ var PIXI = (function (exports) {
 	        loader: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.loader has moved to PIXI.Loader.shared');
+	                deprecation(v5, 'PIXI.loader instance has moved to PIXI.Loader.shared');
 
 	                return PIXI.Loader.shared;
 	            },
@@ -40389,9 +40692,9 @@ var PIXI = (function (exports) {
 	        FilterManager: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.FilterManager has moved to PIXI.systems.FilterSystem');
+	                deprecation(v5, 'PIXI.FilterManager class has moved to PIXI.systems.FilterSystem');
 
-	                return PIXI.systems.FilterManager;
+	                return PIXI.systems.FilterSystem;
 	            },
 	        },
 	    });
@@ -40413,7 +40716,7 @@ var PIXI = (function (exports) {
 	        TilingSprite: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.extras.TilingSprite has moved to PIXI.TilingSprite');
+	                deprecation(v5, 'PIXI.extras.TilingSprite class has moved to PIXI.TilingSprite');
 
 	                return PIXI.TilingSprite;
 	            },
@@ -40426,7 +40729,7 @@ var PIXI = (function (exports) {
 	        TilingSpriteRenderer: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.extras.TilingSpriteRenderer has moved to PIXI.TilingSpriteRenderer');
+	                deprecation(v5, 'PIXI.extras.TilingSpriteRenderer class has moved to PIXI.TilingSpriteRenderer');
 
 	                return PIXI.TilingSpriteRenderer;
 	            },
@@ -40439,7 +40742,7 @@ var PIXI = (function (exports) {
 	        AnimatedSprite: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.extras.AnimatedSprite has moved to PIXI.AnimatedSprite');
+	                deprecation(v5, 'PIXI.extras.AnimatedSprite class has moved to PIXI.AnimatedSprite');
 
 	                return PIXI.AnimatedSprite;
 	            },
@@ -40452,7 +40755,7 @@ var PIXI = (function (exports) {
 	        BitmapText: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.extras.BitmapText has moved to PIXI.BitmapText');
+	                deprecation(v5, 'PIXI.extras.BitmapText class has moved to PIXI.BitmapText');
 
 	                return PIXI.BitmapText;
 	            },
@@ -40468,7 +40771,7 @@ var PIXI = (function (exports) {
 	        getSvgSize: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.utils.getSvgSize has moved to PIXI.SVGResource.getSize');
+	                deprecation(v5, 'PIXI.utils.getSvgSize function has moved to PIXI.resources.SVGResource.getSize');
 
 	                return PIXI.SVGResource.getSize;
 	            },
@@ -40491,7 +40794,7 @@ var PIXI = (function (exports) {
 	        Mesh: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.mesh.Mesh has moved to PIXI.SimpleMesh');
+	                deprecation(v5, 'PIXI.mesh.Mesh class has moved to PIXI.SimpleMesh');
 
 	                return PIXI.SimpleMesh;
 	            },
@@ -40504,7 +40807,7 @@ var PIXI = (function (exports) {
 	        NineSlicePlane: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.mesh.NineSlicePlane has moved to PIXI.NineSlicePlane');
+	                deprecation(v5, 'PIXI.mesh.NineSlicePlane class has moved to PIXI.NineSlicePlane');
 
 	                return PIXI.NineSlicePlane;
 	            },
@@ -40517,7 +40820,7 @@ var PIXI = (function (exports) {
 	        Plane: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.mesh.Plane has moved to PIXI.SimplePlane');
+	                deprecation(v5, 'PIXI.mesh.Plane class has moved to PIXI.SimplePlane');
 
 	                return PIXI.SimplePlane;
 	            },
@@ -40530,7 +40833,7 @@ var PIXI = (function (exports) {
 	        Rope: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.mesh.Rope has moved to PIXI.SimpleRope');
+	                deprecation(v5, 'PIXI.mesh.Rope class has moved to PIXI.SimpleRope');
 
 	                return PIXI.SimpleRope;
 	            },
@@ -40543,7 +40846,7 @@ var PIXI = (function (exports) {
 	        RawMesh: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.mesh.RawMesh has moved to PIXI.Mesh');
+	                deprecation(v5, 'PIXI.mesh.RawMesh class has moved to PIXI.Mesh');
 
 	                return PIXI.Mesh;
 	            },
@@ -40556,7 +40859,7 @@ var PIXI = (function (exports) {
 	        CanvasMeshRenderer: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.mesh.CanvasMeshRenderer has moved to PIXI.CanvasMeshRenderer');
+	                deprecation(v5, 'PIXI.mesh.CanvasMeshRenderer class has moved to PIXI.CanvasMeshRenderer');
 
 	                return PIXI.CanvasMeshRenderer;
 	            },
@@ -40569,7 +40872,7 @@ var PIXI = (function (exports) {
 	        MeshRenderer: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.mesh.MeshRenderer has moved to PIXI.MeshRenderer');
+	                deprecation(v5, 'PIXI.mesh.MeshRenderer class has moved to PIXI.MeshRenderer');
 
 	                return PIXI.MeshRenderer;
 	            },
@@ -40593,7 +40896,7 @@ var PIXI = (function (exports) {
 	        ParticleContainer: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.particles.ParticleContainer has moved to PIXI.ParticleContainer');
+	                deprecation(v5, 'PIXI.particles.ParticleContainer class has moved to PIXI.ParticleContainer');
 
 	                return PIXI.ParticleContainer;
 	            },
@@ -40606,7 +40909,7 @@ var PIXI = (function (exports) {
 	        ParticleRenderer: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.particles.ParticleRenderer has moved to PIXI.ParticleRenderer');
+	                deprecation(v5, 'PIXI.particles.ParticleRenderer class has moved to PIXI.ParticleRenderer');
 
 	                return PIXI.ParticleRenderer;
 	            },
@@ -40630,7 +40933,7 @@ var PIXI = (function (exports) {
 	        Ticker: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.ticker.Ticker has moved to PIXI.Ticker');
+	                deprecation(v5, 'PIXI.ticker.Ticker class has moved to PIXI.Ticker');
 
 	                return PIXI.Ticker;
 	            },
@@ -40644,7 +40947,7 @@ var PIXI = (function (exports) {
 	        shared: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.ticker.shared has moved to PIXI.Ticker.shared');
+	                deprecation(v5, 'PIXI.ticker.shared instance has moved to PIXI.Ticker.shared');
 
 	                return PIXI.Ticker.shared;
 	            },
@@ -40667,7 +40970,7 @@ var PIXI = (function (exports) {
 	        Loader: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.loaders.Loader has moved to PIXI.Loader');
+	                deprecation(v5, 'PIXI.loaders.Loader class has moved to PIXI.Loader');
 
 	                return PIXI.Loader;
 	            },
@@ -40680,7 +40983,7 @@ var PIXI = (function (exports) {
 	        Resource: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.loaders.Resource has moved to PIXI.LoaderResource');
+	                deprecation(v5, 'PIXI.loaders.Resource class has moved to PIXI.LoaderResource');
 
 	                return PIXI.LoaderResource;
 	            },
@@ -40693,7 +40996,7 @@ var PIXI = (function (exports) {
 	        bitmapFontParser: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.loaders.bitmapFontParser has moved to PIXI.BitmapFontLoader.use');
+	                deprecation(v5, 'PIXI.loaders.bitmapFontParser function has moved to PIXI.BitmapFontLoader.use');
 
 	                return PIXI.BitmapFontLoader.use;
 	            },
@@ -40706,7 +41009,7 @@ var PIXI = (function (exports) {
 	        parseBitmapFontData: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.loaders.parseBitmapFontData has moved to PIXI.BitmapFontLoader.parse');
+	                deprecation(v5, 'PIXI.loaders.parseBitmapFontData function has moved to PIXI.BitmapFontLoader.parse');
 
 	                return PIXI.BitmapFontLoader.parse;
 	            },
@@ -40719,7 +41022,7 @@ var PIXI = (function (exports) {
 	        spritesheetParser: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.loaders.spritesheetParser has moved to PIXI.SpritesheetLoader.use');
+	                deprecation(v5, 'PIXI.loaders.spritesheetParser function has moved to PIXI.SpritesheetLoader.use');
 
 	                return PIXI.SpritesheetLoader.use;
 	            },
@@ -40732,7 +41035,7 @@ var PIXI = (function (exports) {
 	        getResourcePath: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.loaders.getResourcePath has moved to PIXI.SpritesheetLoader.getResourcePath');
+	                deprecation(v5, 'PIXI.loaders.getResourcePath property has moved to PIXI.SpritesheetLoader.getResourcePath');
 
 	                return PIXI.SpritesheetLoader.getResourcePath;
 	            },
@@ -40747,7 +41050,9 @@ var PIXI = (function (exports) {
 	     */
 	    PIXI.Loader.addPixiMiddleware = function addPixiMiddleware(middleware)
 	    {
-	        deprecation(v5, 'PIXI.loaders.Loader.addPixiMiddleware is deprecated, use PIXI.loaders.Loader.registerPlugin');
+	        deprecation(v5,
+	            'PIXI.loaders.Loader.addPixiMiddleware function is deprecated, use PIXI.loaders.Loader.registerPlugin'
+	        );
 
 	        return PIXI.loaders.Loader.registerPlugin({ use: middleware() });
 	    };
@@ -40760,7 +41065,7 @@ var PIXI = (function (exports) {
 	    Object.defineProperty(PIXI.extract, 'WebGLExtract', {
 	        get: function get()
 	        {
-	            deprecation(v5, 'PIXI.extract.WebGLExtract has moved to PIXI.extract.Extract');
+	            deprecation(v5, 'PIXI.extract.WebGLExtract method has moved to PIXI.extract.Extract');
 
 	            return PIXI.extract.Extract;
 	        },
@@ -40774,7 +41079,7 @@ var PIXI = (function (exports) {
 	    Object.defineProperty(PIXI.prepare, 'WebGLPrepare', {
 	        get: function get()
 	        {
-	            deprecation(v5, 'PIXI.prepare.WebGLPrepare has moved to PIXI.prepare.Prepare');
+	            deprecation(v5, 'PIXI.prepare.WebGLPrepare class has moved to PIXI.prepare.Prepare');
 
 	            return PIXI.prepare.Prepare;
 	        },
@@ -40789,7 +41094,7 @@ var PIXI = (function (exports) {
 	     */
 	    PIXI.Container.prototype._renderWebGL = function _renderWebGL(renderer)
 	    {
-	        deprecation(v5, 'PIXI.Container#_renderWebGL has moved to PIXI.Container#_render');
+	        deprecation(v5, 'PIXI.Container._renderWebGL method has moved to PIXI.Container._render');
 
 	        this._render(renderer);
 	    };
@@ -40802,7 +41107,7 @@ var PIXI = (function (exports) {
 	     */
 	    PIXI.Container.prototype.renderWebGL = function renderWebGL(renderer)
 	    {
-	        deprecation(v5, 'PIXI.Container#renderWebGL has moved to PIXI.Container#render');
+	        deprecation(v5, 'PIXI.Container.renderWebGL method has moved to PIXI.Container.render');
 
 	        this.render(renderer);
 	    };
@@ -40815,7 +41120,7 @@ var PIXI = (function (exports) {
 	     */
 	    PIXI.DisplayObject.prototype.renderWebGL = function renderWebGL(renderer)
 	    {
-	        deprecation(v5, 'PIXI.DisplayObject#renderWebGL has moved to PIXI.DisplayObject#render');
+	        deprecation(v5, 'PIXI.DisplayObject.renderWebGL method has moved to PIXI.DisplayObject.render');
 
 	        this.render(renderer);
 	    };
@@ -40828,7 +41133,7 @@ var PIXI = (function (exports) {
 	     */
 	    PIXI.Container.prototype.renderAdvancedWebGL = function renderAdvancedWebGL(renderer)
 	    {
-	        deprecation(v5, 'PIXI.Container#renderAdvancedWebGL has moved to PIXI.Container#renderAdvanced');
+	        deprecation(v5, 'PIXI.Container.renderAdvancedWebGL method has moved to PIXI.Container.renderAdvanced');
 
 	        this.renderAdvanced(renderer);
 	    };
@@ -40846,18 +41151,93 @@ var PIXI = (function (exports) {
 	        TRANSFORM_MODE: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.settings.TRANSFORM_MODE has been removed.');
+	                deprecation(v5, 'PIXI.settings.TRANSFORM_MODE property has been removed');
 
 	                return 0;
 	            },
 	            set: function set()
 	            {
-	                deprecation(v5, 'PIXI.settings.TRANSFORM_MODE has been removed.');
+	                deprecation(v5, 'PIXI.settings.TRANSFORM_MODE property has been removed');
 	            },
 	        },
 	    });
 
 	    var BaseTexture = PIXI.BaseTexture;
+
+	    /**
+	     * @method loadSource
+	     * @memberof PIXI.BaseTexture#
+	     * @deprecated since 5.0.0
+	     */
+	    BaseTexture.prototype.loadSource = function loadSource(image)
+	    {
+	        deprecation(v5, 'PIXI.BaseTexture.loadSource method has been deprecated');
+
+	        var resource = PIXI.resources.autoDetectResource(image);
+
+	        resource.internal = true;
+
+	        this.setResource(resource);
+	        this.update();
+	    };
+
+	    Object.defineProperties(BaseTexture.prototype, {
+	        /**
+	         * @name PIXI.BaseTexture#hasLoaded
+	         * @type {boolean}
+	         * @deprecated since 5.0.0
+	         * @readonly
+	         * @see PIXI.BaseTexture#valid
+	         */
+	        hasLoaded: {
+	            get: function get()
+	            {
+	                deprecation(v5, 'PIXI.BaseTexture.hasLoaded property has been removed, use PIXI.BaseTexture.valid');
+
+	                return this.valid;
+	            },
+	        },
+	        /**
+	         * @name PIXI.BaseTexture#imageUrl
+	         * @type {string}
+	         * @deprecated since 5.0.0
+	         * @readonly
+	         * @see PIXI.resource.ImageResource#url
+	         */
+	        imageUrl: {
+	            get: function get()
+	            {
+	                deprecation(v5, 'PIXI.BaseTexture.imageUrl property has been removed, use resource.url');
+
+	                return this.resource && this.resource.url;
+	            },
+	        },
+	        /**
+	         * @name PIXI.BaseTexture#source
+	         * @type {HTMLImageElement|HTMLCanvasElement|HTMLVideoElement|SVGElement}
+	         * @deprecated since 5.0.0
+	         * @readonly
+	         * @see PIXI.resources.BaseImageResource#source
+	         */
+	        source: {
+	            get: function get()
+	            {
+	                deprecation(v5, 'PIXI.BaseTexture.source property has been moved, use `resource.source`');
+
+	                return this.resource && this.resource.source;
+	            },
+	            set: function set(source)
+	            {
+	                deprecation(v5, 'PIXI.BaseTexture.source property has been moved, use `resource.source` '
+	                    + 'if you want to set HTMLCanvasElement. Otherwise, create new BaseTexture.');
+
+	                if (this.resource)
+	                {
+	                    this.resource.source = source;
+	                }
+	            },
+	        },
+	    });
 
 	    /**
 	     * @method fromImage
@@ -40868,7 +41248,7 @@ var PIXI = (function (exports) {
 	     */
 	    BaseTexture.fromImage = function fromImage(canvas, crossorigin, scaleMode, scale)
 	    {
-	        deprecation(v5, 'PIXI.BaseTexture.fromImage has been replaced with PIXI.BaseTexture.from');
+	        deprecation(v5, 'PIXI.BaseTexture.fromImage method has been replaced with PIXI.BaseTexture.from');
 
 	        var resourceOptions = { scale: scale, crossorigin: crossorigin };
 
@@ -40884,7 +41264,7 @@ var PIXI = (function (exports) {
 	     */
 	    BaseTexture.fromCanvas = function fromCanvas(canvas, scaleMode)
 	    {
-	        deprecation(v5, 'PIXI.BaseTexture.fromCanvas has been replaced with PIXI.BaseTexture.from');
+	        deprecation(v5, 'PIXI.BaseTexture.fromCanvas method has been replaced with PIXI.BaseTexture.from');
 
 	        return BaseTexture.from(canvas, { scaleMode: scaleMode });
 	    };
@@ -40898,7 +41278,7 @@ var PIXI = (function (exports) {
 	     */
 	    BaseTexture.fromSVG = function fromSVG(canvas, crossorigin, scaleMode, scale)
 	    {
-	        deprecation(v5, 'PIXI.BaseTexture.fromSVG has been replaced with PIXI.BaseTexture.from');
+	        deprecation(v5, 'PIXI.BaseTexture.fromSVG method has been replaced with PIXI.BaseTexture.from');
 
 	        var resourceOptions = { scale: scale, crossorigin: crossorigin };
 
@@ -40912,7 +41292,7 @@ var PIXI = (function (exports) {
 	     */
 	    PIXI.Point.prototype.copy = function copy(p)
 	    {
-	        deprecation(v5, 'PIXI.Point.copy has been replaced with PIXI.Point#copyFrom');
+	        deprecation(v5, 'PIXI.Point.copy method has been replaced with PIXI.Point.copyFrom');
 
 	        return this.copyFrom(p);
 	    };
@@ -40924,7 +41304,7 @@ var PIXI = (function (exports) {
 	     */
 	    PIXI.ObservablePoint.prototype.copy = function copy(p)
 	    {
-	        deprecation(v5, 'PIXI.ObservablePoint.copy has been replaced with PIXI.ObservablePoint#copyFrom');
+	        deprecation(v5, 'PIXI.ObservablePoint.copy method has been replaced with PIXI.ObservablePoint.copyFrom');
 
 	        return this.copyFrom(p);
 	    };
@@ -40936,7 +41316,7 @@ var PIXI = (function (exports) {
 	     */
 	    PIXI.Rectangle.prototype.copy = function copy(p)
 	    {
-	        deprecation(v5, 'PIXI.Rectangle.copy has been replaced with PIXI.Rectangle#copyFrom');
+	        deprecation(v5, 'PIXI.Rectangle.copy method has been replaced with PIXI.Rectangle.copyFrom');
 
 	        return this.copyFrom(p);
 	    };
@@ -40948,7 +41328,7 @@ var PIXI = (function (exports) {
 	     */
 	    PIXI.Matrix.prototype.copy = function copy(p)
 	    {
-	        deprecation(v5, 'PIXI.Matrix.copy has been replaced with PIXI.Matrix#copyTo');
+	        deprecation(v5, 'PIXI.Matrix.copy method has been replaced with PIXI.Matrix.copyTo');
 
 	        return this.copyTo(p);
 	    };
@@ -40961,7 +41341,9 @@ var PIXI = (function (exports) {
 	         */
 	        getRenderTarget: function getRenderTarget(clear, resolution)
 	        {
-	            deprecation(v5, 'FilterManager#getRenderTarget has been replaced with FilterSystem#getFilterTexture');
+	            deprecation(v5,
+	                'PIXI.FilterManager.getRenderTarget method has been replaced with PIXI.systems.FilterSystem#getFilterTexture'
+	            );
 
 	            return this.getFilterTexture(resolution);
 	        },
@@ -40973,9 +41355,60 @@ var PIXI = (function (exports) {
 	         */
 	        returnRenderTarget: function returnRenderTarget(renderTexture)
 	        {
-	            deprecation(v5, 'FilterManager#returnRenderTarget has been replaced with FilterSystem#returnFilterTexture');
+	            deprecation(v5,
+	                'PIXI.FilterManager.returnRenderTarget method has been replaced with '
+	                + 'PIXI.systems.FilterSystem.returnFilterTexture'
+	            );
 
 	            this.returnFilterTexture(renderTexture);
+	        },
+
+	        /**
+	         * @method PIXI.systems.FilterSystem#calculateScreenSpaceMatrix
+	         * @deprecated since 5.0.0
+	         * @param {PIXI.Matrix} outputMatrix - the matrix to output to.
+	         * @return {PIXI.Matrix} The mapped matrix.
+	         */
+	        calculateScreenSpaceMatrix: function calculateScreenSpaceMatrix(outputMatrix)
+	        {
+	            deprecation(v5, 'PIXI.systems.FilterSystem.calculateScreenSpaceMatrix method is removed, '
+	                + 'use `(vTextureCoord * inputSize.xy) + outputFrame.xy` instead');
+
+	            var mappedMatrix = outputMatrix.identity();
+	            var ref = this.activeState;
+	            var sourceFrame = ref.sourceFrame;
+	            var destinationFrame = ref.destinationFrame;
+
+	            mappedMatrix.translate(sourceFrame.x / destinationFrame.width, sourceFrame.y / destinationFrame.height);
+	            mappedMatrix.scale(destinationFrame.width, destinationFrame.height);
+
+	            return mappedMatrix;
+	        },
+
+	        /**
+	         * @method PIXI.systems.FilterSystem#calculateNormalizedScreenSpaceMatrix
+	         * @deprecated since 5.0.0
+	         * @param {PIXI.Matrix} outputMatrix - The matrix to output to.
+	         * @return {PIXI.Matrix} The mapped matrix.
+	         */
+	        calculateNormalizedScreenSpaceMatrix: function calculateNormalizedScreenSpaceMatrix(outputMatrix)
+	        {
+	            deprecation(v5, 'PIXI.systems.FilterManager.calculateNormalizedScreenSpaceMatrix method is removed, '
+	                + 'use `((vTextureCoord * inputSize.xy) + outputFrame.xy) / outputFrame.zw` instead.');
+
+	            var ref = this.activeState;
+	            var sourceFrame = ref.sourceFrame;
+	            var destinationFrame = ref.destinationFrame;
+	            var mappedMatrix = outputMatrix.identity();
+
+	            mappedMatrix.translate(sourceFrame.x / destinationFrame.width, sourceFrame.y / destinationFrame.height);
+
+	            var translateScaleX = (destinationFrame.width / sourceFrame.width);
+	            var translateScaleY = (destinationFrame.height / sourceFrame.height);
+
+	            mappedMatrix.scale(translateScaleX, translateScaleY);
+
+	            return mappedMatrix;
 	        },
 	    });
 
@@ -40989,7 +41422,7 @@ var PIXI = (function (exports) {
 	        sourceFrame: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.RenderTexture#sourceFrame has been removed');
+	                deprecation(v5, 'PIXI.RenderTexture.sourceFrame property has been removed');
 
 	                return this.filterFrame;
 	            },
@@ -41003,7 +41436,7 @@ var PIXI = (function (exports) {
 	        size: {
 	            get: function get()
 	            {
-	                deprecation(v5, 'PIXI.RenderTexture#size has been removed');
+	                deprecation(v5, 'PIXI.RenderTexture.size property has been removed');
 
 	                return this._frame;
 	            },
@@ -41019,7 +41452,7 @@ var PIXI = (function (exports) {
 	    var BlurXFilter = /*@__PURE__*/(function (superclass) {
 	        function BlurXFilter(strength, quality, resolution, kernelSize)
 	        {
-	            deprecation(v5, 'PIXI.filters.BlurXFilter is deprecated, use PIXI.filters.BlurFilterPass');
+	            deprecation(v5, 'PIXI.filters.BlurXFilter class is deprecated, use PIXI.filters.BlurFilterPass');
 
 	            superclass.call(this, true, strength, quality, resolution, kernelSize);
 	        }
@@ -41040,7 +41473,7 @@ var PIXI = (function (exports) {
 	    var BlurYFilter = /*@__PURE__*/(function (superclass) {
 	        function BlurYFilter(strength, quality, resolution, kernelSize)
 	        {
-	            deprecation(v5, 'PIXI.filters.BlurYFilter is deprecated, use PIXI.filters.BlurFilterPass');
+	            deprecation(v5, 'PIXI.filters.BlurYFilter class is deprecated, use PIXI.filters.BlurFilterPass');
 
 	            superclass.call(this, false, strength, quality, resolution, kernelSize);
 	        }
@@ -41067,14 +41500,14 @@ var PIXI = (function (exports) {
 	    {
 	        Graphics.prototype.generateCanvasTexture = function generateCanvasTexture()
 	        {
-	            deprecation(v5, 'PIXI.Graphics#generateCanvasTexture is only available in "pixi.js-legacy"');
+	            deprecation(v5, 'PIXI.Graphics.generateCanvasTexture method is only available in "pixi.js-legacy"');
 	        };
 	    }
 
 	    // Use these to deprecate all the Sprite from* methods
 	    function spriteFrom(name, source, crossorigin, scaleMode)
 	    {
-	        deprecation(v5, ("PIXI.Sprite." + name + " is deprecated, use PIXI.Sprite.from"));
+	        deprecation(v5, ("PIXI.Sprite." + name + " method is deprecated, use PIXI.Sprite.from"));
 
 	        return Sprite.from(source, {
 	            resourceOptions: {
@@ -41127,7 +41560,7 @@ var PIXI = (function (exports) {
 	    // Use these to deprecate all the Texture from* methods
 	    function textureFrom(name, source, crossorigin, scaleMode)
 	    {
-	        deprecation(v5, ("PIXI.Texture." + name + " is deprecated, use PIXI.Texture.from"));
+	        deprecation(v5, ("PIXI.Texture." + name + " method is deprecated, use PIXI.Texture.from"));
 
 	        return Texture.from(source, {
 	            resourceOptions: {
@@ -41185,13 +41618,13 @@ var PIXI = (function (exports) {
 	    Object.defineProperty(PIXI.AbstractRenderer.prototype, 'autoResize', {
 	        get: function get()
 	        {
-	            deprecation(v5, 'PIXI.AbstractRenderer autoResize is deprecated, use autoDensity');
+	            deprecation(v5, 'PIXI.AbstractRenderer.autoResize property is deprecated, use autoDensity');
 
 	            return this.autoDensity;
 	        },
 	        set: function set(value)
 	        {
-	            deprecation(v5, 'PIXI.AbstractRenderer autoResize is deprecated, use autoDensity');
+	            deprecation(v5, 'PIXI.AbstractRenderer.autoResize property is deprecated, use autoDensity');
 
 	            this.autoDensity = value;
 	        },
@@ -41209,7 +41642,7 @@ var PIXI = (function (exports) {
 	         */
 	        mixin: function mixin()
 	        {
-	            deprecation(v5, 'PIXI.utils.mixins.mixin no longer available');
+	            deprecation(v5, 'PIXI.utils.mixins.mixin function is no longer available');
 	        },
 	        /**
 	         * @memberof PIXI.utils.mixins
@@ -41218,7 +41651,7 @@ var PIXI = (function (exports) {
 	         */
 	        delayMixin: function delayMixin()
 	        {
-	            deprecation(v5, 'PIXI.utils.mixins.delayMixin no longer available');
+	            deprecation(v5, 'PIXI.utils.mixins.delayMixin function is no longer available');
 	        },
 	        /**
 	         * @memberof PIXI.utils.mixins
@@ -41227,14 +41660,14 @@ var PIXI = (function (exports) {
 	         */
 	        performMixins: function performMixins()
 	        {
-	            deprecation(v5, 'PIXI.utils.mixins.performMixins no longer available');
+	            deprecation(v5, 'PIXI.utils.mixins.performMixins function is no longer available');
 	        },
 	    };
 	}
 
 	/*!
-	 * @pixi/mesh - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/mesh - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/mesh is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -41442,7 +41875,7 @@ var PIXI = (function (exports) {
 	     */
 	    prototypeAccessors.uvBuffer.get = function ()
 	    {
-	        return this.geometry.buffers[1].data;
+	        return this.geometry.buffers[1];
 	    };
 
 	    /**
@@ -41453,7 +41886,7 @@ var PIXI = (function (exports) {
 	     */
 	    prototypeAccessors.verticesBuffer.get = function ()
 	    {
-	        return this.geometry.buffers[0].data;
+	        return this.geometry.buffers[0];
 	    };
 
 	    /**
@@ -41726,7 +42159,7 @@ var PIXI = (function (exports) {
 
 	        this.worldTransform.applyInverse(point, tempPoint$2);
 
-	        var vertices = this.geometry.getAttribute('aVertexPosition').data;
+	        var vertices = this.geometry.getBuffer('aVertexPosition').data;
 
 	        var points = tempPolygon.points;
 	        var indices =  this.geometry.getIndex().data;
@@ -42010,8 +42443,8 @@ var PIXI = (function (exports) {
 	}(Geometry));
 
 	/*!
-	 * @pixi/mesh-extras - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/mesh-extras - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/mesh-extras is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -42148,8 +42581,8 @@ var PIXI = (function (exports) {
 
 	        if (!points) { return; }
 
-	        var vertexBuffer = this.getAttribute('aVertexPosition');
-	        var uvBuffer = this.getAttribute('aTextureCoord');
+	        var vertexBuffer = this.getBuffer('aVertexPosition');
+	        var uvBuffer = this.getBuffer('aTextureCoord');
 	        var indexBuffer = this.getIndex();
 
 	        // if too little points, or texture hasn't got UVs set yet just move on.
@@ -42332,13 +42765,13 @@ var PIXI = (function (exports) {
 	}(Mesh));
 
 	/**
-	 * The Plane allows you to draw a texture across several points and then manipulate these points
+	 * The SimplePlane allows you to draw a texture across several points and then manipulate these points
 	 *
 	 *```js
 	 * for (let i = 0; i < 20; i++) {
 	 *     points.push(new PIXI.Point(i * 50, 0));
 	 * };
-	 * let Plane = new PIXI.Plane(PIXI.Texture.from("snake.png"), points);
+	 * let SimplePlane = new PIXI.SimplePlane(PIXI.Texture.from("snake.png"), points);
 	 *  ```
 	 *
 	 * @class
@@ -42437,7 +42870,7 @@ var PIXI = (function (exports) {
 
 	        var geometry = new MeshGeometry(vertices, uvs, indices);
 
-	        geometry.getAttribute('aVertexPosition').static = false;
+	        geometry.getBuffer('aVertexPosition').static = false;
 
 	        var meshMaterial = new MeshMaterial(texture);
 
@@ -42462,18 +42895,18 @@ var PIXI = (function (exports) {
 	     */
 	    prototypeAccessors.vertices.get = function ()
 	    {
-	        return this.geometry.getAttribute('aVertexPosition').data;
+	        return this.geometry.getBuffer('aVertexPosition').data;
 	    };
 	    prototypeAccessors.vertices.set = function (value)
 	    {
-	        this.geometry.getAttribute('aVertexPosition').data = value;
+	        this.geometry.getBuffer('aVertexPosition').data = value;
 	    };
 
 	    SimpleMesh.prototype._render = function _render (renderer)
 	    {
 	        if (this.autoUpdate)
 	        {
-	            this.geometry.getAttribute('aVertexPosition').update();
+	            this.geometry.getBuffer('aVertexPosition').update();
 	        }
 
 	        Mesh.prototype._render.call(this, renderer);
@@ -42591,12 +43024,12 @@ var PIXI = (function (exports) {
 
 	    prototypeAccessors.vertices.get = function ()
 	    {
-	        return this.geometry.getAttribute('aVertexPosition').data;
+	        return this.geometry.getBuffer('aVertexPosition').data;
 	    };
 
 	    prototypeAccessors.vertices.set = function (value)
 	    {
-	        this.geometry.getAttribute('aVertexPosition').data = value;
+	        this.geometry.getBuffer('aVertexPosition').data = value;
 	    };
 
 	    /**
@@ -42765,8 +43198,8 @@ var PIXI = (function (exports) {
 	}(SimplePlane));
 
 	/*!
-	 * @pixi/sprite-animated - v5.0.0-rc.3
-	 * Compiled Fri, 22 Mar 2019 16:39:26 UTC
+	 * @pixi/sprite-animated - v5.0.3
+	 * Compiled Sun, 19 May 2019 19:07:10 UTC
 	 *
 	 * @pixi/sprite-animated is licensed under the MIT License.
 	 * http://www.opensource.org/licenses/mit-license
@@ -42792,10 +43225,10 @@ var PIXI = (function (exports) {
 	 * containing the animation definitions:
 	 *
 	 * ```js
-	 * PIXI.loader.add("assets/spritesheet.json").load(setup);
+	 * PIXI.Loader.shared.add("assets/spritesheet.json").load(setup);
 	 *
 	 * function setup() {
-	 *   let sheet = PIXI.loader.resources["assets/spritesheet.json"].spritesheet;
+	 *   let sheet = PIXI.Loader.shared.resources["assets/spritesheet.json"].spritesheet;
 	 *   animatedSprite = new PIXI.AnimatedSprite(sheet.animations["image_sequence"]);
 	 *   ...
 	 * }
@@ -42863,14 +43296,14 @@ var PIXI = (function (exports) {
 	        this.updateAnchor = false;
 
 	        /**
-	         * Function to call when a AnimatedSprite finishes playing.
+	         * Function to call when an AnimatedSprite finishes playing.
 	         *
 	         * @member {Function}
 	         */
 	        this.onComplete = null;
 
 	        /**
-	         * Function to call when a AnimatedSprite changes which texture is being rendered.
+	         * Function to call when an AnimatedSprite changes which texture is being rendered.
 	         *
 	         * @member {Function}
 	         */
@@ -43101,10 +43534,10 @@ var PIXI = (function (exports) {
 	    };
 
 	    /**
-	     * A short hand way of creating a movieclip from an array of frame ids.
+	     * A short hand way of creating an AnimatedSprite from an array of frame ids.
 	     *
 	     * @static
-	     * @param {string[]} frames - The array of frames ids the movieclip will use as its texture frames.
+	     * @param {string[]} frames - The array of frames ids the AnimatedSprite will use as its texture frames.
 	     * @return {AnimatedSprite} The new animated sprite with the specified frames.
 	     */
 	    AnimatedSprite.fromFrames = function fromFrames (frames)
@@ -43120,10 +43553,10 @@ var PIXI = (function (exports) {
 	    };
 
 	    /**
-	     * A short hand way of creating a movieclip from an array of image ids.
+	     * A short hand way of creating an AnimatedSprite from an array of image ids.
 	     *
 	     * @static
-	     * @param {string[]} images - The array of image urls the movieclip will use as its texture frames.
+	     * @param {string[]} images - The array of image urls the AnimatedSprite will use as its texture frames.
 	     * @return {AnimatedSprite} The new animate sprite with the specified images as frames.
 	     */
 	    AnimatedSprite.fromImages = function fromImages (images)
@@ -43230,7 +43663,7 @@ var PIXI = (function (exports) {
 	 * @name VERSION
 	 * @type {string}
 	 */
-	var VERSION$1 = '5.0.0-rc.3';
+	var VERSION$1 = '5.0.3';
 
 	/**
 	 * @namespace PIXI
@@ -43297,6 +43730,7 @@ var PIXI = (function (exports) {
 	exports.ENV = ENV;
 	exports.Ellipse = Ellipse;
 	exports.FORMATS = FORMATS;
+	exports.FillStyle = FillStyle;
 	exports.Filter = Filter;
 	exports.Framebuffer = Framebuffer;
 	exports.GC_MODES = GC_MODES;
@@ -43308,6 +43742,7 @@ var PIXI = (function (exports) {
 	exports.GraphicsData = GraphicsData;
 	exports.GraphicsGeometry = GraphicsGeometry;
 	exports.GroupD8 = GroupD8;
+	exports.LineStyle = LineStyle;
 	exports.Loader = Loader$2;
 	exports.LoaderResource = LoaderResource;
 	exports.MIPMAP_MODES = MIPMAP_MODES;
