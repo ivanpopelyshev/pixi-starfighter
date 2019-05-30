@@ -50,6 +50,6 @@ function createEnemy() {
 function createBg(tex) {
     let tiling = new PIXI.TilingSprite(tex, 600, 800);
     tiling.position.set(60, 200);
-    app.stage.addChildAt(tiling, 1);
+    app.stage.addChildAt(tiling, 0);
     return tiling;
 }
