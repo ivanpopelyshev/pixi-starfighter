@@ -12,7 +12,8 @@ app.loader
     .add('ship_straight', 'ship_straight.png')
     .add('ship_turn', 'ship_turn.png')
     .add('bg_tiled_layer1', 'bg_tiled_layer1.png')
-    .add('bg_tiled_layer2', 'bg_tiled_layer2_stars.png');
+    .add('bg_tiled_layer2', 'bg_tiled_layer2_stars.png')
+    .add('projectile_yellow', 'projectile_yellow.png');
 
 app.loader.load(initLevel);
 
@@ -34,16 +35,26 @@ function initLevel() {
     animateShip.tint = 0xff66ff;
 
     const shipSpeed = 10;
+    const reloadSpeed = 0.2;
+    let reloading = 0;
+    let inputFire = false;
+
     let movableShip = createAnimatedShip();
     movableShip.position.set(360, 800);
     movableShip.interactive = true;
     const targetMovablePos = movableShip.position.clone();
+    
+    let cannons = [new PIXI.Point(-24, -20), new PIXI.Point(24, -20)];
+    let bullets = [];
 
     app.stage.interactive = true;
-    
     app.stage.on("pointermove", shipMove);
     app.stage.on("pointerdown", (event)=>{
-        shipMove(event)
+        shipMove(event);
+        inputFire = true;
+    });
+    app.stage.on("pointerup", (event)=>{
+        inputFire = false;
     });
 
     app.ticker.add(updateLevel);
@@ -56,6 +67,39 @@ function initLevel() {
         }
         if( targetMovablePos.x > 720 - 64 ){
             targetMovablePos.x = 702 - 64;
+        }
+    }
+
+    function updateBullets(delta) {
+        
+        if (reloading > 0) {
+            reloading -= reloadSpeed * delta;
+        }
+
+        if (inputFire && reloading <= 0.0) {
+            reloading = 1.0;
+            let leftShot = createBullet();
+            movableShip.toGlobal(cannons[0], leftShot.position);
+            let rightShot = createBullet();
+            movableShip.toGlobal(cannons[1], rightShot.position);
+            bullets.push(leftShot);
+            bullets.push(rightShot);
+        }
+
+        // velocity update
+        for (let i = 0; i < bullets.length; i++) {
+            bullets[i].position.y += bullets[i].velocityY * delta;
+            if (bullets[i].position.y < 150) {
+                bullets[i].dead = true;
+            }
+        }
+
+        //despawning
+        for (let i = bullets.length - 1; i >= 0; i --) {
+            if (bullets[i].dead) {
+                app.stage.removeChild(bullets[i]);
+                bullets.splice(i, 1);
+            }
         }
     }
 
@@ -96,6 +140,7 @@ function initLevel() {
         animateShip.update(delta);
 
         updateMovabelShip(delta);
+        updateBullets(delta);
     }
 }
 
@@ -142,4 +187,12 @@ function createAnimatedShip() {
     ship.anchor.set(0.5);
 
     return ship;
+}
+
+function createBullet() {
+    let sprite = new PIXI.Sprite(app.loader.resources['projectile_yellow'].texture);
+    sprite.anchor.set(0.5);
+    sprite.velocityY = -10.0;
+    app.stage.addChild(sprite);
+    return sprite;
 }
