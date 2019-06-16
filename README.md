@@ -38,6 +38,8 @@ Lesson 6:
 Lesson 7:
 1. basic shaders
 2. integration of shader in physics game
+3. adding GSAP to app
+4. GSAP tweens overview
 
 Lesson 8.1:
 1. How to build as a playable ad
