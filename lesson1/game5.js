@@ -117,7 +117,7 @@ function initLevel() {
         }
     }
 
-    function updateMovabelShip(delta) {
+    function updateMovableShip(delta) {
         
         // ship input
         const dx = targetMovablePos.x - movableShip.position.x;
@@ -153,7 +153,7 @@ function initLevel() {
 
         animateShip.update(delta);
 
-        updateMovabelShip(delta);
+        updateMovableShip(delta);
         updateBullets(delta);
         updateIntroText(delta);
 
