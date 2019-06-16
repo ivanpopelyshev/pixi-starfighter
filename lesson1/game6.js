@@ -55,7 +55,7 @@ function initLevel() {
     let introText = createIntroText();
 
     let snake = createSnake();
-    snake.position.set(100, 300);
+    snake.position.set(600, 300);
 
     app.stage.interactive = true;
     app.stage.on("pointermove", shipMove);
