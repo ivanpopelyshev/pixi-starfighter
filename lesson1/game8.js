@@ -22,7 +22,7 @@ app.loader
     .add('projectile_yellow', 'projectile_yellow.png')
     .add('snake', 'snake.png')
     .add('turel_base', 'rail_gun_base.png')
-    .add('turel_gun', 'rail_gun.png')
+    .add('turel_gun', 'rail_gun.png');
     
 
 app.loader.load(initLevel);
@@ -38,7 +38,6 @@ function initLevel() {
         color : 0xff2222,
         shape : "circle"
     };
-    debugEntries.push(enemy);
 
     let bg2 = createBg(app.loader.resources['bg_tiled_layer2'].texture);
     let bg1 = createBg(app.loader.resources['bg_tiled_layer1'].texture);
@@ -53,7 +52,6 @@ function initLevel() {
         color : 0x22ff22,
         shape : "rect"
     };
-    debugEntries.push(ship);
 
     let animateShip = createAnimatedShip();
     animateShip.position.set(510, 1100);
@@ -63,7 +61,6 @@ function initLevel() {
         color : 0x22ff22,
         shape : "rect"
     };
-    debugEntries.push(animateShip);
 
     const shipSpeed = 10;
     const reloadSpeed = 0.2;
@@ -79,7 +76,6 @@ function initLevel() {
         color : 0x22ff22,
         shape : "rect"
     };
-    debugEntries.push(movableShip);
 
     let cannons = [new PIXI.Point(-24, -20), new PIXI.Point(24, -20)];
     let bullets = [];
@@ -102,7 +98,6 @@ function initLevel() {
         color : 0x2222ff,
         shape : "mesh"
     };
-    debugEntries.push(snake);
 
     let leftTurel = createTurel({turnSpeed: 0.01});
     leftTurel.position.set(200, 300);
@@ -111,7 +106,6 @@ function initLevel() {
         color : 0xff2222,
         shape : "rect"
     };
-    debugEntries.push(leftTurel);
 
     let rightTurel = createTurel({turnSpeed : 0.025});
     rightTurel.position.set(520, 300);
@@ -120,8 +114,7 @@ function initLevel() {
         color : 0xff2222,
         shape : "rect"
     };
-    debugEntries.push(rightTurel);
-    
+
     rightTurel.targetObject = movableShip;
     rightTurel.phase = 0;
 
@@ -187,19 +180,18 @@ function initLevel() {
     }
 
     function updateShapeDebugger() {
+        
         debugGraphics.clear();
-
         if(!settings.SHOW_DEBUG) {
             return;
         }
-
-        for(let key in debugEntries) {
+        
+        let children = app.stage.children;
+        for( let entry of children ) {
             
-            let entry = debugEntries[key];
             let debugInfo = entry._debug;
-            
-            if(debugInfo === undefined){
-                debugInfo = { color : 0x22ff22, shape: "rect"};
+            if(debugInfo === undefined || entry === debugGraphics){
+                continue;
             }
 
             debugGraphics.lineStyle(2, debugInfo.color || 0x22ff22);
@@ -219,15 +211,16 @@ function initLevel() {
     }
 
     function updateTurels(delta) {
+
         leftTurel.update(delta);
         
         rightTurel.phase += delta * 0.001;
         rightTurel.position.y = 500 + Math.sin(rightTurel.phase * 2 * Math.PI) * 400;
-
         rightTurel.update(delta);
     }
 
     function updateIntroText(delta) {
+        
         if(introText.position.y + introText.height > 0 ) {
             introText.position.y -= delta * 2;
         } else {
@@ -292,6 +285,7 @@ function initLevel() {
     }
 
     function updateLevel(delta) {
+
         enemy.rotation += delta * 0.01;
 
         enemy.phase += delta * 0.1;
@@ -392,7 +386,7 @@ function createScoreText() {
 
 function createIntroText() {
     const intro = `Давным-давно в далекой Галактике...\nСтарая Республика пала. На ее руинах Орден ситов создал галактическую Империю,\nподчиняющую одну за другой планетные системы.`;
-
+    
     const style = new PIXI.TextStyle({
         align: "left",
         breakWords: true,
