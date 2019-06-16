@@ -1,5 +1,3 @@
-/// <reference types="./../types/pixi.js" />
-
 const app = new PIXI.Application({
     width: 720,
     height: 1280
@@ -20,7 +18,6 @@ app.loader
 app.loader.load(initLevel);
 
 function initLevel() {
-    let score = 0;
     let enemy = createEnemy();
     enemy.position.set(160, 100);
 
@@ -50,9 +47,6 @@ function initLevel() {
     let cannons = [new PIXI.Point(-24, -20), new PIXI.Point(24, -20)];
     let bullets = [];
 
-    let scoreText = createScoreText();
-    let introText = createIntroText();
-
     app.stage.interactive = true;
     app.stage.on("pointermove", shipMove);
     app.stage.on("pointerdown", (event)=>{
@@ -73,14 +67,6 @@ function initLevel() {
         }
         if( targetMovablePos.x > 720 - 64 ){
             targetMovablePos.x = 702 - 64;
-        }
-    }
-
-    function updateIntroText(delta) {
-        if(introText.position.y + introText.height > 0 ) {
-            introText.position.y -= delta * 2;
-        } else {
-            app.stage.removeChild(introText);   
         }
     }
 
@@ -155,9 +141,6 @@ function initLevel() {
 
         updateMovabelShip(delta);
         updateBullets(delta);
-        updateIntroText(delta);
-
-        scoreText.text = "Score: " + score;
     }
 }
 
@@ -214,56 +197,4 @@ function createBullet() {
     return sprite;
 }
 
-function createScoreText() {
-    const style = new PIXI.TextStyle({
-        align: "left",
-        dropShadow: true,
-        dropShadowAlpha: 0.4,
-        dropShadowAngle: -2.7,
-        dropShadowBlur: 5,
-        dropShadowDistance: 4,
-        fill: "#cccccc",
-        fontFamily: "Impact",
-        fontSize: 40,
-        miterLimit: 2,
-        padding: 14,
-        stroke: "#414141",
-        strokeThickness: 5,
-    });
 
-    let text = new PIXI.Text("Score : 0", style);
-    text.position.set(20,20);
-    app.stage.addChild(text);
-    return text;
-}
-
-function createIntroText() {
-    const intro = `Давным-давно в далекой Галактике...\nСтарая Республика пала. На ее руинах Орден ситов создал галактическую Империю,\nподчиняющую одну за другой планетные системы.`;
-
-    const style = new PIXI.TextStyle({
-        align: "left",
-        breakWords: true,
-        dropShadowAlpha: 0.4,
-        dropShadowAngle: -2.7,
-        dropShadowBlur: 5,
-        dropShadowDistance: 4,
-        fill: "#dde6f7",
-        fontFamily: "Courier New",
-        fontSize: 32,
-        miterLimit: 2,
-        padding: 14,
-        stroke: "#414141",
-        strokeThickness: 3,
-        wordWrap: true,
-        wordWrapWidth: 600
-    });
-    let text = new PIXI.Text(intro, style);
-    
-    text.anchor.set( 0.5, 0 );
-    text.position.set(
-        360,
-        1280
-    )
-    app.stage.addChild(text);
-    return text;
-}
