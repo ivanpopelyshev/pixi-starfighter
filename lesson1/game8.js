@@ -477,7 +477,7 @@ function createTurel(options) {
                 }
             }
         }
-    }
+    };
 
     app.stage.addChild(base);
     return base;
