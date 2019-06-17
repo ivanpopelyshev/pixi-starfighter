@@ -388,22 +388,25 @@ function createIntroText() {
     const intro = `Давным-давно в далекой Галактике...\nСтарая Республика пала. На ее руинах Орден ситов создал галактическую Империю,\nподчиняющую одну за другой планетные системы.`;
     
     const style = new PIXI.TextStyle({
-        align: "left",
-        breakWords: true,
-        dropShadowAlpha: 0.4,
-        dropShadowAngle: -2.7,
-        dropShadowBlur: 5,
-        dropShadowDistance: 4,
-        fill: "#dde6f7",
         fontFamily: "Courier New",
         fontSize: 32,
-        miterLimit: 2,
-        padding: 14,
-        stroke: "#414141",
-        strokeThickness: 3,
+        fontWeight: "bold",
+        align: "left",
+        fill: [
+            "#ffff59",
+            "#ffffff"
+        ],        
+        stroke: "#222222",
+        strokeThickness: 4,
+        dropShadow: true,
+        dropShadowAlpha: 0.5,
+        dropShadowAngle: Math.PI / 2,
+        dropShadowBlur: 10,
+        dropShadowColor: "#fad836",
         wordWrap: true,
         wordWrapWidth: 600
     });
+    
     let text = new PIXI.Text(intro, style);
     
     text.anchor.set( 0.5, 0 );
