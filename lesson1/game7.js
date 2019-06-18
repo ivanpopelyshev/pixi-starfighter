@@ -348,7 +348,7 @@ function createTurel(options) {
 
             let dx = base.targetObject.position.x - base.position.x ;
             let dy = base.targetObject.position.y - base.position.y;
-            let rads = Math.atan2( -dx, dy);
+            let rads = Math.atan2( dy, dx) - Math.PI / 2;
             let dr =  rads - gun.rotation;
 
             if( Math.abs(dr) < delta * turnSpeed) {
