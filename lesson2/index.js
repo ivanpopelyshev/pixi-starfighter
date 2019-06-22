@@ -28,6 +28,7 @@ app.loader
 app.loader.load(initLevel);
 
 function initLevel() {
+    
     let score = 0;
     let enemy = createEnemy();
     enemy.position.set(160, 100);
