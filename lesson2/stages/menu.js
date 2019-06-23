@@ -32,6 +32,9 @@ let menuTextEntries = {
         text: "Play",
         position : {
             x: centerX, y : centerY
+        },
+        style : {
+            fontFamily : "VT323, monospace",
         }
     }
 };
@@ -49,14 +52,14 @@ export default class Menu extends PIXI.Container {
     }
 
     createBackgrounds() {
-        let bg2 = createBg(this.app.loader.resources['bg_tiled_layer2'].texture);
-        let bg1 = createBg(this.app.loader.resources['bg_tiled_layer1'].texture);
-        
-        bg1.position.set(0,0);
-        bg2.position.set(0,0);
-        bg1.width = bg2.width = Config.renderOptions.width;
-        bg1.height = bg2.height = Config.renderOptions.height;
+        const size = {
+            width  : Config.renderOptions.width,
+            height  : Config.renderOptions.height            
+        };
 
+        let bg2 = createBg(this.app.loader.resources['bg_tiled_layer2'].texture, size);
+        let bg1 = createBg(this.app.loader.resources['bg_tiled_layer1'].texture, size);
+        
         this.entries.bg1 = bg1;
         this.entries.bg2 = bg2;
     

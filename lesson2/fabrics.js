@@ -30,9 +30,12 @@ export function createText(text, options) {
  * Create tiled background
  * @param {PIXI.Texture} tex 
  */
-export function createBg(tex) {
-    let tiling = new PIXI.TilingSprite(tex, 600, 800);
-    tiling.position.set(60, 200);
+export function createBg(tex, options = undefined) {
+    options = Object.assign({
+        width : 600, height: 800
+    },options);
+
+    let tiling = new PIXI.TilingSprite(tex, options.width, options.height);
     return tiling;
 }
 
