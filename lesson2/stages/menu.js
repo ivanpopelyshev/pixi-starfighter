@@ -42,6 +42,10 @@ let menuTextEntries = {
 
 export default class Menu extends PIXI.Container {
     
+    /**
+     * Create MainMenu stage
+     * @param {PIXI.Application} app 
+     */
     constructor (app) {
         super();
         this.app = app;
