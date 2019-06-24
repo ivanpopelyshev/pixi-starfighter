@@ -30,8 +30,9 @@ let menuTextEntries = {
     },
     play : {
         text: "Play",
+        isButton : true,
         position : {
-            x: centerX, y : centerY
+            x: centerX, y : centerY * 1.5
         },
         style : {
             fontFamily : "VT323, monospace",
@@ -51,6 +52,9 @@ export default class Menu extends PIXI.Container {
         this.createTexts();
     }
 
+    /**
+     * Create scrolled Background 
+     */
     createBackgrounds() {
         const size = {
             width  : Config.renderOptions.width,
@@ -66,21 +70,62 @@ export default class Menu extends PIXI.Container {
         this.addChild(bg1, bg2);
     }
 
+    /**
+     * Create texts entries from map
+     */
     createTexts() {
         for(let key in menuTextEntries)
         {
             let text = menuTextEntries[key].text;
             let style = menuTextEntries[key].style;
             let position = menuTextEntries[key].position || {x : 0, y : 0};
+            let isButton = menuTextEntries[key].isButton;
 
             let textEntry = createText(text, style);
+            textEntry.name = key;
             textEntry.position.set(position.x, position.y);
+            
+            if(isButton) {
+                this.makeButton(textEntry);
+            }
 
             this.addChild(textEntry);
             this.entries[key] = textEntry;
         }
     }
 
+    /**
+     * Mark object as Button and add outline
+     * @param {PIXI.Container} obj 
+     */
+    makeButton(obj) {
+        
+        let size = obj.getBounds();
+        size.width *=2;
+        let outline = new PIXI.Graphics();
+        outline
+            .lineStyle(2, 0xcccccc)
+            .beginFill(0x0, 0.001)
+            .drawRect(-size.width / 2, -size.height / 2, size.width, size.height);
+        
+        obj.addChild(outline);
+        obj.interactive = true;
+        obj.buttonMode = true;
+
+        obj.on("pointerover", ()=>{
+            outline.tint = 0xff00000;
+        });
+        
+        obj.on("pointerout", ()=>{
+            outline.tint = 0xffffff;
+        });
+        
+    }
+
+    /**
+     * Update stage
+     * @param {number} delta 
+     */
     update(delta) {
         this.backgroundY = (this.backgroundY + delta * bgSpeed) % 2048;
         this.entries.bg1.tilePosition.y = this.backgroundY / 2;
