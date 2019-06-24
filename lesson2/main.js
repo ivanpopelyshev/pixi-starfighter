@@ -3,6 +3,7 @@
 import Config from "./config.js";
 import Assets from "./assets.js";
 import Menu from "./stages/menu.js";
+import Game from "./stages/game.js";
 
 const app = new PIXI.Application(Config.renderOptions);
 
@@ -30,7 +31,8 @@ let stages = {};
  */
 function init() {
     stages = {
-        menu : new Menu(app)
+        menu : new Menu(app),
+        game : new Game(app)
     };
 
     //set current stage as menu
@@ -45,4 +47,14 @@ function init() {
  */
 function update(delta) {
     app.stage.update(delta);
+}
+
+/**
+ * Change stages
+ * @param {number} name
+ */
+app.setStage = function(name) {
+    if(stages[name]){
+        app.stage = stages[name];
+    }
 }

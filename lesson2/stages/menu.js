@@ -96,6 +96,11 @@ export default class Menu extends PIXI.Container {
             this.addChild(textEntry);
             this.entries[key] = textEntry;
         }
+
+        //Swich stage to 'game' when click to Play button
+        this.entries.play.on("pointerdown", ()=>{
+            this.app.setStage("game");
+        });
     }
 
     /**
