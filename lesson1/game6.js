@@ -245,7 +245,7 @@ function createScoreText() {
 }
 
 function createIntroText() {
-    const intro = `Давным-давно в далекой Галактике...\nСтарая Республика пала. На ее руинах Орден ситов создал галактическую Империю,\nподчиняющую одну за другой планетные системы.`;
+        const intro = `Long ago in a distant galaxy ...\nIt is a period of civil war.\nRebel spaceships, striking\nfrom a hidden base, have won\ntheir first victory against\nthe evil Galactic Empire.`;
 
     const style = new PIXI.TextStyle({
         fontFamily: "Courier New",
