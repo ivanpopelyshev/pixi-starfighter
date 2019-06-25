@@ -18,7 +18,7 @@ export class BasicPresenter {
 	 * @param {Array} modeles
 	 */
 	pair(modeles) {
-		if (!modeles || !modeles.length) {
+		if (!modeles) {
 			return;
 		}
 		this.pool.resize(modeles.length);
@@ -44,7 +44,7 @@ export class BasicPresenter {
 		}
 		let views = this.pool._used;
 		for (let i = 0; i < modelesCount; i++) {
-			this.presentPair(views[i], this._modeles[i]);
+			this.presentPair(views[i], actual[i]);
 		}
     }
     

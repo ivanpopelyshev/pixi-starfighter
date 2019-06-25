@@ -1,7 +1,7 @@
 /// <reference types="./../../types/pixi.js" />
 
 import Config from "./../config.js";
-import { BasicPresenter } from "../presenters/basicPresenter";
+import { BasicPresenter } from "../presenters/basicPresenter.js";
 
 //basic data model
 class BasicModel  {
@@ -27,16 +27,18 @@ export default class Game extends PIXI.Container {
      */
     constructor(app) {
         super();
-
         this.app = app;
+        
         this.animatedPresenter = new BasicPresenter(this, 1);
-
+        
+        
         this.player = new PlayerModel();
         this.player.position.set(
-            Config.renderOptions.width / 2,
-            Config.renderOptions.height * 2/3);
-        this.player.target.copyFrom(this.player.position);
-
+            Config.renderOptions.width * 0.5,
+            Config.renderOptions.height * 2 / 3
+        );
+        this.target.copyFrom(this.player.position);
+        
         this.animatedPresenter.pair([this.player]);
 
         this.bindInput();
@@ -58,7 +60,7 @@ export default class Game extends PIXI.Container {
                 Math.min(pos.y, Config.renderOptions.height - 64)
             );
             
-            this.player.position.copyFrom(pos);
+            this.player.target.copyFrom(pos);
         });
     }
 

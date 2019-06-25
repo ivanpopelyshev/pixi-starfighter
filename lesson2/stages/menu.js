@@ -1,4 +1,4 @@
-import {createText, createBg} from  "./../fabrics.js";
+import {createText, createBg} from  "./../core/fabrics.js";
 import Config from "./../config.js";
 
 const centerX = Config.renderOptions.width * 0.5;
