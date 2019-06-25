@@ -4,6 +4,7 @@ import Config from "./config.js";
 import Assets from "./assets.js";
 import Menu from "./stages/menu.js";
 import Game from "./stages/game.js";
+import ScrolledBackground from "./views/scrolledBackground.js";
 
 const app = new PIXI.Application(Config.renderOptions);
 
@@ -26,6 +27,8 @@ app.loader
  */
 let stages = {};
 
+let currentStage = undefined;
+
 /**
  * Init game after loading
  */
@@ -35,8 +38,15 @@ function init() {
         game : new Game(app)
     };
 
-    //set current stage as menu
-    app.stage = stages.menu;
+    let size = {
+        width : Config.renderOptions.width,
+        height : Config.renderOptions.height
+    };
+
+    app.background = new ScrolledBackground(app.loader.resources, size);
+    
+    app.stage.addChild(app.background);
+    app.setStage("menu");
 
     app.ticker.add(update, this);
 }
@@ -46,7 +56,11 @@ function init() {
  * @param {number} delta 
  */
 function update(delta) {
-    app.stage.update(delta);
+    if(currentStage) {
+        currentStage.update(delta);
+    }
+
+    app.background.update(delta);
 }
 
 /**
@@ -55,6 +69,10 @@ function update(delta) {
  */
 app.setStage = function(name) {
     if(stages[name]){
-        app.stage = stages[name];
+        if(currentStage) {
+            app.stage.removeChild(currentStage);
+        }
+        currentStage = stages[name];
+        app.stage.addChild(currentStage);
     }
 }

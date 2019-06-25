@@ -1,9 +1,8 @@
-import {createText, createBg} from  "./../core/fabrics.js";
+import {createText} from  "./../core/fabrics.js";
 import Config from "./../config.js";
 
 const centerX = Config.renderOptions.width * 0.5;
 const centerY = Config.renderOptions.height * 0.5;
-const bgSpeed = 1;
 
 let menuTextEntries = {
     logo : {
@@ -60,18 +59,7 @@ export default class Menu extends PIXI.Container {
      * Create scrolled Background 
      */
     createBackgrounds() {
-        const size = {
-            width  : Config.renderOptions.width,
-            height  : Config.renderOptions.height            
-        };
 
-        let bg2 = createBg(this.app.loader.resources['bg_tiled_layer2'].texture, size);
-        let bg1 = createBg(this.app.loader.resources['bg_tiled_layer1'].texture, size);
-        
-        this.entries.bg1 = bg1;
-        this.entries.bg2 = bg2;
-    
-        this.addChild(bg1, bg2);
     }
 
     /**
@@ -135,9 +123,5 @@ export default class Menu extends PIXI.Container {
      * Update stage
      * @param {number} delta 
      */
-    update(delta) {
-        this.backgroundY = (this.backgroundY + delta * bgSpeed) % 2048;
-        this.entries.bg1.tilePosition.y = this.backgroundY / 2;
-        this.entries.bg2.tilePosition.y = this.backgroundY;
-    }
+    update(delta) {}
 }

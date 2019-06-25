@@ -28,8 +28,11 @@ export default class Game extends PIXI.Container {
     constructor(app) {
         super();
         this.app = app;
+
+        let shipsContainer = new PIXI.Container();
         
-        this.animatedPresenter = new ShipPresenter(this, app.loader.resources);
+        this.backgroundY = 0;
+        this.animatedPresenter = new ShipPresenter(shipsContainer, app.loader.resources);
         
         this.player = new PlayerModel();
         this.player.position.set(
@@ -40,6 +43,8 @@ export default class Game extends PIXI.Container {
         this.animatedPresenter.pair([this.player]);
 
         this.bindInput();
+
+        this.addChild(shipsContainer);
     }
 
     bindInput() {
@@ -62,11 +67,16 @@ export default class Game extends PIXI.Container {
         });
     }
 
+    
     /**
      * Update stage 
      * @param {number} delta 
      */
     update(delta) {
         this.animatedPresenter.present({delta});
+        this.app.background.offset.set(
+            -this.player.position.x / 10,
+            -this.player.position.y / 10
+        );
     }
 }
