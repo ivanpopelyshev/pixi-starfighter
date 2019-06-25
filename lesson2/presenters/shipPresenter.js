@@ -50,8 +50,7 @@ export default class ShipPresenter extends BasicPresenter {
 			frame = 1; //turn left
 		}
 
-        
-		super.presentPair(view, model, args);
+        view.position.copyFrom(position);
 		view.gotoAndStop(frame);
 	}
 }
