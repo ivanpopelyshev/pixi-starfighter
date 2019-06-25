@@ -1,7 +1,7 @@
 /// <reference types="./../../types/pixi.js" />
 
 import Config from "./../config.js";
-import { BasicPresenter } from "../presenters/basicPresenter.js";
+import ShipPresenter from "../presenters/shipPresenter.js";
 
 //basic data model
 class BasicModel  {
@@ -29,16 +29,14 @@ export default class Game extends PIXI.Container {
         super();
         this.app = app;
         
-        this.animatedPresenter = new BasicPresenter(this, 1);
-        
+        this.animatedPresenter = new ShipPresenter(this, app.loader.resources);
         
         this.player = new PlayerModel();
         this.player.position.set(
             Config.renderOptions.width * 0.5,
             Config.renderOptions.height * 2 / 3
         );
-        this.target.copyFrom(this.player.position);
-        
+        this.player.target.copyFrom(this.player.position);
         this.animatedPresenter.pair([this.player]);
 
         this.bindInput();
@@ -69,6 +67,6 @@ export default class Game extends PIXI.Container {
      * @param {number} delta 
      */
     update(delta) {
-        this.animatedPresenter.present();
+        this.animatedPresenter.present({delta});
     }
 }

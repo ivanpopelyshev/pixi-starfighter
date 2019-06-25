@@ -39,3 +39,19 @@ export function createBg(tex, options = undefined) {
     return tiling;
 }
 
+export function createAnimatedShip(resources) {
+
+    let texLeft = resources['ship_turn'].texture;
+    let texForward = resources['ship_straight'].texture;
+    let texRight = new PIXI.Texture(texLeft.baseTexture, texLeft.frame);
+    texRight.rotate = 12;
+    let textures = [texForward, texLeft, texForward, texRight];
+
+    let ship = new PIXI.AnimatedSprite(textures, false);
+    
+    ship.animationSpeed = 0.05;
+    ship.scale.set(2);
+    ship.anchor.set(0.5);
+
+    return ship;
+}

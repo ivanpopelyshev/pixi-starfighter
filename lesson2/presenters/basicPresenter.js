@@ -1,6 +1,6 @@
 import ObjectPool from "../core/objectPool.js";
 
-export class BasicPresenter {
+export default class BasicPresenter {
 
     /**
 	 * Create Basic presenter
@@ -8,14 +8,21 @@ export class BasicPresenter {
 	 * @param {number} count  - initial view pool size
 	 */
 	constructor(root, count = 1) {
+
 		this._modeles = [];
 		this.root = root;
-		this.pool = new ObjectPool(
+		this._pool = new ObjectPool(
 			this.createView.bind(this),
 			this.initView.bind(this),
 			this.resetView.bind(this),
 			count
 		);
+
+		/**
+		 * Actual view list. Refresh after presenting or pair
+		 * @type Array
+		 */
+		this.actualViews = this._pool._used;
     }
     
 	/**
@@ -27,47 +34,53 @@ export class BasicPresenter {
 		if (!modeles) {
 			return;
 		}
-		this.pool.resize(modeles.length);
+		this._pool.resize(modeles.length);
 		this._modeles = modeles;
 		this._modeles.forEach(() => {
-			this.pool.get();
+			this._pool.get();
 		});
+
+		this.actualViews = this._pool._used;
     }
 	
 	/**
 	 * @public
 	 * Synchronize models and views
+	 * @param {any} args Any arguments
 	 */
-	present() {
+	present(args = undefined) {
 		//filter undef
 		const actual = this._modeles.filter(v => !!v);
 		const modelesCount = actual.length;
-		const viewsCount = this.pool.usedSize;
+		const viewsCount = this._pool.usedSize;
 
 		//rebild pool when views and models has different size 
 		if (viewsCount > modelesCount) {
 			for (let i = modelesCount; i < viewsCount; i++) {
-				this.pool.releaseFirst();
+				this._pool.releaseFirst();
 			}
 		} else {
 			for (let i = viewsCount; i < modelesCount; i++) {
-				this.pool.get();
+				this._pool.get();
 			}
 		}
 		
-		let views = this.pool._used;
+		let views = this._pool._used;
 		for (let i = 0; i < modelesCount; i++) {
-			this.presentPair(views[i], actual[i]);
+			this.presentPair(views[i], actual[i], args);
 		}
+
+		this.actualViews = views;
     }
 	
 	/**
 	 * Synchronize specific view with specific model
 	 * @protected
-	 * @param {*} view 
-	 * @param {*} model 
+	 * @param {*} view View
+	 * @param {*} model Model
+	 * @param {*} args Arguments from 'present' argumnets
 	 */
-	presentPair(view, model) {
+	presentPair(view, model, args) {
 		let { position } = model;
 		view.position.set(position.x, position.y);
     }
