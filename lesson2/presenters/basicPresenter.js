@@ -7,7 +7,8 @@ export default class BasicPresenter {
 	 * @param {number} count  - initial view pool size
 	 */
 	constructor(root, count = 1) {
-		this._modeles = [];
+
+		this.modeles = [];
 		this.root = root;
 		this._pool = new ObjectPool(
 			this.createView.bind(this),
@@ -32,14 +33,46 @@ export default class BasicPresenter {
 		if (!modeles) {
 			return;
 		}
+
 		this._pool.resize(modeles.length);
-		this._modeles = modeles;
-		this._modeles.forEach(() => {
-			this._pool.get();
-		});
+		this.modeles = [];
+
+		this.add(...modeles);
 
 		this.actualViews = this._pool._used;
 	}
+
+	/**
+	 * Add model to presenter
+	 * @param  {...any} model Model for pairing
+	 */
+	add(...model) {
+		for(let m of model) {
+			if(this.modeles.indexOf(m) == -1) {
+				const view = this._pool.get();
+				m.view = view;
+				view.model = m;
+				this.modeles.push(m);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	remove(idOrModel) {
+        
+        let model;
+        if(typeof idOrModel == "number") {
+            model = this.modeles.find((e) => e.id == idOrModel);
+        }else if(idOrModel.id !== undefined) {
+            model = idOrModel;
+        }
+
+        if(model) {
+            const index = this.modeles.indexOf(model);
+            delete this.modeles[index];
+        }
+    }
 
 	/**
 	 * @public
@@ -48,23 +81,30 @@ export default class BasicPresenter {
 	 */
 	present(args = undefined) {
 		//filter undef
-		const actual = this._modeles.filter(v => !!v);
+		const actual = this.modeles.filter(v => !!v);
 		const modelesCount = actual.length;
 		const viewsCount = this._pool.usedSize;
 
+		let needRebuildRefs = false;
 		//rebild pool when views and models has different size
 		if (viewsCount > modelesCount) {
 			for (let i = modelesCount; i < viewsCount; i++) {
 				this._pool.releaseFirst();
 			}
+			needRebuildRefs = true;
 		} else {
 			for (let i = viewsCount; i < modelesCount; i++) {
 				this._pool.get();
 			}
+			needRebuildRefs = true;
 		}
-
+	
 		let views = this._pool._used;
 		for (let i = 0; i < modelesCount; i++) {
+			if(needRebuildRefs) {
+				views[i].model = actual[i];
+				actual[i].view = views[i];
+			}
 			this.presentPair(views[i], actual[i], args);
 		}
 
@@ -80,6 +120,10 @@ export default class BasicPresenter {
 	 */
 	presentPair(view, model, args) {
 		let { position } = model;
+		let {delta = 1} = args;
+		
+		model.position.x += model.vel.x * delta;
+		model.position.y += model.vel.y * delta;
 		view.position.set(position.x, position.y);
 	}
 
@@ -90,6 +134,7 @@ export default class BasicPresenter {
 	createView() {
 		const basic = new PIXI.Sprite(PIXI.Texture.WHITE);
 		basic.anchor.set(0.5);
+		console.log("View was be created!");
 		return basic;
 	}
 
