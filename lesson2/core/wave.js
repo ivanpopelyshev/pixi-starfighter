@@ -6,7 +6,7 @@ class Wave {
     
     constructor(runtime) {
         this.runtime = runtime;
-        this.offset = new PIXI.Container();
+        this.offset = new PIXI.Point();
         this.childs = [];
     }
 
