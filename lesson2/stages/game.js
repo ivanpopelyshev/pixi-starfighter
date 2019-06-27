@@ -2,23 +2,8 @@
 
 import Config from "./../config.js";
 import Runtime from "./../core/runtime.js";
-
-//basic data model
-class BasicModel {
-	constructor(tag = "basic") {
-		this.position = new PIXI.Point(0, 0);
-		this.vel = new PIXI.Point(0, 0);
-		this.tag = tag;
-	}
-}
-
-//player data model
-class PlayerModel extends BasicModel {
-	constructor() {
-		super("ship");
-		this.target = new PIXI.Point(0, 0);
-	}
-}
+import { PlayerModel, BasicModel } from "./../prefabs/modeles.js";
+import { LineWave, VerticalSinWave } from "./../core/wave.js";
 
 export default class Game extends PIXI.Container {
 	/**
@@ -29,8 +14,12 @@ export default class Game extends PIXI.Container {
 		super();
 		this.app = app;
 		let shipsContainer = new PIXI.Container();
-
 		this.runtime = new Runtime(app, shipsContainer);
+
+		this.waves = {
+			line  : new LineWave(this.runtime),
+			sine : new VerticalSinWave(this.runtime)
+		}
 
 		this.backgroundY = 0;
 
@@ -39,8 +28,22 @@ export default class Game extends PIXI.Container {
 		this.player.target.copyFrom(this.player.position);
 		this.runtime.add(this.player);
 
-		this.bindInput();
+		this.waves.line.populate(10);
+		this.waves.line.offset.y = 0;
+		
+		this.waves.sine.populate(10, "ufoBig", {
+			rect : {
+				width : Config.renderOptions.width * 0.5,
+				height : 1000
+			},
+			period : 5,
+			speed : 0.05
+		});
 
+		this.waves.sine.offset.y = -1000;
+		this.waves.sine.offset.x = Config.renderOptions.width / 2;
+
+		this.bindInput();
 		this.addChild(shipsContainer);
 	}
 
@@ -67,7 +70,10 @@ export default class Game extends PIXI.Container {
 			clearInterval(fire);
 			fire = setInterval(() => {
 				const bullet = new BasicModel();
-				bullet.vel.y -= 20;
+				bullet.tint = Math.random() * 0xffffff;
+				bullet.size = 1 + Math.random() * 2;
+				bullet.vel.y -= bullet.size * 5;
+				
 				bullet.position.copyFrom(this.player.position);
 				this.runtime.add(bullet);
 				setTimeout(() => {
@@ -87,6 +93,14 @@ export default class Game extends PIXI.Container {
 	 * @param {number} delta
 	 */
 	update(delta) {
+
+		//update wave runtime
+		for(let key in this.waves) {
+			this.waves[key].update(delta);
+			this.waves[key].offset.y += 1 * delta;
+		}
+
+		//update core runtime
 		this.runtime.update(delta);
 
 		this.app.background.offset.set(-this.player.position.x / 10, -this.player.position.y / 10);

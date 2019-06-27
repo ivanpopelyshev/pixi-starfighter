@@ -55,3 +55,12 @@ export function createAnimatedShip(resources) {
 
 	return ship;
 }
+
+export function createEnemy(resources) {
+
+	let obj = new PIXI.Sprite(resources['enemy'].texture);
+    obj.anchor.set(0.5);
+    obj.scale.set(2);
+    obj.phase = 0;
+    return obj;
+}

@@ -2,19 +2,23 @@ import ObjectPool from "../core/objectPool.js";
 
 export default class BasicPresenter {
 	/**
-	 * Create Basic presenter
-	 * @param {PIXI.Container} root - container for views
-	 * @param {number} count  - initial view pool size
+	 * Basic presenter
+	 * @param {PIXI.Container} root 
+	 * @param {PIXI.IResourceDictionary} resourceDict 
+	 * @param {*} runtime 
 	 */
-	constructor(root, count = 1) {
+	constructor(root, resourceDict, runtime) {
 
 		this.modeles = [];
 		this.root = root;
+		this.runtime = runtime;
+		this.res = resourceDict;
+		
 		this._pool = new ObjectPool(
 			this.createView.bind(this),
 			this.initView.bind(this),
 			this.resetView.bind(this),
-			count
+			0
 		);
 
 		/**
@@ -125,6 +129,8 @@ export default class BasicPresenter {
 		model.position.x += model.vel.x * delta;
 		model.position.y += model.vel.y * delta;
 		view.position.set(position.x, position.y);
+		view.tint = model.tint || 0xffffff;
+		view.scale.set(model.size || 1);
 	}
 
 	/**

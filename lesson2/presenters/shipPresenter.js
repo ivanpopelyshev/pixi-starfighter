@@ -2,16 +2,6 @@ import BasicPresenter from "./basicPresenter.js";
 import { createAnimatedShip } from "./../core/fabrics.js";
 
 export default class ShipPresenter extends BasicPresenter {
-	/**
-	 * Create Presenter for animated ships
-	 * @override
-	 * @param {PIXI.Container} root
-	 * @param {PIXI.IResourceDictionary} resources
-	 */
-	constructor(root, resources) {
-		super(root, 0);
-		this.res = resources;
-	}
 
 	createView() {
 		return createAnimatedShip(this.res);
