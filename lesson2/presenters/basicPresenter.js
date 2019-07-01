@@ -10,7 +10,8 @@ export default class BasicPresenter {
 	 */
 	constructor(root, resourceDict, runtime, allowedTags) {
 
-		this.selector = [...allowedTags];
+		this.selector = (allowedTags || []).reduce((acc, e) => (acc[e] = true, acc) , {});
+
 		this.root = root;
 		this.runtime = runtime;
 		this.res = resourceDict;
@@ -69,38 +70,34 @@ export default class BasicPresenter {
 	 * Synchronize models and views
 	 * @param {any} args Any arguments
 	 */
-	present(args = undefined) {
+	present(model, args = undefined) {
 
-		//filter undef and linked tag
-		const actual = this.runtime.modeles.filter(v => {
-			return v && this.selector.indexOf(v.tag) > -1;
-		});
+		if(!this.selector[model.tag]) {
+			return;
+		}
 		
-		const modelesCount = actual.length;
-		const viewsCount = this._pool.usedSize;
+		let view = model.view;
 
-		let needRebuildRefs = viewsCount !== modelesCount;
-		//rebild pool when views and models has different size
-		if (viewsCount > modelesCount) {
-			for (let i = modelesCount; i < viewsCount; i++) {
-				this._pool.releaseFirst();
-			}
-		} else if(modelesCount > viewsCount) {
-			for (let i = viewsCount; i < modelesCount; i++) {
-				this._pool.get();
-			}
-		}
-	
-		let views = [...this._pool._used];
-		for (let i = 0; i < modelesCount; i++) {
-			if(needRebuildRefs) {
-				views[i].model = actual[i];
-				actual[i].view = views[i];
-			}
-			this.presentPair(views[i], actual[i], args);
+		if(!view) {
+			view = this._pool.get();
+			model.view = view;
+			view.model = model;
 		}
 
-		this.actualViews = views;
+		this.presentPair(view, model, args);
+	}
+
+	/**
+	 * Despawn all unused views
+	 */
+	flush() {
+		const count = this._pool.usedSize;
+		for(let i = count - 1; i >= 0; i --) {
+			const view = this._pool._used[i];
+			if(view.model == undefined || view.model.killMe) {
+				this._pool.release(view);
+			}
+		}
 	}
 
 	/**
@@ -120,6 +117,7 @@ export default class BasicPresenter {
 		view.tint = model.tint || 0xffffff;
 		view.scale.set(model.size || 1);
 	}
+
 
 	/**
 	 * @protected
@@ -144,6 +142,7 @@ export default class BasicPresenter {
 	 */
 	resetView(view) {
 		if (view) {
+			delete view.model;
 			this.root.removeChild(view);
 		}
 		return !!view;

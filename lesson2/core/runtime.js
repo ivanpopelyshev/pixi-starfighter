@@ -50,7 +50,9 @@ export default class Runtime {
 	}
 
 	remove(...idOrModels) {
+
 		// external remove
+		let needFlush = false;
 		idOrModels.forEach(idOrModel => {
 			let model;
 			if (typeof idOrModel == "number") {
@@ -63,9 +65,16 @@ export default class Runtime {
 				const index = this.modeles.indexOf(model);
 				if (index > -1) {
 					this.modeles.splice(index, 0);
+					needFlush = true;
 				}
 			}
 		});
+
+		if(needFlush){
+			for (let p of this.presenters) {
+				p.flush();
+			}
+		}
 	}
 	
 	processKill() {
@@ -82,22 +91,29 @@ export default class Runtime {
 		}
 
 		models.length = j;
+		if(j !== len) {
+			for (let p of this.presenters) {
+				p.flush();
+			}
+		}
 	}
 
 	update(delta) {
-
-		for (let key in this.presenters) {
-			this.presenters[key].present({delta});
-		}
-
-		this.processKill();
-
 		const models = this.modeles;
 		let len = models.length;
 
 		for (let i = 0; i < len; i++) {
+			
 			const m = models[i];
-			this.bullitizer.spawn(m);
+			for (let p of this.presenters) {
+				p.present(m, {delta});
+			}
+
+			if(!m.killMe) {
+				this.bullitizer.spawn(m);
+			}
 		}
+		
+		this.processKill();
 	}
 }
