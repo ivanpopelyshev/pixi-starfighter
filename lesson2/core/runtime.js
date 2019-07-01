@@ -84,6 +84,7 @@ export default class Runtime {
 			}
 		});
 
+		
 		if(needFlush){
 			for (let p of this.presenters) {
 				p.flush();
@@ -108,6 +109,7 @@ export default class Runtime {
 		}
 
 		models.length = j;
+
 		if(j !== len) {
 			for (let p of this.presenters) {
 				p.flush();
