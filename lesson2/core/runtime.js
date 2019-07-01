@@ -2,6 +2,8 @@ import ShipPresenter from "./../presenters/shipPresenter.js";
 import BasicPresenter from "./../presenters/basicPresenter.js";
 import UfoPresenter from "./../presenters/ufoPresenter.js";
 import BulletPresenter from "./../presenters/bulletPresenter.js";
+import DebugPresenter from "./../presenters/debugPresenter.js";
+
 import Bullitizer from "./bullitizer.js";
 
 export const Indexator = {
@@ -23,7 +25,8 @@ export default class Runtime {
 			new BasicPresenter(root, this.res, this, ["basic"]),
 			new ShipPresenter(root, this.res, this, ["ship"]),
 			new UfoPresenter(root, this.res, this, ["ufo"]),
-			new BulletPresenter(root, this.res, this, ["bullet"])
+			new BulletPresenter(root, this.res, this, ["bullet"]),
+			new DebugPresenter(root, this.res, this, ["basic","ship","ufo"])
 		];
 
 		this.bullitizer = new Bullitizer(this);
@@ -33,11 +36,11 @@ export default class Runtime {
 
 			let all = this.presenters;
 			const total = all.reduce((acc, e) => {
-				return acc + e._pool.fullSize;
+				return acc + e._pool ? e._pool.fullSize : 0;
 			}, 0);
 
 			const used = all.reduce((acc, e) => {
-				return acc + e._pool.usedSize;
+				return acc + e._pool ? e._pool.fullSize : 0;
 			}, 0);
 
 			console.log("Pools:" + used + "/" + total);
@@ -117,11 +120,18 @@ export default class Runtime {
 		}
 	}
 
+	beforeUpdate(delta) {
+		for (let p of this.presenters) {
+			p.beforePresent();
+		}
+	}
+
 	/**
 	 * Update runtime
 	 * @param {number} delta 
 	 */
 	update(delta) {
+
 		const models = this.models;
 		let len = models.length;
 
@@ -138,5 +148,12 @@ export default class Runtime {
 		}
 		
 		this.processKill();
+	}
+
+	afterUpdate(delta) {
+		//
+		for (let p of this.presenters) {
+			p.afterPresent();
+		}
 	}
 }

@@ -100,6 +100,7 @@ export default class Game extends PIXI.Container {
 	 * @param {number} delta
 	 */
 	update(delta) {
+		this.runtime.beforeUpdate(delta);
 
 		//update wave runtime
 		for(let key in this.waves) {
@@ -113,5 +114,7 @@ export default class Game extends PIXI.Container {
 		this.runtime.update(delta);
 
 		this.app.background.offset.set(-this.player.position.x / 10, -this.player.position.y / 10);
+
+		this.runtime.afterUpdate(delta);
 	}
 }

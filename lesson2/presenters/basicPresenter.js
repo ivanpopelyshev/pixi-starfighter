@@ -27,7 +27,12 @@ export default class BasicPresenter {
 		 */
 		this.actualViews = this._pool._used;
 	}
-
+	
+	/**
+	 * Called before presenting
+	 */
+	beforePresent() {}
+	
 	/**
 	 * @public
 	 * Synchronize models and views
@@ -48,6 +53,11 @@ export default class BasicPresenter {
 
 		this.presentPair(view, model, args);
 	}
+
+	/**
+	 * Called after presenting
+	 */
+	afterPresent() {}
 
 	/**
 	 * Despawn all unused views

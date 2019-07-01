@@ -4,9 +4,16 @@ const renderOptions = {
     height : 1280
 };
 
+const SETTINGS = {
+    DEBUG : false
+};
+
+window.SETTINGS = SETTINGS;
+
 const assetsBaseUrl = "./../assets";
 
 export default {
     renderOptions,
-    assetsBaseUrl
-}
+    assetsBaseUrl,
+    settings : SETTINGS
+};
