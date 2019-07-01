@@ -2,6 +2,8 @@
 
 import Config from "./../config.js";
 import Runtime from "./../core/runtime.js";
+import Bullitizer from "./../core/bullitizer.js";
+
 import { PlayerModel, BasicModel } from "./../prefabs/modeles.js";
 import { LineWave, VerticalSinWave } from "./../core/wave.js";
 
@@ -19,11 +21,29 @@ export default class Game extends PIXI.Container {
 		this.waves = {
 			line  : new LineWave(this.runtime),
 			sine : new VerticalSinWave(this.runtime)
-		}
+		};
 
 		this.backgroundY = 0;
 
-		this.player = new PlayerModel();
+		this.player = new PlayerModel({
+			bulletspeed : 10,
+			bulletdamage : 1,
+			bulettype : "dot",
+			firemode : "sequential",
+			firerate : 10,
+			guns : [
+				{
+					offset : {x : -48, y : -60},
+					dir : {x : 0, y : -1}
+				},
+				{
+					offset : {x : 48, y : -60},
+					dir : {x : 0, y : -1}
+				}
+			],
+		});
+	
+
 		this.player.position.set(Config.renderOptions.width * 0.5, (Config.renderOptions.height * 2) / 3);
 		this.player.target.copyFrom(this.player.position);
 		this.runtime.add(this.player);
@@ -99,7 +119,6 @@ export default class Game extends PIXI.Container {
 			this.waves[key].update(delta);
 			this.waves[key].offset.y += 1 * delta;
 		}
-
 		//update core runtime
 		this.runtime.update(delta);
 

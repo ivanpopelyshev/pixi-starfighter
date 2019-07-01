@@ -9,20 +9,34 @@ export class BasicModel {
 	}
 }
 
-//player data model
-export class PlayerModel extends BasicModel {
-	constructor() {
-		super("ship");
-		this.target = new PIXI.Point(0, 0);
-	}
-}
 
 //player data model
 export class EnemyModel extends BasicModel {
 	constructor(type, dict) {
-        super(type);
-        this.config = dict;
-        this.lPosition = new PIXI.Point();
-        this.size = this.config.size;
+		super(type);
+		this.config = dict;
+		this.lPosition = new PIXI.Point();
+		this.size = this.config.size;
+	}
+}
+//player data model
+export class PlayerModel extends EnemyModel {
+	constructor(dict) {
+		super("ship", dict);
+		this.target = new PIXI.Point(0, 0);
+	}
+}
+
+
+//player data model
+export class BulletModel extends BasicModel {
+	constructor(dict) {
+		super("bullet");
+		this.config = dict;
+		this.size = this.config.size || 1;
+		this.damage = this.config.damage || 1;
+		this.owner = undefined;
+		this.lifetime = this.config.lifetime || 1000;
+		this.spawntime = (performance || Date).now();
 	}
 }

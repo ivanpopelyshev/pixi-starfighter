@@ -1,22 +1,38 @@
 export default {
-    
-    ufo : {
-        view : "ufo",
-        firerate : 2, //persecs
-        guncount : 3,
-        firemode: "sequential",
-        bulletspeed : 10,
-        bulettype : "dot",
-        size : 1
-    },
+	
+	ufo : {
+		view : "ufo",
+		firerate : 2, //persecs
+		firemode: "onetime",
+		bulletspeed : 10,
+		bulletdamage : 1,
+		bulettype : "dot",
+		guns : [
+			{
+				offset : {x : 0, y : -60},
+				dir : {x : 0, y : 1}
+			}
+		],
+		size : 1
+	},
 
-    ufoBig :  {
-        view : "ufo",
-        firerate : 0.1,
-        guncount : 5,
-        firemode : "onetime",
-        bulletspeed : 10,
-        bulettype : "dot",
-        size : 2
-    }
+	ufoBig :  {
+		view : "ufo",
+		firerate : 1,
+		firemode : "sequential",
+		bulletspeed : 10,
+		bulletdamage : 3,
+		bulettype : "dot",
+		guns : [
+			{
+				offset : {x : -120, y : 0},
+				dir : {x : 0, y : 1}
+			},
+			{
+				offset : {x : 120, y : 0},
+				dir : {x : 0, y : 1}
+			}
+		],
+		size : 2
+	}
 };

@@ -64,19 +64,19 @@ export default class BasicPresenter {
 	}
 
 	remove(idOrModel) {
-        
-        let model;
-        if(typeof idOrModel == "number") {
-            model = this.modeles.find((e) => e.id == idOrModel);
-        }else if(idOrModel.id !== undefined) {
-            model = idOrModel;
-        }
+		
+		let model;
+		if(typeof idOrModel == "number") {
+			model = this.modeles.find((e) => e.id == idOrModel);
+		}else if(idOrModel.id !== undefined) {
+			model = idOrModel;
+		}
 
-        if(model) {
-            const index = this.modeles.indexOf(model);
-            delete this.modeles[index];
-        }
-    }
+		if(model) {
+			const index = this.modeles.indexOf(model);
+			delete this.modeles[index];
+		}
+	}
 
 	/**
 	 * @public
@@ -140,7 +140,6 @@ export default class BasicPresenter {
 	createView() {
 		const basic = new PIXI.Sprite(PIXI.Texture.WHITE);
 		basic.anchor.set(0.5);
-		console.log("View was be created!");
 		return basic;
 	}
 
@@ -149,7 +148,6 @@ export default class BasicPresenter {
 	 */
 	initView(view) {
 		//debug
-		console.log("View was be requested!");
 		this.root.addChild(view);
 	}
 
