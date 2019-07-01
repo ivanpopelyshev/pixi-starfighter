@@ -105,6 +105,9 @@ export default class Game extends PIXI.Container {
 		for(let key in this.waves) {
 			this.waves[key].update(delta);
 			this.waves[key].offset.y += 1 * delta;
+			if(this.waves[key].offset.y > Config.renderOptions.height) {
+				this.waves[key].offset.y = -500;
+			}
 		}
 		//update core runtime
 		this.runtime.update(delta);

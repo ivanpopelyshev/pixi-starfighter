@@ -5,11 +5,12 @@ export default class BasicPresenter {
 	 * Basic presenter
 	 * @param {PIXI.Container} root 
 	 * @param {PIXI.IResourceDictionary} resourceDict 
-	 * @param {*} runtime 
+	 * @param {*} runtime,
+	 * @param {Array} allowedTags
 	 */
-	constructor(root, resourceDict, runtime) {
+	constructor(root, resourceDict, runtime, allowedTags) {
 
-		this.modeles = [];
+		this.selector = [...allowedTags];
 		this.root = root;
 		this.runtime = runtime;
 		this.res = resourceDict;
@@ -28,64 +29,52 @@ export default class BasicPresenter {
 		this.actualViews = this._pool._used;
 	}
 
+	
 	/**
 	 * Pair models and presenter
 	 * @public
+	 * @deprecated Use runtime.Add instead
 	 * @param {Array} modeles
 	 */
+	
 	pair(modeles) {
 		if (!modeles) {
 			return;
 		}
-
-		this._pool.resize(modeles.length);
-		this.modeles = [];
-
 		this.add(...modeles);
-
-		this.actualViews = this._pool._used;
 	}
 
 	/**
 	 * Add model to presenter
+	 * @deprecated Use Runtime.add instead
 	 * @param  {...any} model Model for pairing
 	 */
 	add(...model) {
-		for(let m of model) {
-			if(this.modeles.indexOf(m) == -1) {
-				const view = this._pool.get();
-				m.view = view;
-				view.model = m;
-				this.modeles.push(m);
-				return true;
-			}
-		}
-		return false;
+		this.runtime.add(...model);
+		this.actualViews = this._pool._used;
 	}
 
+	/**
+	 * Remove model from presenter
+	 * @deprecated Use Runtime.remove instead
+	 * @param {*} idOrModel 
+	 */
 	remove(idOrModel) {
-		
-		let model;
-		if(typeof idOrModel == "number") {
-			model = this.modeles.find((e) => e.id == idOrModel);
-		}else if(idOrModel.id !== undefined) {
-			model = idOrModel;
-		}
-
-		if(model) {
-			const index = this.modeles.indexOf(model);
-			delete this.modeles[index];
-		}
+		this.runtime.remove(idOrModel);
 	}
 
 	/**
 	 * @public
+	 * @deprecated
 	 * Synchronize models and views
 	 * @param {any} args Any arguments
 	 */
 	present(args = undefined) {
-		//filter undef
-		const actual = this.modeles.filter(v => !!v);
+
+		//filter undef and linked tag
+		const actual = this.runtime.modeles.filter(v => {
+			return v && this.selector.indexOf(v.tag) > -1;
+		});
 		const modelesCount = actual.length;
 		const viewsCount = this._pool.usedSize;
 

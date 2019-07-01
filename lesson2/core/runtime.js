@@ -15,19 +15,20 @@ export const Indexator = {
 export default class Runtime {
 	constructor(app, root) {
 		this.res = app.loader.resources;
-		this.presenters = {
-			basic: new BasicPresenter(root, this.res, this),
-			ship: new ShipPresenter(root, this.res, this),
-			ufo: new UfoPresenter(root, this.res, this),
-			bullet : new BulletPresenter(root, this.res, this)
-		};
+		this.presenters = [
+			new BasicPresenter(root, this.res, this, ["basic"]),
+			new ShipPresenter(root, this.res, this, ["ship"]),
+			new UfoPresenter(root, this.res, this, ["ufo"]),
+			new BulletPresenter(root, this.res, this, ["bullet"])
+		];
 
 		this.bullitizer = new Bullitizer(this);
-		this._modeles = [];
+		this.modeles = [];
 		this._needsRemove = [];
 
 		setInterval(()=>{
-			let all = Object.values(this.presenters);
+
+			let all = this.presenters;
 			const total = all.reduce((acc, e)=> {
 				return acc + e._pool.fullSize;
 			}, 0);
@@ -42,34 +43,27 @@ export default class Runtime {
 
 	add(...modeles) {
 		modeles.forEach(element => {
-			let presenter = this.presenters[element.tag || "basic"];
-			if (!presenter) {
-				presenter = this.presenters.basic;
-			}
-
-			if (presenter.add(element)) {
-				element.id = Indexator.next();
-				element.__presenter = presenter;
-				this._modeles.push(element);
+			if (!element.__id) {
+				element.__id = Indexator.next();
+				this.modeles.push(element);
 			}
 		});
 	}
 
 	remove(...idOrModels) {
 		idOrModels.forEach(idOrModel => {
+	
 			let model;
 			if (typeof idOrModel == "number") {
-				model = this._modeles.find(e => e.id == idOrModel);
+				model = this.modeles.find(e => e.__id == idOrModel);
 			} else if (idOrModel.id !== undefined) {
 				model = idOrModel;
 			}
 
 			if (model) {
-				const p = model.__presenter;
-				p.remove(model);
-				const index = this._modeles.indexOf(model);
+				const index = this.modeles.indexOf(model);
 				if(index > -1) {
-					this._modeles.slice(index, 0);
+					this.modeles.slice(index, 0);
 				}
 			}
 		});
@@ -80,10 +74,10 @@ export default class Runtime {
 			this.presenters[key].present({ delta });
 		}
 
-		for(let i = this._modeles.length - 1; i >= 0; i --) {
+		for(let i = this.modeles.length - 1; i >= 0; i --) {
 
-			const m = this._modeles[i];
-			if(this._modeles[i].__markedForRemoving) {
+			const m = this.modeles[i];
+			if(this.modeles[i].__markedForRemoving) {
 				continue;
 			}
 
@@ -93,7 +87,7 @@ export default class Runtime {
 				continue;
 			}
 
-			this.bullitizer.spawn(this._modeles[i]);
+			this.bullitizer.spawn(this.modeles[i]);
 		}
 
 		const trashSize = 50;

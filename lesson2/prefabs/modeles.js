@@ -19,6 +19,8 @@ export class EnemyModel extends BasicModel {
 		this.size = this.config.size;
 	}
 }
+
+
 //player data model
 export class PlayerModel extends EnemyModel {
 	constructor(dict) {
