@@ -89,18 +89,16 @@ export default class BasicPresenter {
 		const modelesCount = actual.length;
 		const viewsCount = this._pool.usedSize;
 
-		let needRebuildRefs = false;
+		let needRebuildRefs = viewsCount !== modelesCount;
 		//rebild pool when views and models has different size
 		if (viewsCount > modelesCount) {
 			for (let i = modelesCount; i < viewsCount; i++) {
 				this._pool.releaseFirst();
 			}
-			needRebuildRefs = true;
-		} else {
+		} else if(modelesCount > viewsCount) {
 			for (let i = viewsCount; i < modelesCount; i++) {
 				this._pool.get();
 			}
-			needRebuildRefs = true;
 		}
 	
 		let views = [...this._pool._used];
