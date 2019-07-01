@@ -10,7 +10,11 @@ export default class BasicPresenter {
 	 */
 	constructor(root, resourceDict, runtime, allowedTags) {
 
-		this.selector = (allowedTags || []).reduce((acc, e) => (acc[e] = true, acc) , {});
+		this.selector = {};
+		if(!Array.isArray(allowedTags) || allowedTags.length == 0 ) {
+			throw new Error("allowedTags must be Array and can't be empty!");
+		}
+		allowedTags.forEach((e)=> this.selector[e] = true );
 
 		this.root = root;
 		this.runtime = runtime;
@@ -75,7 +79,7 @@ export default class BasicPresenter {
 		if(!this.selector[model.tag]) {
 			return;
 		}
-		
+
 		let view = model.view;
 
 		if(!view) {
