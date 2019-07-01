@@ -1,23 +1,20 @@
 import ObjectPool from "../core/objectPool.js";
+import EmptySystem from "./emptySystem.js";
 
-export default class BasicPresenter {
+export default class BasicPresenter extends EmptySystem{
 	/**
 	 * Basic presenter
 	 * @param {PIXI.Container} root
-	 * @param {PIXI.IResourceDictionary} resourceDict
+	 * @param {PIXI.IResourceDictionary} res
 	 * @param {*} runtime,
-	 * @param {Array} allowedTags
+	 * @param {Array} allows
 	 */
-	constructor(root, resourceDict, runtime, allowedTags) {
-		this.selector = {};
-		if (!Array.isArray(allowedTags) || allowedTags.length == 0) {
-			throw new Error("allowedTags must be Array and can't be empty!");
-		}
-		allowedTags.forEach(e => (this.selector[e] = true));
+	constructor(runtime, allows, root, res) {
+		super(runtime, allows);
 
 		this.root = root;
 		this.runtime = runtime;
-		this.res = resourceDict;
+		this.res = res;
 
 		this._pool = new ObjectPool(this.createView.bind(this), this.initView.bind(this), this.resetView.bind(this), 0);
 
@@ -29,16 +26,11 @@ export default class BasicPresenter {
 	}
 	
 	/**
-	 * Called before presenting
-	 */
-	beforePresent() {}
-	
-	/**
 	 * @public
 	 * Synchronize models and views
 	 * @param {any} args Any arguments
 	 */
-	present(model, args = undefined) {
+	process(model, args = undefined) {
 		if (!this.selector[model.tag]) {
 			return;
 		}
@@ -53,12 +45,7 @@ export default class BasicPresenter {
 
 		this.presentPair(view, model, args);
 	}
-
-	/**
-	 * Called after presenting
-	 */
-	afterPresent() {}
-
+	
 	/**
 	 * Despawn all unused views
 	 */

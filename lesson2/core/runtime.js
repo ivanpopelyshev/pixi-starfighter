@@ -2,7 +2,7 @@ import ShipPresenter from "./../presenters/shipPresenter.js";
 import BasicPresenter from "./../presenters/basicPresenter.js";
 import UfoPresenter from "./../presenters/ufoPresenter.js";
 import BulletPresenter from "./../presenters/bulletPresenter.js";
-import DebugPresenter from "./../presenters/debugPresenter.js";
+import DebugSystem from "./../presenters/debugPresenter.js";
 
 import Bullitizer from "./bullitizer.js";
 
@@ -16,24 +16,23 @@ export const Indexator = {
 export default class Runtime {
 	/**
 	 * Create runtime for process objects
-	 * @param {PIXI.Application} app 
-	 * @param {PIXI.Container} root 
+	 * @param {PIXI.Application} app
+	 * @param {PIXI.Container} root
 	 */
 	constructor(app, root) {
 		this.res = app.loader.resources;
 		this.presenters = [
-			new BasicPresenter(root, this.res, this, ["basic"]),
-			new ShipPresenter(root, this.res, this, ["ship"]),
-			new UfoPresenter(root, this.res, this, ["ufo"]),
-			new BulletPresenter(root, this.res, this, ["bullet"]),
-			new DebugPresenter(root, this.res, this, ["basic","ship","ufo"])
+			new BasicPresenter(this, ["basic"], root, this.res),
+			new ShipPresenter(this, ["ship"], root, this.res),
+			new UfoPresenter(this, ["ufo"], root, this.res),
+			new BulletPresenter(this, ["bullet"], root, this.res),
+			new DebugSystem(this, [], root)
 		];
 
 		this.bullitizer = new Bullitizer(this);
 		this.models = [];
 
 		setInterval(() => {
-
 			let all = this.presenters;
 			const total = all.reduce((acc, e) => {
 				return acc + (e._pool ? e._pool.fullSize : 0);
@@ -46,11 +45,11 @@ export default class Runtime {
 			console.log("Pools:" + used + "/" + total);
 		}, 1000);
 	}
-	
+
 	/**
 	 * @public
 	 * Add modeles to runtime
-	 * @param  {...any} models 
+	 * @param  {...any} models
 	 */
 	add(...models) {
 		models.forEach(element => {
@@ -64,10 +63,9 @@ export default class Runtime {
 	/**
 	 * @public
 	 * Remove modelse from runtime
-	 * @param  {...any} idOrModels 
+	 * @param  {...any} idOrModels
 	 */
 	remove(...idOrModels) {
-
 		// external remove
 		let needFlush = false;
 		idOrModels.forEach(idOrModel => {
@@ -87,14 +85,13 @@ export default class Runtime {
 			}
 		});
 
-		
-		if(needFlush){
+		if (needFlush) {
 			for (let p of this.presenters) {
 				p.flush();
 			}
 		}
 	}
-	
+
 	/**
 	 * @private
 	 * remove all marked to kill
@@ -102,18 +99,18 @@ export default class Runtime {
 	processKill() {
 		const models = this.models;
 		const len = models.length;
-		
+
 		let j = 0;
 		for (let i = 0; i < len; i++) {
 			const m = models[i];
 			if (!m.killMe) {
-				models[ j++ ] = m;
+				models[j++] = m;
 			}
 		}
 
 		models.length = j;
 
-		if(j !== len) {
+		if (j !== len) {
 			for (let p of this.presenters) {
 				p.flush();
 			}
@@ -122,38 +119,36 @@ export default class Runtime {
 
 	beforeUpdate(delta) {
 		for (let p of this.presenters) {
-			p.beforePresent();
+			p.beforeProcess({delta});
 		}
 	}
 
 	/**
 	 * Update runtime
-	 * @param {number} delta 
+	 * @param {number} delta
 	 */
 	update(delta) {
-
 		const models = this.models;
 		let len = models.length;
 
 		for (let i = 0; i < len; i++) {
-			
 			const m = models[i];
 			for (let p of this.presenters) {
-				p.present(m, {delta});
+				p.process(m, { delta });
 			}
 
-			if(!m.killMe) {
+			if (!m.killMe) {
 				this.bullitizer.spawn(m);
 			}
 		}
-		
+
 		this.processKill();
 	}
 
 	afterUpdate(delta) {
 		//
 		for (let p of this.presenters) {
-			p.afterPresent();
+			p.afterProcess({delta});
 		}
 	}
 }

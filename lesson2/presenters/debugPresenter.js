@@ -1,5 +1,6 @@
 
 import Config from "./../config.js";
+import EmptySystem from "./emptySystem.js";
 
 const DRAW_DATA = {
 	basic : {
@@ -60,15 +61,15 @@ function drawMesh(target, obj){
 
 }
 
-export default class DebugPresenter {
+export default class DebugPresenter extends EmptySystem {
 	/**
-	 * 
+	 * Debug presenter
+	 * @param {*} runtime
+	 * @param {*} allows
 	 * @param {PIXI.Container} root 
-	 * @param {*} res 
-	 * @param {*} runtime 
-	 * @param {*} allowedTags 
 	 */
-	constructor(root, res, runtime, allowedTags) {
+	constructor(runtime, allows, root) {
+		super(runtime, allows);
 
 		this.graphics = new PIXI.Graphics();
 		this.graphics.zIndex = 1000;
@@ -76,11 +77,11 @@ export default class DebugPresenter {
 		root.addChild(this.graphics);
 	}
 
-	beforePresent() {
+	beforeProcess(args) {
 		this.graphics.clear();
 	}
 
-	present(model, args) {
+	process(model, args) {
 		if(!model.view || !Config.settings.DEBUG) return;
 
 		const draw_data = DRAW_DATA[model.tag];
@@ -93,7 +94,7 @@ export default class DebugPresenter {
 		draw_data.draw(this.graphics, model.view);
 	}
 
-	afterPresent() {}
+	afterProcess() {}
 
 	flush() {}
 }
