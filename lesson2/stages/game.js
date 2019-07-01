@@ -30,7 +30,7 @@ export default class Game extends PIXI.Container {
 			bulletdamage : 1,
 			bulettype : "dot",
 			firemode : "sequential",
-			firerate : 10,
+			firerate : 0,
 			guns : [
 				{
 					offset : {x : -48, y : -60},
@@ -86,25 +86,12 @@ export default class Game extends PIXI.Container {
 
 		let fire;
 		this.on("pointerdown", event => {
-
-			clearInterval(fire);
-			fire = setInterval(() => {
-				const bullet = new BasicModel();
-				bullet.tint = Math.random() * 0xffffff;
-				bullet.size = 1 + Math.random() * 2;
-				bullet.vel.y -= bullet.size * 5;
-				
-				bullet.position.copyFrom(this.player.position);
-				this.runtime.add(bullet);
-				setTimeout(() => {
-					this.runtime.remove(bullet);
-				}, 2000);
-			}, 100);
-			
+			this.player.config.firerate = 10;
 		});
 
 		this.on("pointerup", event => {
-			clearInterval(fire);
+			
+			this.player.config.firerate = 0;
 		});
 	}
 

@@ -13,6 +13,8 @@ export default class BulletPresenter extends BasicPresenter {
 
 			if(delta > model.lifetime) {
 				model.killMe = true;
+				this._pool.release(view);
+				return;
 			}
 		}
 

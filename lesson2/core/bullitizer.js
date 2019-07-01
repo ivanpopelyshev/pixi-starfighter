@@ -29,7 +29,7 @@ export default class Bullitizer {
 		 */
 		const config = model.config;
 		if(!config) return;
-		if(!config.guns || config.guns.length == 0) return;
+		if(!config.guns || config.guns.length == 0 || config.firerate <= 0) return;
 
 		const fr = 1000 / (config.firerate || 1);
 

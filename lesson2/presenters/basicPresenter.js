@@ -103,7 +103,7 @@ export default class BasicPresenter {
 			needRebuildRefs = true;
 		}
 	
-		let views = this._pool._used;
+		let views = [...this._pool._used];
 		for (let i = 0; i < modelesCount; i++) {
 			if(needRebuildRefs) {
 				views[i].model = actual[i];
