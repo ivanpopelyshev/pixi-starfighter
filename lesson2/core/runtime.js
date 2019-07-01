@@ -2,7 +2,6 @@ import ShipPresenter from "./../presenters/shipPresenter.js";
 import BasicPresenter from "./../presenters/basicPresenter.js";
 import UfoPresenter from "./../presenters/ufoPresenter.js";
 import BulletPresenter from "./../presenters/bulletPresenter.js";
-
 import Bullitizer from "./bullitizer.js";
 
 export const Indexator = {
@@ -13,6 +12,11 @@ export const Indexator = {
 };
 
 export default class Runtime {
+	/**
+	 * Create runtime for process objects
+	 * @param {PIXI.Application} app 
+	 * @param {PIXI.Container} root 
+	 */
 	constructor(app, root) {
 		this.res = app.loader.resources;
 		this.presenters = [
@@ -23,7 +27,7 @@ export default class Runtime {
 		];
 
 		this.bullitizer = new Bullitizer(this);
-		this.modeles = [];
+		this.models = [];
 
 		setInterval(() => {
 
@@ -39,16 +43,26 @@ export default class Runtime {
 			console.log("Pools:" + used + "/" + total);
 		}, 1000);
 	}
-
-	add(...modeles) {
-		modeles.forEach(element => {
+	
+	/**
+	 * @public
+	 * Add modeles to runtime
+	 * @param  {...any} models 
+	 */
+	add(...models) {
+		models.forEach(element => {
 			if (!element.__id) {
 				element.__id = Indexator.next();
-				this.modeles.push(element);
+				this.models.push(element);
 			}
 		});
 	}
 
+	/**
+	 * @public
+	 * Remove modelse from runtime
+	 * @param  {...any} idOrModels 
+	 */
 	remove(...idOrModels) {
 
 		// external remove
@@ -56,15 +70,15 @@ export default class Runtime {
 		idOrModels.forEach(idOrModel => {
 			let model;
 			if (typeof idOrModel == "number") {
-				model = this.modeles.find(e => e.__id == idOrModel);
+				model = this.models.find(e => e.__id == idOrModel);
 			} else if (idOrModel.__id !== undefined) {
 				model = idOrModel;
 			}
 
 			if (model) {
-				const index = this.modeles.indexOf(model);
+				const index = this.models.indexOf(model);
 				if (index > -1) {
-					this.modeles.splice(index, 0);
+					this.models.splice(index, 0);
 					needFlush = true;
 				}
 			}
@@ -77,9 +91,12 @@ export default class Runtime {
 		}
 	}
 	
+	/**
+	 * @private
+	 * remove all marked to kill
+	 */
 	processKill() {
-		// remove all marked to kill
-		const models = this.modeles;
+		const models = this.models;
 		const len = models.length;
 		
 		let j = 0;
@@ -98,8 +115,12 @@ export default class Runtime {
 		}
 	}
 
+	/**
+	 * Update runtime
+	 * @param {number} delta 
+	 */
 	update(delta) {
-		const models = this.modeles;
+		const models = this.models;
 		let len = models.length;
 
 		for (let i = 0; i < len; i++) {
