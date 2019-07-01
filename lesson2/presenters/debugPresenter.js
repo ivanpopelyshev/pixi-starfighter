@@ -27,7 +27,7 @@ function drawRect(target, obj) {
 
 function drawCircle(target, obj) {
 	let bounds = obj.getBounds();
-	let radius = Math.sqrt(bounds.width * bounds.width + bounds.height * bounds.height) / 2;
+	let radius = Math.max(bounds.width, bounds.height) / 2;
 	target.drawCircle(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2, radius);
 }
 

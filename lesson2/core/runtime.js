@@ -36,11 +36,11 @@ export default class Runtime {
 
 			let all = this.presenters;
 			const total = all.reduce((acc, e) => {
-				return acc + e._pool ? e._pool.fullSize : 0;
+				return acc + (e._pool ? e._pool.fullSize : 0);
 			}, 0);
 
 			const used = all.reduce((acc, e) => {
-				return acc + e._pool ? e._pool.fullSize : 0;
+				return acc + (e._pool ? e._pool.fullSize : 0);
 			}, 0);
 
 			console.log("Pools:" + used + "/" + total);
