@@ -87,7 +87,10 @@ export default class Runtime {
 
 		if (needFlush) {
 			for (let p of this.presenters) {
-				p.flush();
+				//only BasicPresenter and inherited can be flushable
+				if (p.flush) {
+					p.flush();
+				}
 			}
 		}
 	}
@@ -112,14 +115,17 @@ export default class Runtime {
 
 		if (j !== len) {
 			for (let p of this.presenters) {
-				p.flush();
+				//only BasicPresenter and inherited can be flushable
+				if (p.flush) {
+					p.flush();
+				}
 			}
 		}
 	}
 
 	beforeUpdate(delta) {
 		for (let p of this.presenters) {
-			p.beforeProcess({delta});
+			p.beforeProcess({ delta });
 		}
 	}
 
@@ -148,7 +154,7 @@ export default class Runtime {
 	afterUpdate(delta) {
 		//
 		for (let p of this.presenters) {
-			p.afterProcess({delta});
+			p.afterProcess({ delta });
 		}
 	}
 }

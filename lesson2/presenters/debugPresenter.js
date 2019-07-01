@@ -95,6 +95,4 @@ export default class DebugPresenter extends EmptySystem {
 	}
 
 	afterProcess() {}
-
-	flush() {}
 }
