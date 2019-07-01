@@ -55,7 +55,7 @@ export default class Runtime {
 			let model;
 			if (typeof idOrModel == "number") {
 				model = this.modeles.find(e => e.__id == idOrModel);
-			} else if (idOrModel.id !== undefined) {
+			} else if (idOrModel.__id !== undefined) {
 				model = idOrModel;
 			}
 

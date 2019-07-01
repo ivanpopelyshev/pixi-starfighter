@@ -143,7 +143,6 @@ export default class BasicPresenter {
 	 * Reset view when models array changed, called from pool
 	 */
 	resetView(view) {
-		
 		if (view) {
 			this.root.removeChild(view);
 		}
