@@ -67,31 +67,37 @@ export default class Runtime {
 			}
 		});
 	}
+	
+	processKill() {
+		// remove all marked to kill
+		const models = this.modeles;
+		const len = models.length;
+		
+		let j = 0;
+		for (let i = 0; i < len; i++) {
+			const m = models[i];
+			if (!m.killMe) {
+				models[ j++ ] = m;
+			}
+		}
+
+		models.length = j;
+	}
 
 	update(delta) {
+
 		for (let key in this.presenters) {
 			this.presenters[key].present({delta});
 		}
+
+		this.processKill();
 
 		const models = this.modeles;
 		let len = models.length;
 
 		for (let i = 0; i < len; i++) {
 			const m = models[i];
-			if (m.killMe) continue;
 			this.bullitizer.spawn(m);
 		}
-
-		// remove all marked to kill
-		len = models.length;
-		let j = 0;
-		for (let i = 0; i < len; i++) {
-			const m = models[i];
-			if (m.killMe) {
-			} else {
-				models[j++] = m;
-			}
-		}
-		models.length = j;
 	}
 }
