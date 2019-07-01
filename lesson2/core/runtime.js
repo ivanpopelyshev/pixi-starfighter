@@ -63,7 +63,7 @@ export default class Runtime {
 			if (model) {
 				const index = this.modeles.indexOf(model);
 				if(index > -1) {
-					this.modeles.slice(index, 0);
+					this.modeles.splice(index, 0);
 				}
 			}
 		});

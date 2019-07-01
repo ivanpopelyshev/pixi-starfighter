@@ -75,6 +75,7 @@ export default class BasicPresenter {
 		const actual = this.runtime.modeles.filter(v => {
 			return v && this.selector.indexOf(v.tag) > -1;
 		});
+		
 		const modelesCount = actual.length;
 		const viewsCount = this._pool.usedSize;
 
@@ -142,6 +143,7 @@ export default class BasicPresenter {
 	 * Reset view when models array changed, called from pool
 	 */
 	resetView(view) {
+		
 		if (view) {
 			this.root.removeChild(view);
 		}
