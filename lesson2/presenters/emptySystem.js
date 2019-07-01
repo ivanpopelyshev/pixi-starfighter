@@ -8,11 +8,22 @@ export default class EmptySystem {
 	constructor(runtime, allows) {
 		this.runtime = runtime;
 		
-		this.selector = {};
+		this.selector = undefined;
 		if (!Array.isArray(allows)) {
 			throw new Error("allowedTags must be Array and can't be empty!");
 		}
-		allows.forEach(e => (this.selector[e] = true));
+		if(allows.length > 0){
+			this.selector = {};
+			allows.forEach(e => (this.selector[e] = true));
+		}
+	}
+
+	/**
+	 * Test entity for processing on current system
+	 * @param {*} enity 
+	 */
+	test(enity) {
+		return !this.selector || this.selector[enity.tags];
 	}
 
 	/**

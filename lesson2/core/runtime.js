@@ -2,7 +2,7 @@ import ShipPresenter from "./../presenters/shipPresenter.js";
 import BasicPresenter from "./../presenters/basicPresenter.js";
 import UfoPresenter from "./../presenters/ufoPresenter.js";
 import BulletPresenter from "./../presenters/bulletPresenter.js";
-import DebugSystem from "./../presenters/debugPresenter.js";
+import DebugPresenter from "./../presenters/debugPresenter.js";
 
 import Bullitizer from "./bullitizer.js";
 
@@ -15,25 +15,33 @@ export const Indexator = {
 
 export default class Runtime {
 	/**
-	 * Create runtime for process objects
+	 * Create runtime for objects processing
 	 * @param {PIXI.Application} app
 	 * @param {PIXI.Container} root
 	 */
 	constructor(app, root) {
+
 		this.res = app.loader.resources;
-		this.presenters = [
+		this.systems = [
+			
+			//update views
 			new BasicPresenter(this, ["basic"], root, this.res),
 			new ShipPresenter(this, ["ship"], root, this.res),
 			new UfoPresenter(this, ["ufo"], root, this.res),
 			new BulletPresenter(this, ["bullet"], root, this.res),
-			new DebugSystem(this, [], root)
+
+			//compute physics 
+			new PhysicSystem(this, ["bullet", "ufo", "ship"]),
+			
+			//render debug info
+			new DebugPresenter(this, [], root)
 		];
 
 		this.bullitizer = new Bullitizer(this);
 		this.models = [];
 
 		setInterval(() => {
-			let all = this.presenters;
+			let all = this.systems;
 			const total = all.reduce((acc, e) => {
 				return acc + (e._pool ? e._pool.fullSize : 0);
 			}, 0);
@@ -86,7 +94,7 @@ export default class Runtime {
 		});
 
 		if (needFlush) {
-			for (let p of this.presenters) {
+			for (let p of this.systems) {
 				//only BasicPresenter and inherited can be flushable
 				if (p.flush) {
 					p.flush();
@@ -114,7 +122,7 @@ export default class Runtime {
 		models.length = j;
 
 		if (j !== len) {
-			for (let p of this.presenters) {
+			for (let p of this.systems) {
 				//only BasicPresenter and inherited can be flushable
 				if (p.flush) {
 					p.flush();
@@ -124,7 +132,7 @@ export default class Runtime {
 	}
 
 	beforeUpdate(delta) {
-		for (let p of this.presenters) {
+		for (let p of this.systems) {
 			p.beforeProcess({ delta });
 		}
 	}
@@ -139,7 +147,7 @@ export default class Runtime {
 
 		for (let i = 0; i < len; i++) {
 			const m = models[i];
-			for (let p of this.presenters) {
+			for (let p of this.systems) {
 				p.process(m, { delta });
 			}
 
@@ -153,7 +161,7 @@ export default class Runtime {
 
 	afterUpdate(delta) {
 		//
-		for (let p of this.presenters) {
+		for (let p of this.systems) {
 			p.afterProcess({ delta });
 		}
 	}
