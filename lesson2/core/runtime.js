@@ -24,19 +24,18 @@ export default class Runtime {
 
 		this.bullitizer = new Bullitizer(this);
 		this.modeles = [];
-		this._needsRemove = [];
 
-		setInterval(()=>{
+		setInterval(() => {
 
 			let all = this.presenters;
-			const total = all.reduce((acc, e)=> {
+			const total = all.reduce((acc, e) => {
 				return acc + e._pool.fullSize;
 			}, 0);
 
-			const used = all.reduce((acc, e)=> {
+			const used = all.reduce((acc, e) => {
 				return acc + e._pool.usedSize;
 			}, 0);
-			
+
 			console.log("Pools:" + used + "/" + total);
 		}, 1000);
 	}
@@ -51,8 +50,8 @@ export default class Runtime {
 	}
 
 	remove(...idOrModels) {
+		// external remove
 		idOrModels.forEach(idOrModel => {
-	
 			let model;
 			if (typeof idOrModel == "number") {
 				model = this.modeles.find(e => e.__id == idOrModel);
@@ -62,7 +61,7 @@ export default class Runtime {
 
 			if (model) {
 				const index = this.modeles.indexOf(model);
-				if(index > -1) {
+				if (index > -1) {
 					this.modeles.splice(index, 0);
 				}
 			}
@@ -71,29 +70,28 @@ export default class Runtime {
 
 	update(delta) {
 		for (let key in this.presenters) {
-			this.presenters[key].present({ delta });
+			this.presenters[key].present({delta});
 		}
 
-		for(let i = this.modeles.length - 1; i >= 0; i --) {
+		const models = this.modeles;
+		let len = models.length;
 
-			const m = this.modeles[i];
-			if(this.modeles[i].__markedForRemoving) {
-				continue;
+		for (let i = 0; i < len; i++) {
+			const m = models[i];
+			if (m.killMe) continue;
+			this.bullitizer.spawn(m);
+		}
+
+		// remove all marked to kill
+		len = models.length;
+		let j = 0;
+		for (let i = 0; i < len; i++) {
+			const m = models[i];
+			if (m.killMe) {
+			} else {
+				models[j++] = m;
 			}
-
-			if(m.killMe) {
-				this._needsRemove.push(m);
-				m.__markedForRemoving = true;
-				continue;
-			}
-
-			this.bullitizer.spawn(this.modeles[i]);
 		}
-
-		const trashSize = 50;
-		if(this._needsRemove.length > trashSize) {
-			this.remove(...this._needsRemove);
-			this._needsRemove = [];
-		}
+		models.length = j;
 	}
 }
