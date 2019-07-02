@@ -38,7 +38,7 @@ export class BulletModel extends BasicModel {
 		this.size = this.config.size || 1;
 		this.damage = this.config.damage || 1;
 		this.owner = undefined;
-		this.lifetime = this.config.lifetime || 1000;
+		this.lifetime = this.config.lifetime || 3000;
 		this.spawntime = (performance || Date).now();
 	}
 }

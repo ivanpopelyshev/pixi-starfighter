@@ -2,7 +2,7 @@ export default {
 	
 	ufo : {
 		view : "ufo",
-		firerate : 0,//2, //persecs
+		firerate : 2,//2, //persecs
 		firemode: "onetime",
 		bulletspeed : 10,
 		bulletdamage : 1,
@@ -18,7 +18,7 @@ export default {
 
 	ufoBig :  {
 		view : "ufo",
-		firerate : 0,//1,
+		firerate : 1,//1,
 		firemode : "sequential",
 		bulletspeed : 10,
 		bulletdamage : 3,

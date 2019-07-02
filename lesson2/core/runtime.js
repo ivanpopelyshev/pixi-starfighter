@@ -3,6 +3,7 @@ import BasicPresenter from "./../presenters/basicPresenter.js";
 import UfoPresenter from "./../presenters/ufoPresenter.js";
 import BulletPresenter from "./../presenters/bulletPresenter.js";
 import DebugPresenter from "./../presenters/debugPresenter.js";
+import PhysicSystem from "./../presenters/physicSystem.js";
 
 import Bullitizer from "./bullitizer.js";
 
