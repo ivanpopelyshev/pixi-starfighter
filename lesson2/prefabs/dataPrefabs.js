@@ -9,7 +9,7 @@ export default {
 		bulettype : "dot",
 		guns : [
 			{
-				offset : {x : 0, y : -60},
+				offset : {x : 0, y : 30},
 				dir : {x : 0, y : 1}
 			}
 		],
@@ -25,11 +25,11 @@ export default {
 		bulettype : "dot",
 		guns : [
 			{
-				offset : {x : -120, y : 0},
+				offset : {x : -60, y : 0},
 				dir : {x : 0, y : 1}
 			},
 			{
-				offset : {x : 120, y : 0},
+				offset : {x : 60, y : 0},
 				dir : {x : 0, y : 1}
 			}
 		],
